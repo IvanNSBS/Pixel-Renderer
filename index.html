@@ -23,22 +23,44 @@
             var arr = [1,2,3];
             camera.position.z = 5;
 
-            var listBrand =['LEXUS','AUDI','MAYBACK','FERRARI','TOYOTA'];
+            var listBrand =['LEXUS','AUDI','MAYBACK','FERRARI'];
+            function changeCubeColor()
+            {
+                console.log("oia");
+                cube.material.color.setHex(Math.random()*0xffffff);
+            }
+            function changeDivColor(index)
+            {
+                console.log(index);
+                //index.style.background="yellow";
+                document.getElementById("new_div_"+index).style.background="yellow";
+                //document.getElementById("new_btn_"+index).disabled = true;
+            }
             function printBtn() {
                     for (var i = 0; i < listBrand.length; i++) {
-
+                        var idx = "new_div_"+i;
+                        
                         var divv = document.createElement("div");
                         divv.setAttribute("id", "new_div_"+i);
+                        divv.id = "new_div_"+i
                         divv.style.width = "100px";
                         divv.style.height = "50px";
                         divv.style.background = "blue";
 
                         var btn = document.createElement("button");
+                        btn.style.width = "100%";
+                        btn.style.height = "100%";
+                        btn.id = "new_btn_"+i;
+                        //btn.onclick = changeCubeColor;
                         var t = document.createTextNode(listBrand[i]);
                         btn.appendChild(t);
+
                         var ref = document.getElementById("te");
                         ref.appendChild(divv);
                         divv.appendChild(btn);
+
+                        //divv.onclick = changeCubeColor
+                        btn.setAttribute( "onclick", "changeDivColor("+i+")" );
                         //document.body.insertBefore(divv, ref);
                         //divv.body.appendChild(btn);
                     }
@@ -63,17 +85,13 @@
                 update();
                 render();
             }
-            function changeCubeColor()
-            {
-                console.log("oia");
-                cube.material.color.setHex(Math.random()*0xffffff);
-            }
             GameLoop();
         </script>
         <div id="xesq">
             <div id="info">Description
                 <button type="button" onclick="changeCubeColor()">Click me brah</button>
                 <button type="button" onclick="changeCubeColor()">Click me bra2h</button>
+                <input type="file" name="loader" id="loader" onchange="changeCubeColor()"/>
             </div>
             </script>
             <div id="info">Description
