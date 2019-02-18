@@ -22,6 +22,27 @@
             scene.add( cube );
             var arr = [1,2,3];
             camera.position.z = 5;
+
+            var listBrand =['LEXUS','AUDI','MAYBACK','FERRARI','TOYOTA'];
+            function printBtn() {
+                    for (var i = 0; i < listBrand.length; i++) {
+
+                        var divv = document.createElement("div");
+                        divv.setAttribute("id", "new_div_"+i);
+                        divv.style.width = "100px";
+                        divv.style.height = "50px";
+                        divv.style.background = "blue";
+
+                        var btn = document.createElement("button");
+                        var t = document.createTextNode(listBrand[i]);
+                        btn.appendChild(t);
+                        var ref = document.getElementById("te");
+                        ref.appendChild(divv);
+                        divv.appendChild(btn);
+                        //document.body.insertBefore(divv, ref);
+                        //divv.body.appendChild(btn);
+                    }
+                }
             var update = function()
             {
 
@@ -49,8 +70,19 @@
             }
             GameLoop();
         </script>
-        <div id="info">Description
-            <button type="button" onclick="changeCubeColor()">Click me brah</button>
+        <div id="xesq">
+            <div id="info">Description
+                <button type="button" onclick="changeCubeColor()">Click me brah</button>
+                <button type="button" onclick="changeCubeColor()">Click me bra2h</button>
+            </div>
+            </script>
+            <div id="info">Description
+                <button type="button" onclick="changeCubeColor()">Click me brah</button>
+                <button type="button" onclick="changeCubeColor()">Click me bra2h</button>
+            </div>
+        </div>
+        <div id="te">
+            <body onload="printBtn();"></body>
         </div>
     </body>
 </html>
