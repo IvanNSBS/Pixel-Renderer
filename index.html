@@ -29,7 +29,48 @@
                 </div>
             </div>
             <div id="material" class=material></div>
-            <div id="preview" class=preview></div>
+            <div id="preview" class=preview>
+                <script src="three/three.js"></script>
+                <script id="xesq" class=preview>
+                    container = document.getElementById("preview")
+                    var scene = new THREE.Scene();
+                    scene.background = new THREE.Color(0xff0000);
+                    var camera = new THREE.PerspectiveCamera(75, (window.innerWidth-(window.innerWidth*0.45))/(window.innerHeight-(window.innerHeight*0.1)), 0.1, 1000);
+                    var renderer = new THREE.WebGLRenderer();
+                    renderer.setSize(window.innerWidth-(window.innerWidth*0.45), window.innerHeight-(window.innerHeight*0.1));
+                    container.appendChild(renderer.domElement);
+                    var geometry = new THREE.BoxGeometry( 1, 1, 1 );
+                    var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+                    var cube = new THREE.Mesh( geometry, material );
+                    scene.add( cube );
+                    camera.position.z = 5;
+        
+                    var update = function()
+                    {
+                        
+                    };
+            
+                    var render = function()
+                    {
+                        renderer.render(scene, camera);
+                    };
+            
+                    var GameLoop = function()
+                    {
+                        cube.rotation.x += 0.01;
+                        cube.rotation.y += 0.01;
+                        //cube.position.x += 0.01;
+                        //console.log('updated!');
+                        requestAnimationFrame(GameLoop);
+                        update();
+                        render();
+                    }
+                    GameLoop();
+                </script>
+            </div>
+            
+        </div>
+            
     </body>
 </html>
 
