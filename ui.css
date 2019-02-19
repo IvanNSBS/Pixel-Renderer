@@ -1,7 +1,27 @@
-.myDiv{
+.header{
     width:100%;
-    height:10%;
+    height:7%;
     background-color: #2E2E2E;
+    overflow: hidden;
+    align-content: right;
+    align-items: center
+}
+
+.header-logo
+{
+    overflow: hidden;
+    float:left;
+    padding-left: 20px;
+    font-size: 20px;
+    color: #C4C4C4;
+    align-self: center;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+}
+
+.header-content
+{
+    overflow: hidden;
+    float:right;
 }
 
 .parent
@@ -11,31 +31,43 @@
     width: 100%;
     height:100%;
     overflow: hidden;
+    border-style: none;
+    border-width: 5px;
 }
 
 .selector
 {
-    background: blueviolet;
-    width: 20%;
-    height:90%;
+    background: whitesmoke;
+    width: 15%;
+    height:calc(93% - 4px);
     overflow: hidden;
     float: left;
+    border-style: solid;
+    border-width: 2px;
+    border-color: #C4C4C4;
 }
 
 .material
 {
-    background: brown;
-    width: 35%;
-    height:90%;
+    background: white;
+    width: 40%;
+    height:calc(93% - 4px);
     overflow: hidden;
     float: left;
+    border-style: solid;
+    border-width: 2px;
+    border-color:#dcdcdc;
+
 }
 
 .preview
 {
-    background: black;
-    width:45%;
-    height:90%;
+    background: whitesmoke;
+    width:calc(45% - 12px);
+    height:calc(93% - 4px);
     overflow: hidden;
     float: left;
+    border-style: solid;
+    border-width: 2px;
+    border-color:#C4C4C4;
 }

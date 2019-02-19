@@ -12,10 +12,11 @@
     <body>
         <div id="main" class="parent">
 
-            <div id="header" class="myDiv">
-                    <input type="file" name="loader" id="loader" onchange="changeCubeColor()"/>
+            <div id="header" class="header">
+                <p class="header-logo">Pixel Renderer</p>
+                <input type="file" name="loader" id="loader" class="header-content"onchange="changeCubeColor()"/>
             </div>
-        
+            
             <div id="xesq" class="selector">
                 <div id="info">Description
                     <button type="button" onclick="changeCubeColor()">Click me brah</button>
@@ -23,9 +24,44 @@
                         
                 </div>
                 </script>
-                <div id="info">Description
-                    <button type="button" onclick="changeCubeColor()">Click me brah</button>
-                    <button type="button" onclick="changeCubeColor()">Click me bra2h</button>
+                <div id="info">Add
+                    <button type="button" onclick="createButton()">Add Button</button>
+                    <div id="bt-list"></div>
+                    <script src="three/three.js"></script>
+                    <script>
+                        var buttons = []
+                        bt_list = document.getElementById("bt-list");
+                        function createButton()
+                        {
+                            buttons.push("Oie");
+                            var i = buttons.length - 1;
+                            console.log(buttons.length);
+                            var idx = "new_div_"+i;
+                            
+                            var divv = document.createElement("div");
+                            divv.setAttribute("id", "new_div_"+i);
+                            divv.id = "new_div_"+i
+                            divv.style.width = "100px";
+                            divv.style.height = "50px";
+                            divv.style.background = "blue";
+
+                            var btn = document.createElement("button");
+                            btn.style.width = "100%";
+                            btn.style.height = "100%";
+                            btn.id = "new_btn_"+i;
+                            btn.onclick = changeCubeColor;
+                            var t = document.createTextNode(buttons[i]);
+                            btn.appendChild(t);
+
+                            bt_list.appendChild(divv);
+                            divv.appendChild(btn);
+
+                            //divv.onclick = changeCubeColor
+                            //btn.setAttribute( "onclick", "changeDivColor("+i+")" );
+                            //document.body.insertBefore(divv, ref);
+                            //divv.body.appendChild(btn);
+                        }
+                    </script>
                 </div>
             </div>
             <div id="material" class=material></div>
@@ -34,17 +70,33 @@
                 <script id="xesq" class=preview>
                     container = document.getElementById("preview")
                     var scene = new THREE.Scene();
-                    scene.background = new THREE.Color(0xff0000);
-                    var camera = new THREE.PerspectiveCamera(75, (window.innerWidth-(window.innerWidth*0.45))/(window.innerHeight-(window.innerHeight*0.1)), 0.1, 1000);
+                    scene.background = new THREE.Color(0xf5f5f5);
+                    var camera = new THREE.PerspectiveCamera(75, (window.innerWidth-(window.innerWidth*0.45)-12)
+                                                                /(window.innerHeight-(window.innerHeight*0.07)), 0.1, 1000);
                     var renderer = new THREE.WebGLRenderer();
-                    renderer.setSize(window.innerWidth-(window.innerWidth*0.45), window.innerHeight-(window.innerHeight*0.1));
+                    renderer.setSize(window.innerWidth-(window.innerWidth*0.45)-12, 
+                                     window.innerHeight-(window.innerHeight*0.07));
+
                     container.appendChild(renderer.domElement);
                     var geometry = new THREE.BoxGeometry( 1, 1, 1 );
                     var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
                     var cube = new THREE.Mesh( geometry, material );
                     scene.add( cube );
                     camera.position.z = 5;
-        
+                    
+                    function changeCubeColor()
+                    {
+                        console.log("oia");
+                        cube.material.color.setHex(Math.random()*0xffffff);
+                    }
+                    function changeDivColor(index)
+                    {
+                        console.log(index);
+                        //index.style.background="yellow";
+                        document.getElementById("new_div_"+index).style.background="yellow";
+                        //document.getElementById("new_btn_"+index).disabled = true;
+                    }
+
                     var update = function()
                     {
                         
