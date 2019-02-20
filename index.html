@@ -1,7 +1,7 @@
 <html>
     <head>
         <link rel="stylesheet" href="ui.css">
-        <title>Hey man</title>
+        <title>Pixel Renderer</title>
         <style>
             body {margin: 0;}
             canvas {width: 100%; height: 100%};
@@ -17,54 +17,65 @@
                 <input type="file" name="loader" id="loader" class="header-content"onchange="changeCubeColor()"/>
             </div>
             
-            <div id="xesq" class="selector">
-                <div id="info">Description
-                    <button type="button" onclick="changeCubeColor()">Click me brah</button>
-                    <button type="button" onclick="changeCubeColor()">Click me bra2h</button>
-                        
-                </div>
-                </script>
-                <div id="info">Add
-                    <button type="button" onclick="createButton()">Add Button</button>
-                    <div id="bt-list"></div>
+            <div id="selector" class="selector">
+                <div id="info">
+                    <button type="button" onclick="createButton()" class="add-character-btn">+ Add New Animation</button>
+                    <div id="bt-list" >
                     <script src="three/three.js"></script>
                     <script>
                         var buttons = []
                         bt_list = document.getElementById("bt-list");
+                        var selected_button = null;
+                        function changeDivColor(index)
+                        {
+                            console.log(index);
+                            btn = document.getElementById("btn_el_"+index);
+
+                            if(selected_button != null)
+                                selected_button.className = "button-default";
+
+                            selected_button = btn;
+                            selected_button.className = "button-selected";
+
+                        }
+                        function finishname(btn_idx)
+                        {
+                            btn = document.getElementById("btn_el_"+btn_idx);
+
+                        }
+                        
+                        //TODO: Use div instead of button and make it behave like one
+                        //TODO: Make changing name available only after creating the button
+                        //      and after double clicking it
                         function createButton()
                         {
                             buttons.push("Oie");
                             var i = buttons.length - 1;
-                            console.log(buttons.length);
-                            var idx = "new_div_"+i;
-                            
-                            var divv = document.createElement("div");
-                            divv.setAttribute("id", "new_div_"+i);
-                            divv.id = "new_div_"+i
-                            divv.style.width = "100px";
-                            divv.style.height = "50px";
-                            divv.style.background = "blue";
 
-                            var btn = document.createElement("button");
-                            btn.style.width = "100%";
-                            btn.style.height = "100%";
-                            btn.id = "new_btn_"+i;
-                            btn.onclick = changeCubeColor;
+                            var btn = document.createElement("div");
+                            btn.id = "btn_el_" + i.toString();
+                            //btn.className = "button-default";
+                            btn.setAttribute( "onclick", "changeDivColor("+i+")" );
+                            //btn.onclick = changeCubeColor;
+
                             var t = document.createTextNode(buttons[i]);
-                            btn.appendChild(t);
+                            var txt = document.createElement("input");
+                            txt.setAttribute("type", "text");
+                            txt.setAttribute("value", "New Anim");
+                            txt.className = "button-default";
+                            txt.focus();
+                            txt.style.zIndex = 150;
+                            btn.appendChild(txt);
 
-                            bt_list.appendChild(divv);
-                            divv.appendChild(btn);
-
-                            //divv.onclick = changeCubeColor
-                            //btn.setAttribute( "onclick", "changeDivColor("+i+")" );
-                            //document.body.insertBefore(divv, ref);
-                            //divv.body.appendChild(btn);
+                            bt_list.appendChild(btn);
                         }
                     </script>
+                    </div>
                 </div>
             </div>
+
             <div id="material" class=material></div>
+
             <div id="preview" class=preview>
                 <script src="three/three.js"></script>
                 <script id="xesq" class=preview>
@@ -88,13 +99,6 @@
                     {
                         console.log("oia");
                         cube.material.color.setHex(Math.random()*0xffffff);
-                    }
-                    function changeDivColor(index)
-                    {
-                        console.log(index);
-                        //index.style.background="yellow";
-                        document.getElementById("new_div_"+index).style.background="yellow";
-                        //document.getElementById("new_btn_"+index).disabled = true;
                     }
 
                     var update = function()
@@ -125,90 +129,3 @@
             
     </body>
 </html>
-
-<!--
-<script src = "three/three.js"></script>
-
-<script>
-        var scene = new THREE.Scene();
-        scene.background = new THREE.Color(0xff0000);
-        var camera = new THREE.PerspectiveCamera(75, (window.innerWidth/2)/(window.innerHeight-50), 0.1, 1000);
-        var renderer = new THREE.WebGLRenderer();
-        renderer.setSize(window.innerWidth/2, window.innerHeight-50);
-        document.body.appendChild(renderer.domElement);
-        var geometry = new THREE.BoxGeometry( 1, 1, 1 );
-        var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
-        var cube = new THREE.Mesh( geometry, material );
-        scene.add( cube );
-        var arr = [1,2,3];
-        camera.position.z = 5;
-
-        var listBrand =['LEXUS','AUDI','MAYBACK','FERRARI'];
-        function changeCubeColor()
-        {
-            console.log("oia");
-            cube.material.color.setHex(Math.random()*0xffffff);
-        }
-        function changeDivColor(index)
-        {
-            console.log(index);
-            //index.style.background="yellow";
-            document.getElementById("new_div_"+index).style.background="yellow";
-            //document.getElementById("new_btn_"+index).disabled = true;
-        }
-        function printBtn() {
-                for (var i = 0; i < listBrand.length; i++) {
-                    var idx = "new_div_"+i;
-                    
-                    var divv = document.createElement("div");
-                    divv.setAttribute("id", "new_div_"+i);
-                    divv.id = "new_div_"+i
-                    divv.style.width = "100px";
-                    divv.style.height = "50px";
-                    divv.style.background = "blue";
-
-                    var btn = document.createElement("button");
-                    btn.style.width = "100%";
-                    btn.style.height = "100%";
-                    btn.id = "new_btn_"+i;
-                    //btn.onclick = changeCubeColor;
-                    var t = document.createTextNode(listBrand[i]);
-                    btn.appendChild(t);
-
-                    var ref = document.getElementById("te");
-                    ref.appendChild(divv);
-                    divv.appendChild(btn);
-
-                    //divv.onclick = changeCubeColor
-                    btn.setAttribute( "onclick", "changeDivColor("+i+")" );
-                    //document.body.insertBefore(divv, ref);
-                    //divv.body.appendChild(btn);
-                }
-            }
-        var update = function()
-        {
-
-        };
-
-        var render = function()
-        {
-            renderer.render(scene, camera);
-        };
-
-        var GameLoop = function()
-        {
-            cube.rotation.x += 0.01;
-            cube.rotation.y += 0.01;
-            //cube.position.x += 0.01;
-            //console.log('updated!');
-            requestAnimationFrame(GameLoop);
-            update();
-            render();
-        }
-        GameLoop();
-        </div>
-                    <div id="te">
-                        <body onload="printBtn();"></body>
-                </div>
-</script>
--->
