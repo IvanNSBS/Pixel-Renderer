@@ -63,8 +63,18 @@
                             txt.setAttribute("type", "text");
                             txt.setAttribute("value", "New Anim");
                             txt.className = "button-default";
-                            txt.focus();
-                            txt.style.zIndex = 150;
+                            txt.readOnly = true;
+                            txt.ondblclick = function(){txt.readOnly = false;}
+                            txt.onclick = function(){txt.className = "button-selected"}
+                            txt.onkeypress = function(e){
+                                if (!e) e = window.event;
+                                var keyCode = e.keyCode || e.which;
+                                if (keyCode == '13'){
+                                    txt.readOnly = true;
+                                    return;
+                                }
+                            }
+
                             btn.appendChild(txt);
 
                             bt_list.appendChild(btn);
