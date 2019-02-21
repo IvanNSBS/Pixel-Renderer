@@ -70,6 +70,7 @@
     border-style: solid;
     border-width: 2px;
     border-color:#C4C4C4;
+    image-rendering: pixelated;
 }
 
 .button-default
@@ -78,12 +79,11 @@
     color: rgb(calc(0.333333*255), calc(0.529412*255), calc(0.788235*255));
     -webkit-user-select: none;
     border: none;
-    text-align: left;
+    text-align: center;
     text-decoration: solid;
-    padding-left: 50px; 
     display: block;
     width: 100%;
-    height: 45px;
+    height: 40px;
 }
   
 .button-selected
@@ -92,12 +92,11 @@
     -webkit-user-select: none;
     color: white;
     border: none;
-    text-align: left;
+    text-align: center;
     text-decoration: none;
-    padding-left: 50px; 
     display: block;
     width: 100%;
-    height: 45px;
+    height: 40px;
 }
 
 .button-default:hover:enabled

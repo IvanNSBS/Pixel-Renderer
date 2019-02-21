@@ -1,5 +1,6 @@
 <html>
     <head>
+        <meta name='viewport' content='width=device-width'/>
         <link rel="stylesheet" href="ui.css">
         <title>Pixel Renderer</title>
         <style>
@@ -26,27 +27,26 @@
                         var buttons = []
                         bt_list = document.getElementById("bt-list");
                         var selected_button = null;
+                        var cur_txt = null;
+
                         function changeDivColor(index)
                         {
                             console.log(index);
                             btn = document.getElementById("btn_el_"+index);
-
+                            txt = document.getElementById("btn_txt_"+index);
+                            
                             if(selected_button != null)
+                            {
                                 selected_button.className = "button-default";
+                                cur_txt.className = selected_button.className;
+                            }
 
                             selected_button = btn;
+                            cur_txt = txt;
                             selected_button.className = "button-selected";
-
+                            cur_txt.className = selected_button.className;
                         }
-                        function finishname(btn_idx)
-                        {
-                            btn = document.getElementById("btn_el_"+btn_idx);
 
-                        }
-                        
-                        //TODO: Use div instead of button and make it behave like one
-                        //TODO: Make changing name available only after creating the button
-                        //      and after double clicking it
                         function createButton()
                         {
                             buttons.push("Oie");
@@ -54,12 +54,12 @@
 
                             var btn = document.createElement("div");
                             btn.id = "btn_el_" + i.toString();
-                            //btn.className = "button-default";
+                            btn.className = "button-default";
                             btn.setAttribute( "onclick", "changeDivColor("+i+")" );
-                            //btn.onclick = changeCubeColor;
 
                             var t = document.createTextNode(buttons[i]);
                             var txt = document.createElement("input");
+                            txt.id = "btn_txt_"+i;
                             txt.setAttribute("type", "text");
                             txt.setAttribute("value", "New Anim");
                             txt.className = "button-default";
@@ -92,11 +92,16 @@
                     container = document.getElementById("preview")
                     var scene = new THREE.Scene();
                     scene.background = new THREE.Color(0xf5f5f5);
-                    var camera = new THREE.PerspectiveCamera(75, (window.innerWidth-(window.innerWidth*0.45)-12)
-                                                                /(window.innerHeight-(window.innerHeight*0.07)), 0.1, 1000);
-                    var renderer = new THREE.WebGLRenderer();
-                    renderer.setSize(window.innerWidth-(window.innerWidth*0.45)-12, 
-                                     window.innerHeight-(window.innerHeight*0.07));
+
+                    scr_x_size = (window.innerWidth-(window.innerWidth*0.45)-12);
+                    scr_y_size = (window.innerHeight-(window.innerHeight*0.07));
+
+                    var camera = new THREE.PerspectiveCamera(75, scr_x_size/scr_y_size, 0.0001, 1000000);
+                    var renderer = new THREE.WebGLRenderer({antialias: false});
+
+                    renderer.setPixelRatio(0.2);
+                    renderer.setSize( scr_x_size, scr_y_size);
+                    
 
                     container.appendChild(renderer.domElement);
                     var geometry = new THREE.BoxGeometry( 1, 1, 1 );
@@ -125,8 +130,6 @@
                     {
                         cube.rotation.x += 0.01;
                         cube.rotation.y += 0.01;
-                        //cube.position.x += 0.01;
-                        //console.log('updated!');
                         requestAnimationFrame(GameLoop);
                         update();
                         render();
