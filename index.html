@@ -86,7 +86,10 @@
 
             <div id="material" class=material></div>
 
-            <div id="preview" class=preview>
+            <div id="preview" class=preview>,
+                <div class="slidecontainer">
+                    <input type="range" min="0.1" max="1" step="0.01" value="1" class="slider" id="slider" onchange="">
+                </div>
                 <script src="three/three.js"></script>
                 <script id="xesq" class=preview>
                     container = document.getElementById("preview")
@@ -98,8 +101,8 @@
 
                     var camera = new THREE.PerspectiveCamera(75, scr_x_size/scr_y_size, 0.0001, 1000000);
                     var renderer = new THREE.WebGLRenderer({antialias: false});
-
-                    renderer.setPixelRatio(0.2);
+                    
+                    var ratio = 1;
                     renderer.setSize( scr_x_size, scr_y_size);
                     
 
@@ -110,6 +113,10 @@
                     scene.add( cube );
                     camera.position.z = 5;
                     
+
+                    var slider = document.getElementById("slider");
+                    slider.addEventListener("input", function(){ratio=slider.value; slider.change()});
+
                     function changeCubeColor()
                     {
                         console.log("oia");
@@ -118,7 +125,7 @@
 
                     var update = function()
                     {
-                        
+                        renderer.setPixelRatio(ratio);
                     };
             
                     var render = function()
