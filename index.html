@@ -2,6 +2,7 @@
     <head>
         <meta name='viewport' content='width=device-width'/>
         <link rel="stylesheet" href="ui.css">
+        <link rel="stylesheet" href="selector.css">
         <title>Pixel Renderer</title>
         <style>
             body {margin: 0;}
@@ -20,49 +21,58 @@
             
             <div id="selector" class="selector">
                 <div id="info">
-                    <button type="button" onclick="createButton()" class="add-character-btn">+ Add New Animation</button>
-                    <div id="bt-list" >
+                    <button type="button" onclick="createButton()" class="add-character-btn"><b>+</b> Add New Character</button>
+                    <div id="character-list" >
                     <script src="three/three.js"></script>
                     <script>
-                        var buttons = []
-                        bt_list = document.getElementById("bt-list");
+                        var char_names = []
+                        char_list = document.getElementById("character-list");
                         var selected_button = null;
                         var cur_txt = null;
+                        var cur_exp = null;
 
-                        function changeDivColor(index)
+                        function selectDiv(index)
                         {
                             console.log(index);
-                            btn = document.getElementById("btn_el_"+index);
-                            txt = document.getElementById("btn_txt_"+index);
+                            char_el = document.getElementById("char_el"+index);
+                            txt = document.getElementById("char_el_txt_"+index);
+                            exp = document.getElementById("char_el_expand_"+index);
                             
                             if(selected_button != null)
                             {
                                 selected_button.className = "button-default";
-                                cur_txt.className = selected_button.className;
+                                cur_txt.className = "character-txt-default";
+                                cur_exp.className = "character-expand-default";
                             }
 
-                            selected_button = btn;
+                            selected_button = char_el;
                             cur_txt = txt;
+                            cur_exp = exp;
+
                             selected_button.className = "button-selected";
-                            cur_txt.className = selected_button.className;
+                            cur_txt.className = "character-txt-selected";
+                            cur_exp.className = "character-expand-selected";
                         }
 
                         function createButton()
                         {
-                            buttons.push("Oie");
-                            var i = buttons.length - 1;
+                            char_names.push("New Character");
+                            var i = char_names.length - 1;
 
-                            var btn = document.createElement("div");
-                            btn.id = "btn_el_" + i.toString();
-                            btn.className = "button-default";
-                            btn.setAttribute( "onclick", "changeDivColor("+i+")" );
-
-                            var t = document.createTextNode(buttons[i]);
+                            var char_el = document.createElement("div");
+                            char_el.id = "char_el" + i.toString();
+                            char_el.className = "button-default";
+                            char_el.setAttribute( "onclick", "selectDiv("+i+")" );
+                            
+                            
+                            char_list.appendChild(char_el);
+                            
+                            var t = document.createTextNode(char_names[i]);
                             var txt = document.createElement("input");
-                            txt.id = "btn_txt_"+i;
+                            txt.id = "char_el_txt_"+i;
                             txt.setAttribute("type", "text");
-                            txt.setAttribute("value", "New Anim");
-                            txt.className = "button-default";
+                            txt.setAttribute("value", "New Character");
+                            txt.className = "character-txt-default";
                             txt.readOnly = true;
                             txt.ondblclick = function(){txt.readOnly = false;}
                             txt.onclick = function(){txt.className = "button-selected"}
@@ -74,11 +84,17 @@
                                     return;
                                 }
                             }
-
-                            btn.appendChild(txt);
-
-                            bt_list.appendChild(btn);
+                            
+                            var expand = document.createElement("button");
+                            expand.className = "character-expand-default";
+                            expand.id = "char_el_expand_"+i;
+                            exp_txt = document.createTextNode(">");
+                            expand.appendChild(exp_txt);
+ 
+                            char_el.appendChild(expand);
+                            char_el.appendChild(txt);
                         }
+
                     </script>
                     </div>
                 </div>
@@ -126,7 +142,6 @@
                     var update = function()
                     {
                         renderer.setPixelRatio(ratio);
-                        console.log("asd");
                     };
             
                     var render = function()
