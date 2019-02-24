@@ -28,7 +28,6 @@
                         //TODO: Fix clicking on toggle show character list changing selection
                         //      to the clicked character
                         //TODO: Separate everything in classes
-                        //TODO: Window resize affecting stuff
                         var char_names = []
                         var ph_names = ["walk", "run", "idle", "wallclimb", "jump",
                                         "ladderclimb", "attack1", "attack2", "cast1", 
@@ -191,10 +190,11 @@
                 </div>
                 <script src="three/three.js"></script>
                 <script id="xesq" class=preview>
+
                     container = document.getElementById("preview")
                     var scene = new THREE.Scene();
                     scene.background = new THREE.Color(0xf5f5f5);
-
+                    
                     scr_x_size = (window.innerWidth-(window.innerWidth*0.45)-12);
                     scr_y_size = (window.innerHeight-(window.innerHeight*0.07));
                     var aspect = scr_x_size/scr_y_size;
@@ -206,7 +206,7 @@
                     var ratio = 1;
                     renderer.setSize( scr_x_size, scr_y_size);
                     
-
+                    
                     container.appendChild(renderer.domElement);
                     var geometry = new THREE.BoxGeometry( 1, 1, 1 );
                     var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
@@ -214,9 +214,25 @@
                     scene.add( cube );
                     camera.position.z = 5;
                     
-
+                    
                     var slider = document.getElementById("slider");
                     slider.addEventListener("input", function(){ratio=slider.value; slider.change()});
+                    window.addEventListener( 'resize', onWindowResize, false );
+                    
+                    function onWindowResize()
+                    {
+                        scr_x_size = (window.innerWidth-(window.innerWidth*0.45)-12);
+                        scr_y_size = (window.innerHeight-(window.innerHeight*0.07));
+                        aspect = scr_x_size/scr_y_size;
+                        
+                        camera.left = aspect*frustum_size/-2;
+                        camera.right = aspect*frustum_size/2;
+                        camera.top = frustum_size/2;
+                        camera.bottom = frustum_size/-2;
+                        
+                        camera.updateProjectionMatrix();
+                        renderer.setSize( scr_x_size, scr_y_size);
+                    }    
 
                     function changeCubeColor()
                     {
