@@ -29,7 +29,7 @@
 {
     background-color: var(--sel_bg_color);
     color: var(--df_txt_color);
-    -webkit-user-select: none;
+    outline: none;    
     width: 100%;
     height: 40px;
     display:inline-block;
@@ -55,13 +55,14 @@
 .character-txt-selected
 {
     background-color: transparent;
+    outline: none;
     color: var(--sel_txt_color);
     border: none;
     text-align: center;
     text-decoration: none;
     width: 70%;
     height: 40px;
-    cursor: default;
+    cursor: pointer;
 }
 
 .character-expand-default
@@ -81,7 +82,7 @@
 {
     background-color: rgba(0, 0, 0, 0.1);
     color: var(--sel_txt_color);
-    -webkit-user-select: none;
+    outline: none;
     border: none;
     text-align: center;
     text-decoration: none;

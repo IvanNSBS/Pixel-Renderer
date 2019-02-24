@@ -31,6 +31,17 @@
                         var cur_txt = null;
                         var cur_exp = null;
 
+                        function click_expand(index)
+                        {
+                            exp = document.getElementById("char_el_expand_"+index);
+                            
+                            if(exp.childNodes[0].nodeValue === ">")
+                                exp.childNodes[0].nodeValue = "v";
+                            else
+                                exp.childNodes[0].nodeValue = ">";
+
+                        }
+
                         function selectDiv(index)
                         {
                             console.log(index);
@@ -75,7 +86,6 @@
                             txt.className = "character-txt-default";
                             txt.readOnly = true;
                             txt.ondblclick = function(){txt.readOnly = false;}
-                            txt.onclick = function(){txt.className = "button-selected"}
                             txt.onkeypress = function(e){
                                 if (!e) e = window.event;
                                 var keyCode = e.keyCode || e.which;
@@ -90,6 +100,7 @@
                             expand.id = "char_el_expand_"+i;
                             exp_txt = document.createTextNode(">");
                             expand.appendChild(exp_txt);
+                            expand.setAttribute( "onclick", "click_expand("+i+")" );
  
                             char_el.appendChild(expand);
                             char_el.appendChild(txt);
@@ -114,8 +125,10 @@
 
                     scr_x_size = (window.innerWidth-(window.innerWidth*0.45)-12);
                     scr_y_size = (window.innerHeight-(window.innerHeight*0.07));
+                    var aspect = scr_x_size/scr_y_size;
+                    var frustum_size = 5;
 
-                    var camera = new THREE.PerspectiveCamera(75, scr_x_size/scr_y_size, 0.0001, 1000000);
+                    var camera = new THREE.OrthographicCamera(aspect*frustum_size/-2, aspect*frustum_size/2, frustum_size/2, frustum_size/-2, 0.1, 100);
                     var renderer = new THREE.WebGLRenderer({antialias: false});
                     
                     var ratio = 1;
