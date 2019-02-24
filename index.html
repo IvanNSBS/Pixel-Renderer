@@ -26,6 +26,15 @@
                     <script src="three/three.js"></script>
                     <script>
                         var char_names = []
+                        var ph_names = ["walk", "run", "idle", "wallclimb", "jump",
+                                        "ladderclimb", "attack1", "attack2", "cast1", 
+                                        "castcomplete", "newcast", "rapier1", "rapier2",
+                                        "rapierjump", "rapierair", "axe1", "axe2", "axejump",
+                                        "sword1", "sword2", "sword3", "swordjump", "ultimate1",
+                                        "ultimate2", "ultimate3", "holycast", "holycast2",
+                                        "holycastcompleted", "darkmageidle","dakrmagejump",
+                                        "icemagecast", "icenovacastcompleted", "teleport",
+                                        "dash", "quickdash", "dodge", "open door", "kick"]
                         char_list = document.getElementById("character-list");
                         var selected_button = null;
                         var cur_txt = null;
@@ -34,11 +43,14 @@
                         function click_expand(index)
                         {
                             exp = document.getElementById("char_el_expand_"+index);
+                            tst = document.getElementById("tst_"+index);
                             
                             if(exp.childNodes[0].nodeValue === ">")
                                 exp.childNodes[0].nodeValue = "v";
                             else
                                 exp.childNodes[0].nodeValue = ">";
+                            
+                            tst.classList.toggle('open');
 
                         }
 
@@ -74,9 +86,12 @@
                             char_el.id = "char_el" + i.toString();
                             char_el.className = "button-default";
                             char_el.setAttribute( "onclick", "selectDiv("+i+")" );
+
+                            var char_container = document.createElement("div");
+                            char_container.id = "char_cont" + i.toString();
                             
                             
-                            char_list.appendChild(char_el);
+                            char_list.appendChild(char_container);
                             
                             var t = document.createTextNode(char_names[i]);
                             var txt = document.createElement("input");
@@ -98,12 +113,31 @@
                             var expand = document.createElement("button");
                             expand.className = "character-expand-default";
                             expand.id = "char_el_expand_"+i;
-                            exp_txt = document.createTextNode(">");
+                            exp_txt = document.createTextNode("v");
                             expand.appendChild(exp_txt);
                             expand.setAttribute( "onclick", "click_expand("+i+")" );
  
                             char_el.appendChild(expand);
                             char_el.appendChild(txt);
+
+                            char_container.appendChild(char_el);
+
+                            var tst = document.createElement("button");
+                            tst.id = "tst_" + i.toString();
+                            tst.className = "character_list";
+                            var tsname = document.createTextNode("+ Add anim");
+                            tst.appendChild(tsname);
+                            for(i = 0; i < ph_names.length; i++)
+                            {
+                                var n = document.createElement("button");
+                                n.className = "char_list_element";
+                                var t = document.createTextNode(ph_names[i]);
+                                //tst.style.height = 40 * i+1 + 'px';
+                                n.appendChild(t);
+                                tst.insertBefore(n, tsname);
+                            }
+                      
+                            char_container.appendChild(tst);
                         }
 
                     </script>
