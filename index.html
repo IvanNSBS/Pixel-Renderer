@@ -25,6 +25,11 @@
                     <div id="character-list" >
                     <script src="three/three.js"></script>
                     <script>
+                        //TODO: Fix the "Add character" button message not rendering with 
+                        //      lots of elements on the list
+                        //TODO: Fix clicking on toggle show character list changing selection
+                        //      to the clicked character
+                        //TODO: Separate everything in classes
                         var char_names = []
                         var ph_names = ["walk", "run", "idle", "wallclimb", "jump",
                                         "ladderclimb", "attack1", "attack2", "cast1", 
@@ -35,6 +40,7 @@
                                         "holycastcompleted", "darkmageidle","dakrmagejump",
                                         "icemagecast", "icenovacastcompleted", "teleport",
                                         "dash", "quickdash", "dodge", "open door", "kick"]
+                        //var ph_names = ["walk", "run", "idle", "wallclimb", "jump"]
                         char_list = document.getElementById("character-list");
                         var selected_button = null;
                         var cur_txt = null;
