@@ -38,7 +38,7 @@
                                         "holycastcompleted", "darkmageidle","dakrmagejump",
                                         "icemagecast", "icenovacastcompleted", "teleport",
                                         "dash", "quickdash", "dodge", "open door", "kick"]
-                        //var ph_names = ["walk", "run", "idle", "wallclimb", "jump"]
+                        //var ph_names = [];
                         char_list = document.getElementById("character-list");
                         var selected_button = null;
                         var cur_txt = null;
@@ -47,24 +47,24 @@
                         function click_expand(index)
                         {
                             exp = document.getElementById("char_el_expand_"+index);
-                            tst = document.getElementById("anim_cont_"+index);
-                            console.log(tst);
+                            add_anim = document.getElementById("anim_cont_"+index);
+                            console.log(add_anim);
                             
                             if(exp.childNodes[0].nodeValue === ">")
                             {
                                 exp.childNodes[0].nodeValue = "v";
-                                tst.style.height = 'auto';
-                                var endHeight = getComputedStyle(tst).height; //max height
-                                tst.style.height = '0px';//go back to 0
-                                tst.style.transition = 'height 300ms ease-in-out';
-                                tst.offsetHeight;
-                                tst.style.height = endHeight
+                                add_anim.style.height = 'auto';
+                                var endHeight = getComputedStyle(add_anim).height; //max height
+                                add_anim.style.height = '0px';//go back to 0
+                                add_anim.style.transition = 'height 300ms ease-in-out';
+                                add_anim.offsetHeight;
+                                add_anim.style.height = endHeight
 
-                                tst.addEventListener('transitionend', function transitionEnd(event) {
+                                add_anim.addEventListener('transitionend', function transitionEnd(event) {
                                     if (event.propertyName == 'height') {
-                                        tst.style.transition = ''
-                                        tst.style.height = 'auto'
-                                        tst.removeEventListener('transitionend', transitionEnd, false)
+                                        add_anim.style.transition = ''
+                                        add_anim.style.height = 'auto'
+                                        add_anim.removeEventListener('transitionend', transitionEnd, false)
                                     }
                                 }, false)
                                 
@@ -73,13 +73,13 @@
                             {
                                 exp.childNodes[0].nodeValue = ">";
 
-                                tst.style.height = getComputedStyle(tst).height;
-                                tst.style.transition = 'height 300ms ease-in-out';
-                                tst.offsetHeight;
-                                tst.style.height = '0px';
+                                add_anim.style.height = getComputedStyle(add_anim).height;
+                                add_anim.style.transition = 'height 300ms ease-in-out';
+                                add_anim.offsetHeight;
+                                add_anim.style.height = '0px';
                             }
                             
-                            //tst.classList.toggle('open');
+                            //add_anim.classList.toggle('open');
 
                         }
 
@@ -157,22 +157,22 @@
                             anim_container.className = "character_list";
                             char_container.appendChild(anim_container);
 
-                            var tst = document.createElement("button");
-                            tst.id = "tst_" + i.toString();
-                            tst.className = "char_list_element";
+                            var add_anim = document.createElement("button");
+                            add_anim.id = "add_anim_" + i.toString();
+                            add_anim.className = "char_list_element";
                             var tsname = document.createTextNode("+ Add anim");
-                            tst.appendChild(tsname);
+                            add_anim.appendChild(tsname);
 
-                            anim_container.appendChild(tst);
+                            anim_container.appendChild(add_anim);
 
                             for(i = 0; i < ph_names.length; i++)
                             {
                                 var n = document.createElement("button");
                                 n.className = "char_list_element";
                                 var t = document.createTextNode(ph_names[i]);
-                                //tst.style.height = 40 * i+1 + 'px';
+                                //add_anim.style.height = 40 * i+1 + 'px';
                                 n.appendChild(t);
-                                anim_container.insertBefore(n, tst);
+                                anim_container.insertBefore(n, add_anim);
                             }
                       
                         }
