@@ -25,7 +25,6 @@ class BButton extends HTMLElement
             var cur_txt = null;
             var cur_exp = null;
             var add_char_btn = document.getElementById("add_char_btn");
-            console.log(add_char_btn);
             add_char_btn.onclick = createButton;
     
             function click_expand(index)
@@ -62,48 +61,41 @@ class BButton extends HTMLElement
                     add_anim.offsetHeight;
                     add_anim.style.height = '0px';
                 }
-                
-                //add_anim.classList.toggle('open');
-    
             }
     
-            function selectDiv(index)
+            function selectDiv(char_el, txt, exp)
             {
-                console.log(index);
-                char_el = document.getElementById("char_el"+index);
-                txt = document.getElementById("char_el_txt_"+index);
-                exp = document.getElementById("char_el_expand_"+index);
-                
+                console.log("click");
                 if(selected_button != null)
                 {
                     selected_button.className = "button-default";
                     cur_txt.className = "character-txt-default";
                     cur_exp.className = "character-expand-default";
                 }
-    
-                selected_button = char_el;
-                cur_txt = txt;
-                cur_exp = exp;
-    
-                selected_button.className = "button-selected";
-                cur_txt.className = "character-txt-selected";
-                cur_exp.className = "character-expand-selected";
+                else
+                {
+                    selected_button = char_el;
+                    cur_txt = txt;
+                    cur_exp = exp;
+        
+                    selected_button.className = "button-selected";
+                    cur_txt.className = "character-txt-selected";
+                    cur_exp.className = "character-expand-selected";
+                }
             }
     
             
             function createButton()
             {
-                console.log("Clicked");
                 char_names.push("New Character");
                 var i = char_names.length - 1;
     
                 var char_el = document.createElement("div");
-                char_el.id = "char_el" + i.toString();
+                char_el.id = "char_el" + i;
                 char_el.className = "button-default";
-                char_el.setAttribute( "onclick", "selectDiv("+i+")" );
-    
+                
                 var char_container = document.createElement("div");
-                char_container.id = "char_cont_" + i.toString();
+                char_container.id = "char_cont_" + i;
                 
                 
                 char_list.appendChild(char_container);
@@ -130,8 +122,10 @@ class BButton extends HTMLElement
                 expand.id = "char_el_expand_"+i;
                 var exp_txt = document.createTextNode("v");
                 expand.appendChild(exp_txt);
-                expand.setAttribute( "onclick", "click_expand("+i+")" );
-    
+                //expand.setAttribute( "onclick", "click_expand("+i+")" );
+                expand.addEventListener("click", selectDiv(char_el, txt, expand), false);
+                expand.addEventListener( "click", selectDiv(char_el, txt, expand), false );
+
                 char_el.appendChild(expand);
                 char_el.appendChild(txt);
     
