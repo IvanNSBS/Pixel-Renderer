@@ -9,6 +9,7 @@ class BButton extends HTMLElement
             //TODO: Fix clicking on toggle show character list changing selection
             //      to the clicked character
             //TODO: Separate everything in classes
+            //FIXME: The add new character button is triggering the select div functions(this is not right)
             var char_names = []
             var ph_names = ["walk", "run", "idle", "wallclimb", "jump",
                             "ladderclimb", "attack1", "attack2", "cast1", 
