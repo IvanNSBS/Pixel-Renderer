@@ -112,13 +112,33 @@ class CharacterElement extends HTMLElement {
             this.add_char_btn = document.getElementById("add_char_btn");
 
             this.ref = new Character(this.char_lista);
-            let func = ref.createButton.bind(ref);
-            //ref.createButton(); // works
-            //this.add_char_btn.onclick = ref.createButton.call(); // changes parent
-            //also tried with addEventListener. Got
+
+            this.selected_button = null;
+
+            function selectDiv(char) {
+                console.log("Selected Div");
+
+                if (this.selected_button != null) {
+                    this.selected_button.className = "button-default";
+                    this.selected_button.txt.className = "character-txt-default";
+                    this.selected_button.exp.className = "character-expand-default";
+                }
+                else {
+                    this.selected_button = char;
+
+                    this.selected_button.className = "button-selected";
+                    this.selected_button.txt.className = "character-txt-selected";
+                    this.selected_button.exp.className = "character-expand-selected";
+
+                }
+            }
+
 
             function teste() {
                 var nchar = new Character(this.char_lista);
+                var select = this.selected_button.bind(nchar);
+                nchar.onclick = select;
+
                 char_elements.push(nchar);
                 nchar.createButton();
             }
@@ -129,26 +149,3 @@ class CharacterElement extends HTMLElement {
 }
 
 customElements.define('char-element', CharacterElement);
-
-/*function selectDiv(char_el, txt, exp)
-{
-    console.log("Selected Div");
-    console.log(char_el);
-    console.log(txt);
-    if(selected_button != null)
-    {
-        selected_button.className = "button-default";
-        cur_txt.className = "character-txt-default";
-        cur_exp.className = "character-expand-default";
-    }
-    else
-    {
-        selected_button = char_el;
-        cur_txt = txt;
-        cur_exp = exp;
-
-        selected_button.className = "button-selected";
-        cur_txt.className = "character-txt-selected";
-        cur_exp.className = "character-expand-selected";
-    }
-}*/
