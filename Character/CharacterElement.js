@@ -16,7 +16,6 @@ class Character {
 
     createButton() {
         var that = this;
-        console.log(that);
         var i = this.char_list.childNodes.length;
         this.char = document.createElement("div");
         this.char.id = "char_" + i;
@@ -49,8 +48,6 @@ class Character {
         this.toggle_anim.className = "character-expand-default";
         this.toggle_anim.id = "show_anim_" + i;
         //this.toggle_anim.onclick = this.click_expand.bind(this.toggle_anim);
-        var that = this;
-        //this.toggle_anim.addEventListener("click", that.click_expand.call(), false);
 
         var exp_txt = document.createTextNode("v");
         this.toggle_anim.appendChild(exp_txt);
@@ -62,25 +59,28 @@ class Character {
         this.tst = new AnimList(char_container);
 
 
+        var func = this.click_expand.bind(this);
+        this.toggle_anim.addEventListener("click", func, false);
         //console.log(this.toggle_anim);
     }
 
+
     click_expand() {
         if (this.toggle_anim.childNodes[0].nodeValue === ">") {
-            toggle_anim.childNodes[0].nodeValue = "v";
-            tst.getAnimContainer().style.height = 'auto';
+            this.toggle_anim.childNodes[0].nodeValue = "v";
+            this.tst.getAnimContainer().style.height = 'auto';
 
-            var endHeight = getComputedStyle(tst.getAnimContainer()).height; //max height
-            tst.getAnimContainer().style.height = '0px';//go back to 0
-            tst.getAnimContainer().style.transition = 'height 300ms ease-in-out';
-            tst.getAnimContainer().offsetHeight;
-            tst.getAnimContainer().style.height = endHeight;
+            var endHeight = getComputedStyle(this.tst.getAnimContainer()).height; //max height
+            this.tst.getAnimContainer().style.height = '0px';//go back to 0
+            this.tst.getAnimContainer().style.transition = 'height 300ms ease-in-out';
+            this.tst.getAnimContainer().offsetHeight;
+            this.tst.getAnimContainer().style.height = endHeight;
 
-            tst.getAnimContainer().addEventListener('transitionend', function transitionEnd(event) {
+            this.tst.getAnimContainer().addEventListener('transitionend', function transitionEnd(event) {
                 if (event.propertyName == 'height') {
-                    tst.getAnimContainer().style.transition = ''
-                    tst.getAnimContainer().style.height = 'auto'
-                    tst.getAnimContainer().removeEventListener('transitionend', transitionEnd, false)
+                    this.style.transition = ''
+                    this.style.height = 'auto'
+                    this.removeEventListener('transitionend', transitionEnd, false)
                 }
             }, false)
 
@@ -88,10 +88,10 @@ class Character {
         else {
             this.toggle_anim.childNodes[0].nodeValue = ">";
 
-            //this.tst.getAnimContainer().style.height = getComputedStyle(tst.getAnimContainer()).height;
-            //this.tst.getAnimContainer().style.transition = 'height 300ms ease-in-out';
-            //this.tst.getAnimContainer().offsetHeight;
-            //this.tst.getAnimContainer().style.height = '0px';
+            this.tst.getAnimContainer().style.height = getComputedStyle(this.tst.getAnimContainer()).height;
+            this.tst.getAnimContainer().style.transition = 'height 300ms ease-in-out';
+            this.tst.getAnimContainer().offsetHeight;
+            this.tst.getAnimContainer().style.height = '0px';
         }
     }
 }
@@ -107,14 +107,23 @@ class CharacterElement extends HTMLElement {
             //FIXME: The add new character button is triggering the select div functions(this is not right)
 
             this.char_lista = document.getElementById("character-list");
+            this.char_elements = [];
 
             this.add_char_btn = document.getElementById("add_char_btn");
+
             this.ref = new Character(this.char_lista);
             let func = ref.createButton.bind(ref);
             //ref.createButton(); // works
             //this.add_char_btn.onclick = ref.createButton.call(); // changes parent
             //also tried with addEventListener. Got
-            this.add_char_btn.addEventListener("click", func, false);
+
+            function teste() {
+                var nchar = new Character(this.char_lista);
+                char_elements.push(nchar);
+                nchar.createButton();
+            }
+            var self = teste.bind(this);
+            this.add_char_btn.addEventListener("click", self, false);
         }
     }
 }
