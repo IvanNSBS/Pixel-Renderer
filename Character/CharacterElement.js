@@ -1,17 +1,14 @@
 
 class Character {
     constructor(char_, add_char) {
+        
         this.char = document.createElement("div");
-        this.toggle_anim = document.createElement("button");
-        this.tst = null;
+        this.col_anim = document.createElement("button");
+        this.anim_list = null;
         this.char_name = document.createElement("input");
+
         this.char_list = char_;
         this.add_char_btn = add_char;
-        //this.createButton.apply(this);
-        //console.log(add_char_btn);
-        //add_char_btn.onclick = this.createButton;
-
-        //console.log(this.char_list);
     }
 
 
@@ -43,39 +40,39 @@ class Character {
             }
         }
 
-        this.toggle_anim = document.createElement("button");
-        this.toggle_anim.className = "character-expand-default";
-        this.toggle_anim.id = "show_anim_" + i;
-        //this.toggle_anim.onclick = this.click_expand.bind(this.toggle_anim);
+        this.col_anim = document.createElement("button");
+        this.col_anim.className = "character-expand-default";
+        this.col_anim.id = "show_anim_" + i;
+        //this.col_anim.onclick = this.click_expand.bind(this.col_anim);
 
         var exp_txt = document.createTextNode("v");
-        this.toggle_anim.appendChild(exp_txt);
+        this.col_anim.appendChild(exp_txt);
 
-        this.char.appendChild(this.toggle_anim);
+        this.char.appendChild(this.col_anim);
         this.char.appendChild(this.char_name);
 
         char_container.appendChild(this.char);
-        this.tst = new AnimList(char_container);
+        this.anim_list = new AnimList(char_container);
 
 
         var func = this.click_expand.bind(this);
-        this.toggle_anim.addEventListener("click", func, false);
-        //console.log(this.toggle_anim);
+        this.col_anim.addEventListener("click", func, false);
+        //console.log(this.col_anim);
     }
 
 
     click_expand() {
-        if (this.toggle_anim.childNodes[0].nodeValue === ">") {
-            this.toggle_anim.childNodes[0].nodeValue = "v";
-            this.tst.getAnimContainer().style.height = 'auto';
+        if (this.col_anim.childNodes[0].nodeValue === ">") {
+            this.col_anim.childNodes[0].nodeValue = "v";
+            this.anim_list.getAnimContainer().style.height = 'auto';
 
-            var endHeight = getComputedStyle(this.tst.getAnimContainer()).height; //max height
-            this.tst.getAnimContainer().style.height = '0px';//go back to 0
-            this.tst.getAnimContainer().style.transition = 'height 300ms ease-in-out';
-            this.tst.getAnimContainer().offsetHeight;
-            this.tst.getAnimContainer().style.height = endHeight;
+            var endHeight = getComputedStyle(this.anim_list.getAnimContainer()).height; //max height
+            this.anim_list.getAnimContainer().style.height = '0px';//go back to 0
+            this.anim_list.getAnimContainer().style.transition = 'height 300ms ease-in-out';
+            this.anim_list.getAnimContainer().offsetHeight;
+            this.anim_list.getAnimContainer().style.height = endHeight;
 
-            this.tst.getAnimContainer().addEventListener('transitionend', function transitionEnd(event) {
+            this.anim_list.getAnimContainer().addEventListener('transitionend', function transitionEnd(event) {
                 if (event.propertyName == 'height') {
                     this.style.transition = ''
                     this.style.height = 'auto'
@@ -85,12 +82,12 @@ class Character {
 
         }
         else {
-            this.toggle_anim.childNodes[0].nodeValue = ">";
+            this.col_anim.childNodes[0].nodeValue = ">";
 
-            this.tst.getAnimContainer().style.height = getComputedStyle(this.tst.getAnimContainer()).height;
-            this.tst.getAnimContainer().style.transition = 'height 300ms ease-in-out';
-            this.tst.getAnimContainer().offsetHeight;
-            this.tst.getAnimContainer().style.height = '0px';
+            this.anim_list.getAnimContainer().style.height = getComputedStyle(this.anim_list.getAnimContainer()).height;
+            this.anim_list.getAnimContainer().style.transition = 'height 300ms ease-in-out';
+            this.anim_list.getAnimContainer().offsetHeight;
+            this.anim_list.getAnimContainer().style.height = '0px';
         }
     }
 }
@@ -133,19 +130,19 @@ class CharacterElement extends HTMLElement {
 
             this.selected_button.char.className = "button-selected";
             this.selected_button.char_name.className = "character-txt-selected";
-            this.selected_button.toggle_anim.className = "character-expand-selected";
+            this.selected_button.col_anim.className = "character-expand-selected";
         }
         else if( this.selected_button !== null && char !== this.selected_button)
         {
             this.selected_button.char.className = "button-default";
             this.selected_button.char_name.className = "character-txt-default";
-            this.selected_button.toggle_anim.className = "character-expand-default";
+            this.selected_button.col_anim.className = "character-expand-default";
 
             this.selected_button = char;
 
             this.selected_button.char.className = "button-selected";
             this.selected_button.char_name.className = "character-txt-selected";
-            this.selected_button.toggle_anim.className = "character-expand-selected";
+            this.selected_button.col_anim.className = "character-expand-selected";
         }
     }
 }
