@@ -4,6 +4,7 @@ class Character {
         this.char = document.createElement("div");
         this.toggle_anim = document.createElement("button");
         this.tst = null;
+        this.char_name = document.createElement("input");
         this.char_list = char_;
         this.add_char_btn = add_char;
         //this.createButton.apply(this);
@@ -15,7 +16,6 @@ class Character {
 
 
     createButton() {
-        var that = this;
         var i = this.char_list.childNodes.length;
         this.char = document.createElement("div");
         this.char.id = "char_" + i;
@@ -27,19 +27,18 @@ class Character {
 
         this.char_list.appendChild(char_container);
 
-        var char_name = document.createElement("input");
 
-        char_name.id = "char_" + i + "_name";
-        char_name.setAttribute("type", "text");
-        char_name.setAttribute("value", "New Character");
-        char_name.className = "character-txt-default";
-        char_name.readOnly = true;
-        char_name.ondblclick = function () { char_name.readOnly = false; }
-        char_name.onkeypress = function (e) {
+        this.char_name.id = "char_" + i + "_name";
+        this.char_name.setAttribute("type", "text");
+        this.char_name.setAttribute("value", "New Character");
+        this.char_name.className = "character-txt-default";
+        this.char_name.readOnly = true;
+        this.char_name.ondblclick = function () { this.readOnly = false; }
+        this.char_name.onkeypress = function (e) {
             if (!e) e = window.event;
             var keyCode = e.keyCode || e.which;
             if (keyCode == '13') {
-                char_name.readOnly = true;
+                this.readOnly = true;
                 return;
             }
         }
@@ -53,7 +52,7 @@ class Character {
         this.toggle_anim.appendChild(exp_txt);
 
         this.char.appendChild(this.toggle_anim);
-        this.char.appendChild(char_name);
+        this.char.appendChild(this.char_name);
 
         char_container.appendChild(this.char);
         this.tst = new AnimList(char_container);
@@ -100,50 +99,53 @@ class Character {
 class CharacterElement extends HTMLElement {
     constructor() {
         super();
-        window.onload = function () {
-            //TODO: Fix clicking on toggle show character list changing selection
-            //      to the clicked character
-            //TODO: Separate everything in classes
-            //FIXME: The add new character button is triggering the select div functions(this is not right)
+        //TODO: Fix clicking on toggle show character list changing selection
+        //      to the clicked character
 
-            this.char_lista = document.getElementById("character-list");
-            this.char_elements = [];
+        this.char_lista = document.getElementById("character-list");
+        this.char_elements = [];
 
-            this.add_char_btn = document.getElementById("add_char_btn");
+        this.add_char_btn = document.getElementById("add_char_btn");
 
-            this.ref = new Character(this.char_lista);
+        this.ref = new Character(this.char_lista);
 
-            this.selected_button = null;
+        this.selected_button = null;
 
-            function selectDiv(char) {
-                console.log("Selected Div");
+        
+        function teste() {
+            var nchar = new Character(this.char_lista);
+            var sel = this.select_char.bind(this, nchar);
+            
+            this.char_elements.push(nchar);
+            nchar.createButton();
+            nchar.char.onclick = sel;
+        }
+        var self = teste.bind(this);
+        this.add_char_btn.addEventListener("click", self, false);
+    }
+    
+    select_char(char) {
+        console.log("Selected Div");
+        console.log(this.selected_button);
 
-                if (this.selected_button != null) {
-                    this.selected_button.className = "button-default";
-                    this.selected_button.txt.className = "character-txt-default";
-                    this.selected_button.exp.className = "character-expand-default";
-                }
-                else {
-                    this.selected_button = char;
+        if (this.selected_button === null) {
+            this.selected_button = char;
 
-                    this.selected_button.className = "button-selected";
-                    this.selected_button.txt.className = "character-txt-selected";
-                    this.selected_button.exp.className = "character-expand-selected";
+            this.selected_button.char.className = "button-selected";
+            this.selected_button.char_name.className = "character-txt-selected";
+            this.selected_button.toggle_anim.className = "character-expand-selected";
+        }
+        else if( this.selected_button !== null && char !== this.selected_button)
+        {
+            this.selected_button.char.className = "button-default";
+            this.selected_button.char_name.className = "character-txt-default";
+            this.selected_button.toggle_anim.className = "character-expand-default";
 
-                }
-            }
+            this.selected_button = char;
 
-
-            function teste() {
-                var nchar = new Character(this.char_lista);
-                var select = this.selected_button.bind(nchar);
-                nchar.onclick = select;
-
-                char_elements.push(nchar);
-                nchar.createButton();
-            }
-            var self = teste.bind(this);
-            this.add_char_btn.addEventListener("click", self, false);
+            this.selected_button.char.className = "button-selected";
+            this.selected_button.char_name.className = "character-txt-selected";
+            this.selected_button.toggle_anim.className = "character-expand-selected";
         }
     }
 }
