@@ -67,6 +67,7 @@
                         //var container;
                         var camera, scene, renderer, light;
                         var clock = new THREE.Clock();
+                        var sampling = 30;
                         var mixer;
                         var box;
                         init();
@@ -171,6 +172,10 @@
                                 sx.addEventListener("input", function(){ object.scale.x = sx.value; });       
                                 sy.addEventListener("input", function(){ object.scale.y = sy.value; });       
                                 sz.addEventListener("input", function(){ object.scale.z = sz.value; }); 
+
+                                var sample = document.getElementById("f-sampling");
+                                sample.value = sampling;
+                                sample.addEventListener("input", function(){ sampling = sample.value; }); 
                             };
     
                             function load_init( object ) {
@@ -227,7 +232,7 @@
     
                             var true_load = load_init.bind(this);
                             //console.log("printing objects...");
-                            loader.load( 'Anims/Idle.fbx', true_load);
+                            loader.load( 'Anims/Running.fbx', true_load);
     
                             
                             //console.log(obj);
@@ -254,12 +259,19 @@
                         
     
                         function animate() {
-                            requestAnimationFrame( animate );
-                            var delta = clock.getDelta();
-                            if ( mixer ) mixer.update( delta );
-                            renderer.setPixelRatio(ratio);
-                            renderer.setClearColor(0x000000, 0);
-                            renderer.render( scene, camera );
+                            setTimeout(function() {
+                                requestAnimationFrame(animate);
+                                
+                                var delta = sampling > 0 ? clock.getDelta() : 0;
+                                if ( mixer ) 
+                                        mixer.update( delta );
+                                
+                                renderer.setPixelRatio(ratio);
+                                renderer.setClearColor(0x000000, 0);
+                                renderer.render( scene, camera );
+                    
+                            }, 1000/sampling);
+                            
                         }
     
                     </script>
@@ -316,7 +328,7 @@
                             <input step="1" id="f-end"class=num-input type="number" name="quantity" min="0" max="10000" value="0"/>
                             <p></p>
                             <label>Frame Sampling: </label>
-                            <input step="1" id="f-start"class=num-input type="number" name="quantity" min="0" max="500" value="0"/>
+                            <input step="1" id="f-sampling"class=num-input type="number" name="quantity" min="0" max="244" value="0"/>
                             <p></p>
                             <label>Play Rate: </label>
                             <input step="1" id="f-start"class=num-input type="number" name="quantity" min="-100" max="100" value="0"/>
