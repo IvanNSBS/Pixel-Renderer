@@ -74,7 +74,7 @@
     
                         function init() {
                             //document.body.appendChild( container );
-                            camera = new THREE.PerspectiveCamera( 105, aspect, 0.1, 20000 );
+                            //camera = new THREE.PerspectiveCamera( 105, aspect, 0.1, 20000 );
                             camera = new THREE.OrthographicCamera(aspect*frustum_size/-2, aspect*frustum_size/2, frustum_size/2, frustum_size/-2, 0.01, 700);
                             camera.position.x += 150;
                             camera.position.z += 100;
@@ -242,6 +242,10 @@
                         function onWindowResize() {
                             scr_x_size = (window.innerWidth-(window.innerWidth*0.45)-12);
                             scr_y_size = (window.innerHeight-(window.innerHeight*0.07));
+
+                            scr_x_size = parseFloat(getComputedStyle(container).width);
+                            scr_y_size = parseFloat(getComputedStyle(container).height);
+                            
                             var aspect = scr_x_size/scr_y_size;
                             //camera.aspect = aspect;
                             camera.updateProjectionMatrix();
@@ -260,41 +264,117 @@
     
                     </script>
                 </div>
+
                 <div class=tab>
-                    <button class='options' type="button"><b>Character</b></button>
-                    <button class='options' type="button" ><b>Rendering</b></button>
-                    <button class='options' type="button" ><b>Camera</b></button>
+                    <button class='options' type="button" onclick="change_option(event, 'Character')"><b>Character</b></button>
+                    <button class='options' type="button" onclick="change_option(event, 'Rendering')"><b>Rendering</b></button>
+                    <button class='options' type="button" onclick="change_option(event, 'Camera')"><b>Camera</b></button>
                     <button class='options' type="button" disabled ><b>Shader</b></button>
                 </div>
-                <div class=tab-content>
-                    <p><b>Transform</b></p>
-                    <p>Location</p>
-                    <label>x: </label>
-                    <input step="10" id="dx"class=num-input type="number" name="quantity" min="-9999999" max="999999" value="0"/>
-                    <label>y: </label>
-                    <input step="10" id="dy"class=num-input type="number" name="quantity" min="-9999999" max="999999" value="0"/>
-                    <label>z: </label>
-                    <input step="10" id="dz"class=num-input type="number" name="quantity" min="-9999999" max="999999" value="0"/>
-
-                    <p>Rotation</p>
-                    <label>x: </label>
-                    <input step="0.1" id="rx"class=num-input type="number" name="quantity" min="-9999999" max="999999" value="0"/>
-                    <label>y: </label>
-                    <input step="0.1" id="ry"class=num-input type="number" name="quantity" min="-9999999" max="999999" value="0"/>
-                    <label>z: </label>
-                    <input step="0.1" id="rz"class=num-input type="number" name="quantity" min="-9999999" max="999999" value="0"/>
-
-                    <p>Scale</p>
-                    <label>x: </label>
-                    <input step="0.1" id="sx"class=num-input type="number" name="quantity" min="-100" max="100" value="0"/>
-                    <label>y: </label>
-                    <input step="0.1" id="sy"class=num-input type="number" name="quantity" min="-100" max="100" value="0"/>
-                    <label>z: </label>
-                    <input step="0.1" id="sz"class=num-input type="number" name="quantity" min="-100" max="100" value="0"/>
-                    <p>Slider</p>
-                    <div class="slidecontainer">
-                        <input type="range" min="0.1" max="1" step="0.01" value="1" class="slider" id="slider" onchange="">
+                
+                <div>
+                    <div class=tab-content id="Character">
+                        <p><b>Transform</b></p>
+                        <p>Location</p>
+                        <label>x: </label>
+                        <input step="10" id="dx"class=num-input type="number" name="quantity" min="-9999999" max="999999" value="0"/>
+                        <label>y: </label>
+                        <input step="10" id="dy"class=num-input type="number" name="quantity" min="-9999999" max="999999" value="0"/>
+                        <label>z: </label>
+                        <input step="10" id="dz"class=num-input type="number" name="quantity" min="-9999999" max="999999" value="0"/>
+    
+                        <p>Rotation</p>
+                        <label>x: </label>
+                        <input step="0.1" id="rx"class=num-input type="number" name="quantity" min="-9999999" max="999999" value="0"/>
+                        <label>y: </label>
+                        <input step="0.1" id="ry"class=num-input type="number" name="quantity" min="-9999999" max="999999" value="0"/>
+                        <label>z: </label>
+                        <input step="0.1" id="rz"class=num-input type="number" name="quantity" min="-9999999" max="999999" value="0"/>
+    
+                        <p>Scale</p>
+                        <label>x: </label>
+                        <input step="0.1" id="sx"class=num-input type="number" name="quantity" min="-100" max="100" value="0"/>
+                        <label>y: </label>
+                        <input step="0.1" id="sy"class=num-input type="number" name="quantity" min="-100" max="100" value="0"/>
+                        <label>z: </label>
+                        <input step="0.1" id="sz"class=num-input type="number" name="quantity" min="-100" max="100" value="0"/>
                     </div>
+                    <div class=tab-content id="Rendering">
+                            <p><b>Resolution</b></p>
+                            <label>x: </label>
+                            <input step="1" id="resx"class=num-input type="number" name="quantity" min="-100" max="100" value="0"/>
+                            <label>y: </label>
+                            <input step="1" id="resy"class=num-input type="number" name="quantity" min="-100" max="100" value="0"/>
+                            <p>Slider</p>
+                            <div class="slidecontainer">
+                                <input type="range" min="0.1" max="1" step="0.01" value="1" class="slider" id="slider" onchange="">
+                            </div>
+                            <p><b>Animation</b></p>
+                            <label>Start Frame: </label>
+                            <input step="1" id="f-start"class=num-input type="number" name="quantity" min="0" max="10000" value="0"/>
+                            <label>End Frame: </label>
+                            <input step="1" id="f-end"class=num-input type="number" name="quantity" min="0" max="10000" value="0"/>
+                            <p></p>
+                            <label>Frame Sampling: </label>
+                            <input step="1" id="f-start"class=num-input type="number" name="quantity" min="0" max="500" value="0"/>
+                            <p></p>
+                            <label>Play Rate: </label>
+                            <input step="1" id="f-start"class=num-input type="number" name="quantity" min="-100" max="100" value="0"/>
+                    </div>
+                    <div class=tab-content id="Camera">
+                        <p><b>Transform</b></p>
+                        <p>Location</p>
+                        <label>x: </label>
+                        <input step="1" id="resx"class=num-input type="number" name="quantity" min="-100" max="100" value="0"/>
+                        <label>y: </label>
+                        <input step="1" id="resy"class=num-input type="number" name="quantity" min="-100" max="100" value="0"/>
+                        <label>z: </label>
+                        <input step="1" id="resy"class=num-input type="number" name="quantity" min="-100" max="100" value="0"/>
+
+                        <p>Rotation</p>
+                        <label>x: </label>
+                        <input step="0.1" id="camx"class=num-input type="number" name="quantity" min="-9999999" max="999999" value="0"/>
+                        <label>y: </label>
+                        <input step="0.1" id="camy"class=num-input type="number" name="quantity" min="-9999999" max="999999" value="0"/>
+                        <label>z: </label>
+                        <input step="0.1" id="camz"class=num-input type="number" name="quantity" min="-9999999" max="999999" value="0"/>
+
+                        <p><b>View</b></p>
+                        <label>Frustum Size: </label>
+                        <input step="1" id="f-start"class=num-input type="number" name="quantity" min="0" max="10000" value="0"/>
+                        
+                        <p><b>Clipping Planes</b></p>
+                        <label>Near: </label>
+                        <input step="1" id="f-end"class=num-input type="number" name="quantity" min="0" max="10000" value="0"/>
+                        <label>Far: </label>
+                        <input step="1" id="f-end"class=num-input type="number" name="quantity" min="0" max="10000" value="0"/>
+
+                        <p></p>
+                        <label>Aspect X Mult: </label>
+                        <input step="1" id="f-end"class=num-input type="number" name="quantity" min="0" max="10000" value="0"/>
+                        <p></p>
+
+                        <label>Aspect Y Mult: </label>
+                        <input step="1" id="f-start"class=num-input type="number" name="quantity" min="0" max="500" value="0"/>
+                    </div>
+
+                    <script>
+                        function change_option(evt, cityName) 
+                        {
+                            // Declare all variables
+                            var i, tabcontent, tablinks;
+
+                            // Get all elements with class="tabcontent" and hide them
+                            tabcontent = document.getElementsByClassName("tab-content");
+                            for (i = 0; i < tabcontent.length; i++) {
+                                tabcontent[i].style.display = "none";
+                            }
+
+                            // Show the current tab, and add an "active" class to the button that opened the tab
+                            document.getElementById(cityName).style.display = "block";
+                            evt.currentTarget.className += " active";
+                        }
+                    </script>
                 </div>
 
             </div>

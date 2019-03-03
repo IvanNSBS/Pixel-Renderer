@@ -5,14 +5,12 @@
 
 ## TODO: Rendering
 - Canvas
-    - Frame Sampling
-        - float
 
-    - Frame Step
-        - int
+    - Play/Pause
+        - button/boolean
 
-    - Start Frame
-    - End Frame
+    - Go to Next/Previous Frame
+        - button
 
 - Object
     - Scale Object
@@ -33,21 +31,24 @@
     - Set canvas resolution 
         - x
         - y
+
     - Pixel Ratio Slider
         - float
 
-    - Play/Pause
-        - button/boolean
-    - Go to Next/Previous Frame
-        - button
+    - Start Frame
+    - End Frame
+
     - Animation Timescale
         - float
+    
+    - Frame Sampling
+        - int
 
 - Camera 
     - near
     - far
-    - left/right distortion 
-    - top/bottom distortion
+    - left/right distortion(aspect ratio distortion) 
+    - top/bottom distortion(aspect ratio distortion)
     - Frustum Size
     - Position
         - x

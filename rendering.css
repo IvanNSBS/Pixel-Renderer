@@ -27,6 +27,7 @@
 
 .tab-content
 {
+    display: none;
     overflow: auto;
     float: left;
     width: 100%;
