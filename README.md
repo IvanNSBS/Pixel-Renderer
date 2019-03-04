@@ -3,6 +3,9 @@
 ## Npm installation command:
 - npm install --save-dev electron
 
+## TODO: Overall
+- Set character default camera settings(still have individual anim settings)
+
 ## TODO: Rendering
 - Canvas
 

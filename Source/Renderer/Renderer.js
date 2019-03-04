@@ -1,108 +1,64 @@
 class Renderer
 {
     constructor(){
+        
         var container = document.getElementById("renderer")
-        var scene = new THREE.Scene();
-        //scene.background = new THREE.Color(0xf5f5f5);
+        var scene;
 
-        var scr_x_size = (window.innerWidth-(window.innerWidth*0.45)-12);
-        var scr_y_size = (window.innerHeight-(window.innerHeight*0.07));
-
-        scr_x_size = parseFloat(getComputedStyle(container).width);
-        scr_y_size = parseFloat(getComputedStyle(container).height);
-
+        var scr_x_size = parseFloat(getComputedStyle(container).width);
+        var scr_y_size = parseFloat(getComputedStyle(container).height);
+        var ar_x_size = 1;
+        var ar_y_size = 1;
         var aspect = scr_x_size/scr_y_size;
+        
         var frustum_size = 1300;
         var object = null;
         var ratio = 1;
-        
-        // window.onload = function()
-        // {
-        //     var slider = document.getElementById("slider");
-        //     slider.addEventListener("input", function(){ratio=slider.value; slider.change()});                     
-        // }
+
         window.addEventListener( 'resize', onWindowResize, false );
 
-        //container.appendChild(renderer.domElement);
-
-        //var camera = new THREE.OrthographicCamera(aspect*frustum_size/-2, aspect*frustum_size/2, frustum_size/2, frustum_size/-2, 0.1, 100);
-        
-        //var container;
         var camera, scene, renderer, light;
         var clock = new THREE.Clock();
         var sampling = 30;
         var mixer;
-        var box;
+        var manager = new THREE.LoadingManager();
+        var loader = new THREE.FBXLoader(manager);
+        
         init();
         animate();
 
         function init() {
-            //document.body.appendChild( container );
-            //camera = new THREE.PerspectiveCamera( 105, aspect, 0.1, 20000 );
-            camera = new THREE.OrthographicCamera(aspect*frustum_size/-2, aspect*frustum_size/2, frustum_size/2, frustum_size/-2, 0.01, 700);
-            camera.position.x += 150;
-            camera.position.z += 100;
-            //var helper = new THREE.CameraHelper(cam2);
-            //camera.position.set( 900, 700, 1000 );
+            camera = new THREE.OrthographicCamera(  ar_x_size*aspect*frustum_size/-2, 
+                                                    ar_x_size*aspect*frustum_size/2, 
+                                                    ar_y_size*frustum_size/2, 
+                                                    ar_y_size*frustum_size/-2, 
+                                                    0.001, 1000);
+            
+            //camera.position.x += 150;
+            camera.position.z += 300;
             scene = new THREE.Scene();
             //scene.background = new THREE.Color( 0xf5f5f5 );
-            //scene.background = new THREE.Color( 0xff0000 );
 
             light = new THREE.DirectionalLight( 0xffffff );
             
             //scene.add( helper );
-            //scene.add( light );
-
-            var material = new THREE.LineBasicMaterial({
-                color: 0x000000
-            });
-
-            var geometry = new THREE.Geometry();
-            geometry.vertices.push(
-                new THREE.Vector3( -scr_x_size, 0, 0 ),
-                new THREE.Vector3( scr_x_size, 0, 0 )
-            );
-            var line = new THREE.Line( geometry, material );
-            scene.add( line );
-
-            geometry = new THREE.Geometry();
-            geometry.vertices.push(
-                new THREE.Vector3( scr_x_size/8, -scr_y_size, 0 ),
-                new THREE.Vector3( scr_x_size/8, scr_y_size, 0 )
-            );
-
-            line.visible = false;
-
-            var line = new THREE.Line( geometry, material );
-            scene.add( line );
-
-
-            // ground
-            // var mesh = new THREE.Mesh( new THREE.PlaneBufferGeometry( 2000, 2000 ), new THREE.MeshPhongMaterial( { color: 0x999999, depthWrite: false } ) );
-            // mesh.rotation.x = - Math.PI / 2;
-            // mesh.receiveShadow = false;
-            // scene.add( mesh );
-            // var grid = new THREE.GridHelper( 2000, 20, 0x000000, 0x000000 );
-            // grid.material.opacity = 0.2;
-            // grid.material.transparent = true;
-            // scene.add( grid );
+            scene.add( light );
 
             // model
 
-            var manager = new THREE.LoadingManager();
-            var loader = new THREE.FBXLoader(manager);
-            var objs = []
-
             manager.onLoad = function ( ) {
-                console.log( 'Loading complete!');
-                console.log(objs[0]);
-                console.log(scene.children[scene.children.length-1]);
-                box = new THREE.BoxHelper( objs[0], 0x000000 );
-                scene.add(box);
-                object = objs[0];
+
+                object = scene.children[scene.children.length-1];
+
+                //object.visible = false;
 
                 var slider = document.getElementById("slider");
-                slider.addEventListener("input", function(){ratio=slider.value; /*slider.change();*/});
+                var sl_label = document.getElementById("sliderlabel");
+                slider.addEventListener("input", function(){
+                    ratio=slider.value; 
+                    sl_label.innerHTML = Number((slider.value*100).toFixed(1)) + "%";
+                    /*slider.change();*/
+                });
 
                 var dx = document.getElementById("dx");
                 dx.value = object.position.x;
@@ -141,27 +97,101 @@ class Renderer
                 var sample = document.getElementById("f-sampling");
                 sample.value = sampling;
                 sample.addEventListener("input", function(){ sampling = sample.value; }); 
+                
+                var p_rate = document.getElementById("p-rate");
+                p_rate.value = mixer.timeScale;
+                p_rate.addEventListener("input", function(){ mixer.timeScale = p_rate.value;})
+                
+                
+                var pcamx = document.getElementById("pcamx");
+                pcamx.value = camera.position.x;
+                var pcamy = document.getElementById("pcamy");
+                pcamy.value = camera.position.y;
+                var pcamz = document.getElementById("pcamz");
+                pcamz.value = camera.position.z;
+
+                pcamx.addEventListener("input", function(){ camera.position.x = pcamx.value; });       
+                pcamy.addEventListener("input", function(){ camera.position.y = pcamy.value; });       
+                pcamz.addEventListener("input", function(){ camera.position.z = pcamz.value; });       
+
+                var rcamx = document.getElementById("rcamx");
+                rcamx.value = camera.rotation.x;
+                var rcamy = document.getElementById("rcamy");
+                rcamy.value = camera.rotation.y;
+                var rcamz = document.getElementById("rcamz");
+                rcamz.value = camera.rotation.z;
+
+                rcamx.addEventListener("input", function(){ camera.rotation.x = rcamx.value; });       
+                rcamy.addEventListener("input", function(){ camera.rotation.y = rcamy.value; });       
+                rcamz.addEventListener("input", function(){ camera.rotation.z = rcamz.value; });
+
+
+                var f_size = document.getElementById("f-size");
+                f_size.value = frustum_size;
+                f_size.addEventListener("input", function(){ 
+                    frustum_size = f_size.value; 
+                    camera.left = ar_x_size*aspect*frustum_size/-2;
+                    camera.right = ar_x_size*aspect*frustum_size/2; 
+                    camera.top = ar_y_size*frustum_size/2;
+                    camera.bottom = ar_y_size*frustum_size/-2;
+                    camera.updateProjectionMatrix();
+                });
+
+                var nplane = document.getElementById("nplane");
+                nplane.value = camera.near;
+                nplane.addEventListener("input", function(){ 
+                    camera.near = parseFloat(nplane.value); 
+                    camera.updateProjectionMatrix(); 
+                });
+
+                var fplane = document.getElementById("fplane");
+                fplane.value = camera.far;
+                fplane.addEventListener("input", function(){ 
+                    camera.far = parseFloat(fplane.value); 
+                    camera.updateProjectionMatrix(); 
+                });
+                
+                var czoom = document.getElementById("camzoom");
+                czoom.value = camera.zoom;
+                czoom.addEventListener("input", function(){ 
+                    camera.zoom = parseFloat(czoom.value); 
+                    camera.updateProjectionMatrix(); 
+                });
+
+                var ar_x = document.getElementById("ar-x");
+                ar_x.value = ar_x_size;
+                ar_x.addEventListener("input", function(){ 
+                    ar_x_size = ar_x.value;
+
+                    camera.left = aspect*frustum_size/(-2*ar_x_size);
+                    camera.right = aspect*frustum_size/(2*ar_x_size); 
+
+                    camera.updateProjectionMatrix();
+                });
+
+                var ar_y = document.getElementById("ar-y");
+                ar_y.value = ar_y_size;
+                ar_y.addEventListener("input", function(){ 
+                    ar_y_size = ar_y.value;
+
+                    camera.top = frustum_size/(2*ar_y_size);
+                    camera.bottom = frustum_size/(-2*ar_y_size); 
+
+                    camera.updateProjectionMatrix();
+                });
+                console.log( 'Loading complete!');
             };
 
             function load_init( object ) {
                 mixer = new THREE.AnimationMixer( object );
 
-                //console.log("pushing to objs...");
-                objs.push(object);
-                //console.log(objs[0]);
-               
                 object.traverse( function ( child ) {
                     if ( child.isMesh ) {
 
                         const oldMat = child.material;
-                        var newMat = new THREE.MeshBasicMaterial();
 
                         if(oldMat.length == undefined)//only one material in the mesh
                         {
-                            //console.log(newMat.copy(oldMat));//it copies succesfuly
-
-                            //child.material = newMat; // gives errors
-
                             child.material = new THREE.MeshBasicMaterial( {  
                             color: oldMat.color,
                             skinning: true,
@@ -181,14 +211,13 @@ class Renderer
                                 skinning: true,
                                 name: oldMat[i].name,
                                 side: THREE.DoubleSide,
-                                //id: oldMat[i].id,
                                 } );
                             }
                         }
                     }
                 } );
                 
-                object.position.z -= 200;
+                //object.position.z -= 200;
                 object.position.y -= 250;
                 var action = mixer.clipAction( object.animations[ 0 ] );
                 action.play();
@@ -196,11 +225,9 @@ class Renderer
             } 
 
             var true_load = load_init.bind(this);
-            //console.log("printing objects...");
             loader.load( 'Resources/Anims/Running.fbx', true_load);
 
             
-            //console.log(obj);
             renderer = new THREE.WebGLRenderer( { antialias: false, alpha: true } );
             renderer.setSize( scr_x_size, scr_y_size );
             //renderer.shadowMap.enabled = true;
@@ -210,20 +237,16 @@ class Renderer
         
         
         function onWindowResize() {
-            scr_x_size = (window.innerWidth-(window.innerWidth*0.45)-12);
-            scr_y_size = (window.innerHeight-(window.innerHeight*0.07));
-
             scr_x_size = parseFloat(getComputedStyle(container).width);
             scr_y_size = parseFloat(getComputedStyle(container).height);
 
-            var aspect = scr_x_size/scr_y_size;
-            //camera.aspect = aspect;
             camera.updateProjectionMatrix();
             renderer.setSize( scr_x_size, scr_y_size);
         }
         
 
         function animate() {
+
             setTimeout(function() {
                 requestAnimationFrame(animate);
                 

@@ -32,18 +32,18 @@
             <div id="material" class=material></div>
 
             <div id="preview" class=preview>
-                <div id="renderer" class="renderer">
+                <div id="renderer" class="renderer"><!-- Where the rendering of the animation will happen -->
                     
                 </div>
 
-                <div class=tab>
+                <div class=tab><!-- Where the user will click change the preview options-->
                     <button class='options' type="button" onclick="change_option(event, 'Character')"><b>Character</b></button>
                     <button class='options' type="button" onclick="change_option(event, 'Rendering')"><b>Rendering</b></button>
                     <button class='options' type="button" onclick="change_option(event, 'Camera')"><b>Camera</b></button>
                     <button class='options' type="button" disabled ><b>Shader</b></button>
                 </div>
                 
-                <div>
+                <div><!-- Where the user will see the options to be changed -->
                     
                     <div class=tab-content id="Character">
                         <p><b>Transform</b></p>
@@ -75,25 +75,23 @@
                     
                     <div class=tab-content id="Rendering">
                             <p><b>Resolution</b></p>
+                            <p>Size</p>
                             <label>x: </label>
                             <input step="1" id="resx"class=num-input type="number" name="quantity" min="-100" max="100" value="0"/>
                             <label>y: </label>
                             <input step="1" id="resy"class=num-input type="number" name="quantity" min="-100" max="100" value="0"/>
-                            <p>Slider</p>
+                            <p></p>
+                            <label>Render Percent</label>
                             <div class="slidecontainer">
-                                <input type="range" min="0.1" max="1" step="0.01" value="1" class="slider" id="slider" onchange="">
+                                <input type="range" min="0.0" max="1" step="0.01" value="1" class="slider" id="slider" onchange="">
+                                <label id="sliderlabel">100%</label>
                             </div>
                             <p><b>Animation</b></p>
-                            <label>Start Frame: </label>
-                            <input step="1" id="f-start"class=num-input type="number" name="quantity" min="0" max="10000" value="0"/>
-                            <label>End Frame: </label>
-                            <input step="1" id="f-end"class=num-input type="number" name="quantity" min="0" max="10000" value="0"/>
-                            <p></p>
                             <label>Frame Sampling: </label>
                             <input step="1" id="f-sampling"class=num-input type="number" name="quantity" min="0" max="244" value="0"/>
                             <p></p>
                             <label>Play Rate: </label>
-                            <input step="1" id="f-start"class=num-input type="number" name="quantity" min="-100" max="100" value="0"/>
+                            <input step="0.1" id="p-rate"class=num-input type="number" name="quantity" min="-100" max="100" value="-1"/>
                     </div>
                     
                     
@@ -101,67 +99,44 @@
                         <p><b>Transform</b></p>
                         <p>Location</p>
                         <label>x: </label>
-                        <input step="1" id="resx"class=num-input type="number" name="quantity" min="-100" max="100" value="0"/>
+                        <input step="10" id="pcamx"class=num-input type="number" name="quantity" min="-9999" max="9999" value="0"/>
                         <label>y: </label>
-                        <input step="1" id="resy"class=num-input type="number" name="quantity" min="-100" max="100" value="0"/>
+                        <input step="10" id="pcamy"class=num-input type="number" name="quantity" min="-9999" max="9999" value="0"/>
                         <label>z: </label>
-                        <input step="1" id="resy"class=num-input type="number" name="quantity" min="-100" max="100" value="0"/>
+                        <input step="10" id="pcamz"class=num-input type="number" name="quantity" min="-9999" max="9999" value="0"/>
 
                         <p>Rotation</p>
                         <label>x: </label>
-                        <input step="0.1" id="camx"class=num-input type="number" name="quantity" min="-9999999" max="999999" value="0"/>
+                        <input step="0.1" id="rcamx"class=num-input type="number" name="quantity" min="-9999999" max="999999" value="0"/>
                         <label>y: </label>
-                        <input step="0.1" id="camy"class=num-input type="number" name="quantity" min="-9999999" max="999999" value="0"/>
+                        <input step="0.1" id="rcamy"class=num-input type="number" name="quantity" min="-9999999" max="999999" value="0"/>
                         <label>z: </label>
-                        <input step="0.1" id="camz"class=num-input type="number" name="quantity" min="-9999999" max="999999" value="0"/>
+                        <input step="0.1" id="rcamz"class=num-input type="number" name="quantity" min="-9999999" max="999999" value="0"/>
 
                         <p><b>View</b></p>
                         <label>Frustum Size: </label>
-                        <input step="1" id="f-start"class=num-input type="number" name="quantity" min="0" max="10000" value="0"/>
+                        <input step="10" id="f-size"class=num-input type="number" name="quantity" min="-10000" max="10000" value="0"/>
+                        <label>Zoom: </label>
+                        <input step="0.1" id="camzoom"class=num-input type="number" name="quantity" min="0" max="100" value="0"/>
                         
                         <p><b>Clipping Planes</b></p>
                         <label>Near: </label>
-                        <input step="1" id="f-end"class=num-input type="number" name="quantity" min="0" max="10000" value="0"/>
+                        <input step="10" id="nplane"class=num-input type="number" name="quantity" min="-100000" max="100000" value="0"/>
                         <label>Far: </label>
-                        <input step="1" id="f-end"class=num-input type="number" name="quantity" min="0" max="10000" value="0"/>
+                        <input step="10" id="fplane"class=num-input type="number" name="quantity" min="-100000" max="100000" value="0"/>
 
                         <p></p>
                         <label>Aspect X Mult: </label>
-                        <input step="1" id="f-end"class=num-input type="number" name="quantity" min="0" max="10000" value="0"/>
-                        <p></p>
-
+                        <input step="0.1" id="ar-x"class=num-input type="number" name="quantity" min="-100" max="100" value="0"/>
                         <label>Aspect Y Mult: </label>
-                        <input step="1" id="f-start"class=num-input type="number" name="quantity" min="0" max="500" value="0"/>
+                        <input step="0.1" id="ar-y"class=num-input type="number" name="quantity" min="-100" max="100" value="0"/>
+
                     </div>
-
-                    
-                    <script>
-                        function change_option(evt, cityName) 
-                        {
-                            // Declare all variables
-                            var i, tabcontent, tablinks;
-
-                            // Get all elements with class="tabcontent" and hide them
-                            tabcontent = document.getElementsByClassName("tab-content");
-                            for (i = 0; i < tabcontent.length; i++) {
-                                tabcontent[i].style.display = "none";
-                            }
-
-                            tablinks = document.getElementsByClassName("options");
-                            for (i = 0; i < tablinks.length; i++) {
-                                tablinks[i].className = tablinks[i].className.replace(" active", "");
-                            }
-                            // Show the current tab, and add an "active" class to the button that opened the tab
-                            document.getElementById(cityName).style.display = "block";
-                            evt.currentTarget.className += " active";
-                        }
-                    </script>
                 </div>
 
             </div>
             
         </div>
-
         <script src="Source/Selection/InputNode.js"></script>
         <script src="Source/Selection/CharacterElement.js"></script>
         <script src="Source/Selection/CharacterList.js"></script>
@@ -170,5 +145,29 @@
         <script src="dependencies/loaders/FBXLoader.js"></script>
         <script src="dependencies/libs/inflate.min.js"></script>
         <script src="Source/Renderer/Renderer.js"></script>
+        <script>
+            //console.log("Loaded");
+            //change_option(event, "Character");
+
+            function change_option(evt, cityName) 
+            {
+                // Declare all variables
+                var i, tabcontent, tablinks;
+                
+                // Get all elements with class="tabcontent" and hide them
+                tabcontent = document.getElementsByClassName("tab-content");
+                for (i = 0; i < tabcontent.length; i++) {
+                    tabcontent[i].style.display = "none";
+                }
+                
+                tablinks = document.getElementsByClassName("options");
+                for (i = 0; i < tablinks.length; i++) {
+                    tablinks[i].className = tablinks[i].className.replace(" active", "");
+                }
+                // Show the current tab, and add an "active" class to the button that opened the tab
+                document.getElementById(cityName).style.display = "block";
+                evt.currentTarget.className += " active";
+            }
+        </script>
     </body>
 </html>
