@@ -4,7 +4,7 @@
 - npm install --save-dev electron
 
 ## TODO: Overall
-- Set character default camera settings(still have individual anim settings)
+- Set character default view settings(still have individual anim settings)
 
 ## TODO: Rendering
 - Canvas
