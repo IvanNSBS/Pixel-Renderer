@@ -17,49 +17,22 @@
 
 - Object
     - Scale Object
-        - x
-        - y
-        - z
         - (bool)scale all axis
-    - Move object
-        - x
-        - y
-        - z
-    - Rotate object
-        - x
-        - y
-        - z 
+    - ~~Move object~~
+    - ~~Rotate object~~
 
 - Renderer
     - Set canvas resolution 
         - x
         - y
 
-    - Pixel Ratio Slider
-        - float
+    - ~~Pixel Ratio Slider~~
 
-    - Start Frame
-    - End Frame
-
-    - Animation Timescale
-        - float
+    - ~~Animation Timescale~~
     
-    - Frame Sampling
-        - int
+    - ~~Frame Sampling~~
 
-- Camera 
-    - near
-    - far
-    - left/right distortion(aspect ratio distortion) 
-    - top/bottom distortion(aspect ratio distortion)
-    - Frustum Size
-    - Position
-        - x
-        - y
-        - z
-    - Rotation
-        - x
-        - y
-        - z
+- ~~Camera~~
+
 
 - Shader
