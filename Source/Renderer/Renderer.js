@@ -4,9 +4,21 @@ class Renderer
         
         var container = document.getElementById("renderer")
         var scene;
-
         var scr_x_size = parseFloat(getComputedStyle(container).width);
         var scr_y_size = parseFloat(getComputedStyle(container).height);
+        
+        //getter example 1
+        this.get_scr_x_size = function()
+        {
+            return scr_x_size;
+        }
+
+        //getter (and setter) example 2
+        Object.defineProperty(this, "scr_x_size", {
+            get : function() { return scr_x_size; },
+            set : function(val)  { scr_x_size=val; }
+        });
+
         var ar_x_size = 1;
         var ar_y_size = 1;
         var aspect = scr_x_size/scr_y_size;
@@ -262,9 +274,12 @@ class Renderer
             
         }
     }
+
+
 }
 
 window.onload = function()
 {
     var r = new Renderer();
+    console.log("logging x size: " + r.scr_x_size)
 }
