@@ -7,11 +7,16 @@ class Renderer
         var scr_x_size = parseFloat(getComputedStyle(container).width);
         var scr_y_size = parseFloat(getComputedStyle(container).height);
         
-        //getter example 1
-        this.get_scr_x_size = function()
-        {
-            return scr_x_size;
-        }
+        var ar_x_size = 1;
+        var ar_y_size = 1;
+        var aspect = scr_x_size/scr_y_size;
+        
+        var manager = new THREE.LoadingManager();
+        var loader = new THREE.FBXLoader(manager);
+
+        var frustum_size = 1300;
+        var object = null;
+        var ratio = 1;
 
         //getter (and setter) example 2
         Object.defineProperty(this, "scr_x_size", {
@@ -19,13 +24,21 @@ class Renderer
             set : function(val)  { scr_x_size=val; }
         });
 
-        var ar_x_size = 1;
-        var ar_y_size = 1;
-        var aspect = scr_x_size/scr_y_size;
-        
-        var frustum_size = 1300;
-        var object = null;
-        var ratio = 1;
+        Object.defineProperty(this, "loader", {
+            get : function() { return loader; },
+            set : function(val)  { loader=val; }
+        });
+
+        Object.defineProperty(this, "manager", {
+            get : function() { return manager; },
+            set : function(val)  { manager=val; }
+        });
+
+        Object.defineProperty(this, "object", {
+            get : function() { return object; },
+            set : function(val)  { object=val; }
+        });
+
 
         window.addEventListener( 'resize', onWindowResize, false );
 
@@ -33,8 +46,6 @@ class Renderer
         var clock = new THREE.Clock();
         var sampling = 30;
         var mixer;
-        var manager = new THREE.LoadingManager();
-        var loader = new THREE.FBXLoader(manager);
         
         init();
         animate();
