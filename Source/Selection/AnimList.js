@@ -37,3 +37,5 @@ class AnimList {
 AnimList.prototype.getAnimContainer = function () {
     return this.anim_container;
 }
+
+//window.onload = function(){ console.log("JUST LOADED ANIMATION LIST");}
