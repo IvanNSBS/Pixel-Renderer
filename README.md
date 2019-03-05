@@ -16,8 +16,7 @@
         - button
 
 - Object
-    - Scale Object
-        - (bool)scale all axis
+    - ~~Scale Object~~
     - ~~Move object~~
     - ~~Rotate object~~
 

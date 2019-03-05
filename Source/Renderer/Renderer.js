@@ -14,7 +14,12 @@ class Renderer
 
         var frustum_size = 1300;
         var cur_anim = null;
-        var ratio = 1;
+        var ratio = 1.0;
+
+        Object.defineProperty(this, "ratio", {
+            get : function() { return ratio; },
+            set : function(val)  { ratio=val; }
+        });
 
         //getter (and setter) example 2
         Object.defineProperty(this, "scr_x_size", {
@@ -61,6 +66,11 @@ class Renderer
         Object.defineProperty(this, "ar_y_size", {
             get : function() { return ar_y_size; },
             set : function(val)  { ar_y_size=val; }
+        });
+
+        Object.defineProperty(this, "aspect", {
+            get : function() { return aspect; },
+            set : function(val)  { aspect=val; }
         });
 
 
