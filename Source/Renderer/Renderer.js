@@ -121,8 +121,7 @@ class Renderer
             manager.onLoad = function ( ) {
 
                 object = scene.children[scene.children.length-1];
-                console.log(object.name);
-                console.log(document.getElementsByName("animation_name"));
+                //console.log(document.getElementsByName("animation_name"));
                 //object.visible = false;
 
                 var slider = document.getElementById("slider");
