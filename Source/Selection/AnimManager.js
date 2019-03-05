@@ -1,4 +1,4 @@
-class AnimList {
+class AnimManager {
     constructor(el, view) {
 
         // var ph_names = ["walk", "run", "idle", "wallclimb", "jump",

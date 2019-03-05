@@ -1,4 +1,4 @@
-class AnimationElement
+class Animation
 {
     constructor(container, before, file_name)
     {

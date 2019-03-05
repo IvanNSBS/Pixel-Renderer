@@ -1,13 +1,12 @@
 
 class Character {
-    constructor(char_, view) {
-        
+    constructor(view) {
         this.char = document.createElement("div");
-        this.col_anim = document.createElement("button");
-        this.anim_list = null;
+        this.toggle_anim = document.createElement("button");
         this.char_name = document.createElement("input");
+        this.anim_manager;
 
-        this.char_list = char_;
+        this.char_container = document.getElementById("char-container");
 
         var viewer = view;
 
@@ -18,8 +17,8 @@ class Character {
     }
 
 
-    createButton() {
-        var i = this.char_list.childNodes.length;
+    initCharacter() {
+        var i = this.char_container.childNodes.length;
         this.char = document.createElement("div");
         this.char.id = "char_" + i;
         this.char.className = "button-default";
@@ -28,9 +27,10 @@ class Character {
         char_container.id = "char_cont_" + i;
 
 
-        this.char_list.appendChild(char_container);
+        this.char_container.appendChild(char_container);
 
 
+        //Input Node
         this.char_name.id = "char_" + i + "_name";
         this.char_name.setAttribute("type", "text");
         this.char_name.setAttribute("value", "New Character");
@@ -46,39 +46,40 @@ class Character {
             }
         }
 
-        this.col_anim = document.createElement("button");
-        this.col_anim.className = "character-expand-default";
-        this.col_anim.id = "show_anim_" + i;
-        //this.col_anim.onclick = this.click_expand.bind(this.col_anim);
+        //Toggle Show Anim
+        this.toggle_anim = document.createElement("button");
+        this.toggle_anim.className = "character-expand-default";
+        this.toggle_anim.id = "show_anim_" + i;
+        //this.toggle_anim.onclick = this.toggleAnimList.bind(this.toggle_anim);
 
         var exp_txt = document.createTextNode("v");
-        this.col_anim.appendChild(exp_txt);
+        this.toggle_anim.appendChild(exp_txt);
 
-        this.char.appendChild(this.col_anim);
+        this.char.appendChild(this.toggle_anim);
         this.char.appendChild(this.char_name);
 
         char_container.appendChild(this.char);
-        this.anim_list = new AnimList(char_container, this.viewer);
+        this.anim_manager = new AnimList(char_container, this.viewer);
 
 
-        var func = this.click_expand.bind(this);
-        this.col_anim.addEventListener("click", func, false);
-        //console.log(this.col_anim);
+        var func = this.toggleAnimList.bind(this);
+        this.toggle_anim.addEventListener("click", func, false);
+        //console.log(this.toggle_anim);
     }
 
 
-    click_expand() {
-        if (this.col_anim.childNodes[0].nodeValue === ">") {
-            this.col_anim.childNodes[0].nodeValue = "v";
-            this.anim_list.anim_container.style.height = 'auto';
+    toggleAnimList() {
+        if (this.toggle_anim.childNodes[0].nodeValue === ">") {
+            this.toggle_anim.childNodes[0].nodeValue = "v";
+            this.anim_manager.anim_container.style.height = 'auto';
 
-            var endHeight = getComputedStyle(this.anim_list.anim_container).height; //max height
-            this.anim_list.anim_container.style.height = '0px';//go back to 0
-            this.anim_list.anim_container.style.transition = 'height 300ms ease-in-out';
-            this.anim_list.anim_container.offsetHeight;
-            this.anim_list.anim_container.style.height = endHeight;
+            var endHeight = getComputedStyle(this.anim_manager.anim_container).height; //max height
+            this.anim_manager.anim_container.style.height = '0px';//go back to 0
+            this.anim_manager.anim_container.style.transition = 'height 300ms ease-in-out';
+            this.anim_manager.anim_container.offsetHeight;
+            this.anim_manager.anim_container.style.height = endHeight;
 
-            this.anim_list.anim_container.addEventListener('transitionend', function transitionEnd(event) {
+            this.anim_manager.anim_container.addEventListener('transitionend', function transitionEnd(event) {
                 if (event.propertyName == 'height') {
                     this.style.transition = ''
                     this.style.height = 'auto'
@@ -88,62 +89,61 @@ class Character {
 
         }
         else {
-            this.col_anim.childNodes[0].nodeValue = ">";
+            this.toggle_anim.childNodes[0].nodeValue = ">";
 
-            this.anim_list.anim_container.style.height = getComputedStyle(this.anim_list.anim_container).height;
-            this.anim_list.anim_container.style.transition = 'height 300ms ease-in-out';
-            this.anim_list.anim_container.offsetHeight;
-            this.anim_list.anim_container.style.height = '0px';
+            this.anim_manager.anim_container.style.height = getComputedStyle(this.anim_manager.anim_container).height;
+            this.anim_manager.anim_container.style.transition = 'height 300ms ease-in-out';
+            this.anim_manager.anim_container.offsetHeight;
+            this.anim_manager.anim_container.style.height = '0px';
         }
     }
 }
 
 
-class CharacterElement {
+class CharacterManager {
     constructor(view) {
         //TODO: Fix clicking on toggle show character list changing selection
         //      to the clicked character
 
-        this.char_lista = document.getElementById("character-list");
         this.char_elements = [];
 
         this.add_char_btn = document.getElementById("add_char_btn");
 
         this.selected_button = null;
         var viewer = view;
-        //console.log(viewer);
+
         function teste() {
-            var nchar = new Character(this.char_lista, viewer);
-            var sel = this.select_char.bind(this, nchar);
+            var nchar = new Character(viewer);
+            var sel = this.selectChar.bind(this, nchar);
             
             this.char_elements.push(nchar);
-            nchar.createButton();
+            nchar.initCharacter();
             nchar.char.onclick = sel;
         }
         var self = teste.bind(this);
         this.add_char_btn.addEventListener("click", self, false);
     }
     
-    select_char(char) {
+    selectChar(char) {
 
         if (this.selected_button === null) {
             this.selected_button = char;
 
             this.selected_button.char.className = "button-selected";
             this.selected_button.char_name.className = "character-txt-selected";
-            this.selected_button.col_anim.className = "character-expand-selected";
+            this.selected_button.toggle_anim.className = "character-expand-selected";
         }
         else if( this.selected_button !== null && char !== this.selected_button)
         {
             this.selected_button.char.className = "button-default";
             this.selected_button.char_name.className = "character-txt-default";
-            this.selected_button.col_anim.className = "character-expand-default";
+            this.selected_button.toggle_anim.className = "character-expand-default";
 
             this.selected_button = char;
 
             this.selected_button.char.className = "button-selected";
             this.selected_button.char_name.className = "character-txt-selected";
-            this.selected_button.col_anim.className = "character-expand-selected";
+            this.selected_button.toggle_anim.className = "character-expand-selected";
         }
     }
 }
