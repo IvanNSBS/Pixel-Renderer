@@ -15,7 +15,7 @@ class Renderer
         var loader = new THREE.FBXLoader(manager);
 
         var frustum_size = 1300;
-        var object = null;
+        var cur_anim = null;
         var ratio = 1;
 
         //getter (and setter) example 2
@@ -34,9 +34,9 @@ class Renderer
             set : function(val)  { manager=val; }
         });
 
-        Object.defineProperty(this, "object", {
-            get : function() { return object; },
-            set : function(val)  { object=val; }
+        Object.defineProperty(this, "cur_anim", {
+            get : function() { return cur_anim; },
+            set : function(val)  { cur_anim=val; }
         });
 
         Object.defineProperty(this, "true_load", {
@@ -55,10 +55,10 @@ class Renderer
         init();
         animate();
 
-        function load_init( object ) {
-            mixer = new THREE.AnimationMixer( object );
-            object.name = "animation_name";
-            object.traverse( function ( child ) {
+        function load_init( anim ) {
+            mixer = new THREE.AnimationMixer( anim );
+            anim.name = "animation_name";
+            anim.traverse( function ( child ) {
                 if ( child.isMesh ) {
 
                     const oldMat = child.material;
@@ -90,11 +90,16 @@ class Renderer
                 }
             } );
             
-            //object.position.z -= 200;
-            object.position.y -= 250;
-            var action = mixer.clipAction( object.animations[ 0 ] );
+            //anim.position.z -= 200;
+            anim.position.y -= 250;
+            var action = mixer.clipAction( anim.animations[ 0 ] );
             action.play();
-            scene.add( object );
+
+            if(cur_anim)
+                scene.remove(cur_anim);
+
+            scene.add( anim );
+            return anim;
         } 
         
         var true_load = load_init.bind(this);
@@ -120,9 +125,9 @@ class Renderer
 
             manager.onLoad = function ( ) {
 
-                object = scene.children[scene.children.length-1];
+                cur_anim = scene.children[scene.children.length-1];
                 //console.log(document.getElementsByName("animation_name"));
-                //object.visible = false;
+                //cur_anim.visible = false;
 
                 var slider = document.getElementById("slider");
                 var sl_label = document.getElementById("sliderlabel");
@@ -133,38 +138,38 @@ class Renderer
                 });
 
                 var dx = document.getElementById("dx");
-                dx.value = object.position.x;
+                dx.value = cur_anim.position.x;
                 var dy = document.getElementById("dy");
-                dy.value = object.position.y;
+                dy.value = cur_anim.position.y;
                 var dz = document.getElementById("dz");
-                dz.value = object.position.z;
+                dz.value = cur_anim.position.z;
 
-                dx.addEventListener("input", function(){ object.position.x = dx.value; });       
-                dy.addEventListener("input", function(){ object.position.y = dy.value; });       
-                dz.addEventListener("input", function(){ object.position.z = dz.value; });       
+                dx.addEventListener("input", function(){ cur_anim.position.x = dx.value; });       
+                dy.addEventListener("input", function(){ cur_anim.position.y = dy.value; });       
+                dz.addEventListener("input", function(){ cur_anim.position.z = dz.value; });       
 
                 var rx = document.getElementById("rx");
-                rx.value = object.rotation.x;
+                rx.value = cur_anim.rotation.x;
                 var ry = document.getElementById("ry");
-                ry.value = object.rotation.y;
+                ry.value = cur_anim.rotation.y;
                 var rz = document.getElementById("rz");
-                rz.value = object.rotation.z;
+                rz.value = cur_anim.rotation.z;
 
-                rx.addEventListener("input", function(){ object.rotation.x = rx.value; });       
-                ry.addEventListener("input", function(){ object.rotation.y = ry.value; });       
-                rz.addEventListener("input", function(){ object.rotation.z = rz.value; }); 
+                rx.addEventListener("input", function(){ cur_anim.rotation.x = rx.value; });       
+                ry.addEventListener("input", function(){ cur_anim.rotation.y = ry.value; });       
+                rz.addEventListener("input", function(){ cur_anim.rotation.z = rz.value; }); 
 
                 
                 var sx = document.getElementById("sx");
-                sx.value = object.scale.x;
+                sx.value = cur_anim.scale.x;
                 var sy = document.getElementById("sy");
-                sy.value = object.scale.y;
+                sy.value = cur_anim.scale.y;
                 var sz = document.getElementById("sz");
-                sz.value = object.scale.z;
+                sz.value = cur_anim.scale.z;
 
-                sx.addEventListener("input", function(){ object.scale.x = sx.value; });       
-                sy.addEventListener("input", function(){ object.scale.y = sy.value; });       
-                sz.addEventListener("input", function(){ object.scale.z = sz.value; }); 
+                sx.addEventListener("input", function(){ cur_anim.scale.x = sx.value; });       
+                sy.addEventListener("input", function(){ cur_anim.scale.y = sy.value; });       
+                sz.addEventListener("input", function(){ cur_anim.scale.z = sz.value; }); 
 
                 var sample = document.getElementById("f-sampling");
                 sample.value = sampling;
@@ -252,6 +257,8 @@ class Renderer
                     camera.updateProjectionMatrix();
                 });
                 console.log( 'Loading complete!');
+
+                return cur_anim;
             };
 
             //loader.load( 'Resources/Anims/Running.fbx', true_load);

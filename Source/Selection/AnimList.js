@@ -48,7 +48,8 @@ class AnimList {
         {
             console.log(file_name)
             viewer.loader.load( file_name, viewer.true_load);
-            
+
+
             var n = document.createElement("button");
             n.className = "char_list_element";
             var txt = file_name.replace(/^.*[\\\/]/, '').replace(".fbx", '');
@@ -56,7 +57,7 @@ class AnimList {
             n.appendChild(t);
             
             anim_container.insertBefore(n, add_anim_btn);
-            
+            //console.log(obj);
         }
         //var load = viewer.loader.load( 'Resources/Anims/Running.fbx', viewer.true_load);
         add_anim_btn.addEventListener("click", add_anim,  false);
