@@ -39,6 +39,11 @@ class Renderer
             set : function(val)  { object=val; }
         });
 
+        Object.defineProperty(this, "true_load", {
+            get : function() { return true_load; },
+            set : function(val)  { true_load=val; }
+        });
+
 
         window.addEventListener( 'resize', onWindowResize, false );
 
@@ -49,6 +54,50 @@ class Renderer
         
         init();
         animate();
+
+        function load_init( object ) {
+            mixer = new THREE.AnimationMixer( object );
+            object.name = "animation_name";
+            object.traverse( function ( child ) {
+                if ( child.isMesh ) {
+
+                    const oldMat = child.material;
+
+                    if(oldMat.length == undefined)//only one material in the mesh
+                    {
+                        child.material = new THREE.MeshBasicMaterial( {  
+                        color: oldMat.color,
+                        skinning: true,
+                        name: oldMat.name,
+                        side: THREE.DoubleSide,
+                        //id: oldMat.id,
+                        } );//materials are changed, but the animation wont play
+                            //anymore
+                    }
+                    else//multiple materials
+                    {
+                        for(var i = 0; i < oldMat.length; i++)
+                        {
+                            //same setup 
+                            child.material[i] = new THREE.MeshBasicMaterial( {  
+                            color: oldMat[i].color,
+                            skinning: true,
+                            name: oldMat[i].name,
+                            side: THREE.DoubleSide,
+                            } );
+                        }
+                    }
+                }
+            } );
+            
+            //object.position.z -= 200;
+            object.position.y -= 250;
+            var action = mixer.clipAction( object.animations[ 0 ] );
+            action.play();
+            scene.add( object );
+        } 
+        
+        var true_load = load_init.bind(this);
 
         function init() {
             camera = new THREE.OrthographicCamera(  ar_x_size*aspect*frustum_size/-2, 
@@ -72,7 +121,8 @@ class Renderer
             manager.onLoad = function ( ) {
 
                 object = scene.children[scene.children.length-1];
-
+                console.log(object.name);
+                console.log(document.getElementsByName("animation_name"));
                 //object.visible = false;
 
                 var slider = document.getElementById("slider");
@@ -205,50 +255,7 @@ class Renderer
                 console.log( 'Loading complete!');
             };
 
-            function load_init( object ) {
-                mixer = new THREE.AnimationMixer( object );
-
-                object.traverse( function ( child ) {
-                    if ( child.isMesh ) {
-
-                        const oldMat = child.material;
-
-                        if(oldMat.length == undefined)//only one material in the mesh
-                        {
-                            child.material = new THREE.MeshBasicMaterial( {  
-                            color: oldMat.color,
-                            skinning: true,
-                            name: oldMat.name,
-                            side: THREE.DoubleSide,
-                            //id: oldMat.id,
-                            } );//materials are changed, but the animation wont play
-                                //anymore
-                        }
-                        else//multiple materials
-                        {
-                            for(var i = 0; i < oldMat.length; i++)
-                            {
-                                //same setup 
-                                child.material[i] = new THREE.MeshBasicMaterial( {  
-                                color: oldMat[i].color,
-                                skinning: true,
-                                name: oldMat[i].name,
-                                side: THREE.DoubleSide,
-                                } );
-                            }
-                        }
-                    }
-                } );
-                
-                //object.position.z -= 200;
-                object.position.y -= 250;
-                var action = mixer.clipAction( object.animations[ 0 ] );
-                action.play();
-                scene.add( object );
-            } 
-
-            var true_load = load_init.bind(this);
-            loader.load( 'Resources/Anims/Running.fbx', true_load);
+            //loader.load( 'Resources/Anims/Running.fbx', true_load);
 
             
             renderer = new THREE.WebGLRenderer( { antialias: false, alpha: true } );
@@ -287,10 +294,4 @@ class Renderer
     }
 
 
-}
-
-window.onload = function()
-{
-    var r = new Renderer();
-    console.log("logging x size: " + r.scr_x_size)
 }

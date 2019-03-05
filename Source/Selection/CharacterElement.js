@@ -1,6 +1,6 @@
 
 class Character {
-    constructor(char_, add_char) {
+    constructor(char_, view) {
         
         this.char = document.createElement("div");
         this.col_anim = document.createElement("button");
@@ -8,7 +8,13 @@ class Character {
         this.char_name = document.createElement("input");
 
         this.char_list = char_;
-        this.add_char_btn = add_char;
+
+        var viewer = view;
+
+        Object.defineProperty(this, "viewer", {
+            get : function() { return viewer; },
+            set : function(val)  { viewer=val; }
+        });
     }
 
 
@@ -52,7 +58,7 @@ class Character {
         this.char.appendChild(this.char_name);
 
         char_container.appendChild(this.char);
-        this.anim_list = new AnimList(char_container);
+        this.anim_list = new AnimList(char_container, this.viewer);
 
 
         var func = this.click_expand.bind(this);
@@ -93,9 +99,8 @@ class Character {
 }
 
 
-class CharacterElement extends HTMLElement {
-    constructor() {
-        super();
+class CharacterElement {
+    constructor(view) {
         //TODO: Fix clicking on toggle show character list changing selection
         //      to the clicked character
 
@@ -104,13 +109,11 @@ class CharacterElement extends HTMLElement {
 
         this.add_char_btn = document.getElementById("add_char_btn");
 
-        this.ref = new Character(this.char_lista);
-
         this.selected_button = null;
-
-        
+        var viewer = view;
+        //console.log(viewer);
         function teste() {
-            var nchar = new Character(this.char_lista);
+            var nchar = new Character(this.char_lista, viewer);
             var sel = this.select_char.bind(this, nchar);
             
             this.char_elements.push(nchar);
@@ -122,8 +125,6 @@ class CharacterElement extends HTMLElement {
     }
     
     select_char(char) {
-        console.log("Selected Div");
-        console.log(this.selected_button);
 
         if (this.selected_button === null) {
             this.selected_button = char;
@@ -146,5 +147,3 @@ class CharacterElement extends HTMLElement {
         }
     }
 }
-
-customElements.define('char-element', CharacterElement);

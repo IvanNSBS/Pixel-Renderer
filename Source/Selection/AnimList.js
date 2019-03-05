@@ -1,11 +1,11 @@
 class AnimList {
-    constructor(el) {
+    constructor(el, view) {
 
         var ph_names = ["walk", "run", "idle", "wallclimb", "jump",
             "ladderclimb", "attack1", "attack2", "cast1",
             "castcomplete", "newcast", "rapier1"]
         //var ph_names = [];
-
+        var viewer = view;
         this.anim_container = document.createElement("div");
         this.add_anim_btn = document.createElement("button");
         this.parent = el;
@@ -22,6 +22,12 @@ class AnimList {
 
         this.anim_container.appendChild(this.add_anim_btn);
 
+        var trigger = document.createElement('input');
+        trigger.setAttribute("type", "file");
+        trigger.setAttribute("accept", ".fbx");
+        trigger.setAttribute("multiple", false);
+        trigger.onchange = function(){select_anim(trigger.files[0].path)};
+
         for (var i = 0; i < ph_names.length; i++) {
             var n = document.createElement("button");
             n.className = "char_list_element";
@@ -30,6 +36,22 @@ class AnimList {
             this.anim_container.insertBefore(n, this.add_anim_btn);
         }
         this.parent.appendChild(this.anim_container);
+        
+        console.log(viewer);
+
+        function add_anim()
+        {
+            trigger.click();
+        }
+
+        function select_anim(file_name)
+        {
+            console.log(file_name)
+            viewer.loader.load( file_name, viewer.true_load);
+        }
+        //var load = viewer.loader.load( 'Resources/Anims/Running.fbx', viewer.true_load);
+        this.add_anim_btn.addEventListener("click", add_anim,  false);
+        //this.add_anim_btn.onclick = viewer.loader.load( 'Resources/Anims/Running.fbx', viewer.true_load);
     }
 
 }
