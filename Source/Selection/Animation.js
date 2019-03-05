@@ -11,7 +11,7 @@ class Animation
 
         var anim;
         var loader_helper = loader;
-
+        var mat_list = [];
         var config = {
             //Character
             loc_x: 0.0,
@@ -62,8 +62,8 @@ class Animation
         var that = this;
         n.onclick = function(){
             loader_helper.cur_anim = that;
-            loader_helper.loadAnimConfig();
             loader_helper.true_load(anim);            
+            loader_helper.loadAnimConfig();
         }
     }
 }

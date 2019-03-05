@@ -4,6 +4,7 @@
         <link rel="stylesheet" href="Source/ui.css">
         <link rel="stylesheet" href="Source/Selection/selector.css">
         <link rel="stylesheet" href="Source/Renderer/rendering.css">
+        <link rel="stylesheet" href="Source/Material/mat_selector.css">
         <title>Pixel Renderer</title>
         <style>
             body {margin: 0;}
@@ -29,7 +30,25 @@
             </div>
 
             <div id="material" class=material>
+                <div id="description" class="description">
+                    <label class="mat-name"><b>Name</b></label>
+                    <label class="mat-color"><b>Color</b></label>
+                    <label class="mat-type"><b>Type</b></label>
+                </div>
+                
+                <div id="mat-config" class="mat-config">
+                    <div class="mat_element">
+                        <div class="mat-name">Purple</div>
 
+                        <div class="mat-color">
+                            <input class='col-txt' type="text" placeholder="#FFFFFF"></input>
+                            <input class='sel-color' type="color"></input>
+                        </div>
+
+                        <div class="mat-type">Type</div>
+                    </div>
+                
+                </div>
             </div>
 
             <div id="preview" class=preview>
@@ -138,6 +157,7 @@
             </div>
             
         </div>
+        <script src="Source/Material/MaterialManager.js"></script>
         <script src="Source/Selection/Animation.js"></script>
         <script src="Source/Selection/LoaderHelper.js"></script>
         <script src="Source/Selection/CharacterManager.js"></script>

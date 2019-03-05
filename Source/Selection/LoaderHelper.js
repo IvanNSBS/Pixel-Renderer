@@ -35,6 +35,9 @@ class LoaderHelper{
         manager.onLoad = function ( ) {
             viewer.cur_anim = viewer.scene.children[viewer.scene.children.length-1];
             cur_anim.anim = viewer.cur_anim;
+            
+            var mat_man = new MaterialManager(cur_anim.anim);
+            
             //viewer.cur_anim.visible = false;
 
             var slider = document.getElementById("slider");
@@ -177,7 +180,6 @@ class LoaderHelper{
                 if ( child.isMesh ) {
 
                     const oldMat = child.material;
-
                     if(oldMat.length == undefined)//only one material in the mesh
                     {
                         child.material = new THREE.MeshBasicMaterial( {  
@@ -188,6 +190,7 @@ class LoaderHelper{
                         //id: oldMat.id,
                         } );//materials are changed, but the animation wont play
                             //anymore
+                        //var mat_data = new MaterialManager(child.material, )
                     }
                     else//multiple materials
                     {
@@ -209,13 +212,12 @@ class LoaderHelper{
             //anim.position.y -= 250;
             var action = viewer.mixer.clipAction( anim.animations[ 0 ] );
             action.play();
-
             if(viewer.cur_anim)
                 viewer.scene.remove(viewer.cur_anim);
         
             cur_anim.anim = anim;
             viewer.cur_anim = cur_anim.anim;
-
+            //console.log(mat_man);
             viewer.scene.add( cur_anim.anim );
         } 
     }    

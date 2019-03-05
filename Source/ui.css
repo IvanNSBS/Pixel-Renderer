@@ -53,11 +53,12 @@
     width: 40%;
     height:calc(93% - 4px);
     overflow-y: auto;
+    overflow-x: hidden;
     float: left;
     border-style: solid;
     border-width: 2px;
     border-color:#dcdcdc;
-
+    
 }
 
 .preview
