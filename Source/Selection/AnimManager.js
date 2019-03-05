@@ -48,8 +48,8 @@ class AnimManager {
             //console.log(file_name)
             var n_anim = new Animation(anim_container, add_anim_btn, file_name, loader_helper);
             
-            loader_helper.loader.load( file_name, loader_helper.true_load);
             loader_helper.cur_anim = n_anim;
+            loader_helper.loader.load( file_name, loader_helper.true_load);
         }
         //var load = viewer.loader.load( 'Resources/Anims/Running.fbx', viewer.true_load);
         add_anim_btn.addEventListener("click", add_anim,  false);

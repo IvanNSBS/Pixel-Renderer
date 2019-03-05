@@ -30,7 +30,6 @@ class LoaderHelper{
         manager.onLoad = function ( ) {
             viewer.cur_anim = viewer.scene.children[viewer.scene.children.length-1];
             cur_anim.anim = viewer.cur_anim;
-            //console.log(document.getElementsByName("animation_name"));
             //viewer.cur_anim.visible = false;
 
             var slider = document.getElementById("slider");
@@ -48,9 +47,9 @@ class LoaderHelper{
             var dz = document.getElementById("dz");
             dz.value = viewer.cur_anim.position.z;
 
-            dx.addEventListener("input", function(){ viewer.cur_anim.position.x = dx.value; });       
-            dy.addEventListener("input", function(){ viewer.cur_anim.position.y = dy.value; });       
-            dz.addEventListener("input", function(){ viewer.cur_anim.position.z = dz.value; });       
+            dx.addEventListener("input", function(){ viewer.cur_anim.position.x = cur_anim.config.loc_x = dx.value; });       
+            dy.addEventListener("input", function(){ viewer.cur_anim.position.y = cur_anim.config.loc_y = dy.value; });       
+            dz.addEventListener("input", function(){ viewer.cur_anim.position.z = cur_anim.config.loc_z = dz.value; });       
 
             var rx = document.getElementById("rx");
             rx.value = viewer.cur_anim.rotation.x;
@@ -59,9 +58,9 @@ class LoaderHelper{
             var rz = document.getElementById("rz");
             rz.value = viewer.cur_anim.rotation.z;
 
-            rx.addEventListener("input", function(){ viewer.cur_anim.rotation.x = rx.value; });       
-            ry.addEventListener("input", function(){ viewer.cur_anim.rotation.y = ry.value; });       
-            rz.addEventListener("input", function(){ viewer.cur_anim.rotation.z = rz.value; }); 
+            rx.addEventListener("input", function(){ viewer.cur_anim.rotation.x = cur_anim.config.rot_x = rx.value; });       
+            ry.addEventListener("input", function(){ viewer.cur_anim.rotation.y = cur_anim.config.rot_y = ry.value; });       
+            rz.addEventListener("input", function(){ viewer.cur_anim.rotation.z = cur_anim.config.rot_z = rz.value; }); 
 
             
             var sx = document.getElementById("sx");
@@ -71,9 +70,9 @@ class LoaderHelper{
             var sz = document.getElementById("sz");
             sz.value = viewer.cur_anim.scale.z;
 
-            sx.addEventListener("input", function(){ viewer.cur_anim.scale.x = sx.value; });       
-            sy.addEventListener("input", function(){ viewer.cur_anim.scale.y = sy.value; });       
-            sz.addEventListener("input", function(){ viewer.cur_anim.scale.z = sz.value; }); 
+            sx.addEventListener("input", function(){ viewer.cur_anim.scale.x = cur_anim.config.scale_x = sx.value; });       
+            sy.addEventListener("input", function(){ viewer.cur_anim.scale.y = cur_anim.config.scale_y = sy.value; });       
+            sz.addEventListener("input", function(){ viewer.cur_anim.scale.z = cur_anim.config.scale_z = sz.value; }); 
 
             var sample = document.getElementById("f-sampling");
             sample.value = viewer.sampling;
@@ -166,7 +165,7 @@ class LoaderHelper{
             return viewer.cur_anim;
         };
 
-        function load_init( anim ) {
+        function load_init( anim, owner ) {
             viewer.mixer = new THREE.AnimationMixer( anim );
             anim.name = "animation_name";
             anim.traverse( function ( child ) {
@@ -214,8 +213,31 @@ class LoaderHelper{
 
             viewer.scene.add( cur_anim.anim );
         } 
-        
     }    
+
+    loadAnimConfig(){
+        var dx = document.getElementById("dx");
+        var dy = document.getElementById("dy");
+        var dz = document.getElementById("dz");
+        dx.value = this.cur_anim.config.loc_x;
+        dy.value = this.cur_anim.config.loc_y;
+        dz.value = this.cur_anim.config.loc_z;
+
+
+        var rx = document.getElementById("rx");
+        var ry = document.getElementById("ry");
+        var rz = document.getElementById("rz");
+        rx.value = this.cur_anim.config.rot_x;
+        ry.value = this.cur_anim.config.rot_y;
+        rz.value = this.cur_anim.config.rot_z;
+
+        var sx = document.getElementById("sx");
+        var sy = document.getElementById("sy");
+        var sz = document.getElementById("sz");
+        sx.value = this.cur_anim.config.scale_x;
+        sy.value = this.cur_anim.config.scale_y;
+        sz.value = this.cur_anim.config.scale_z;
+    }
 
     load_loaded(anim)
     {
