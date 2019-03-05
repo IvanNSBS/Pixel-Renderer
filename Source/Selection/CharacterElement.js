@@ -70,15 +70,15 @@ class Character {
     click_expand() {
         if (this.col_anim.childNodes[0].nodeValue === ">") {
             this.col_anim.childNodes[0].nodeValue = "v";
-            this.anim_list.getAnimContainer().style.height = 'auto';
+            this.anim_list.anim_container.style.height = 'auto';
 
-            var endHeight = getComputedStyle(this.anim_list.getAnimContainer()).height; //max height
-            this.anim_list.getAnimContainer().style.height = '0px';//go back to 0
-            this.anim_list.getAnimContainer().style.transition = 'height 300ms ease-in-out';
-            this.anim_list.getAnimContainer().offsetHeight;
-            this.anim_list.getAnimContainer().style.height = endHeight;
+            var endHeight = getComputedStyle(this.anim_list.anim_container).height; //max height
+            this.anim_list.anim_container.style.height = '0px';//go back to 0
+            this.anim_list.anim_container.style.transition = 'height 300ms ease-in-out';
+            this.anim_list.anim_container.offsetHeight;
+            this.anim_list.anim_container.style.height = endHeight;
 
-            this.anim_list.getAnimContainer().addEventListener('transitionend', function transitionEnd(event) {
+            this.anim_list.anim_container.addEventListener('transitionend', function transitionEnd(event) {
                 if (event.propertyName == 'height') {
                     this.style.transition = ''
                     this.style.height = 'auto'
@@ -90,10 +90,10 @@ class Character {
         else {
             this.col_anim.childNodes[0].nodeValue = ">";
 
-            this.anim_list.getAnimContainer().style.height = getComputedStyle(this.anim_list.getAnimContainer()).height;
-            this.anim_list.getAnimContainer().style.transition = 'height 300ms ease-in-out';
-            this.anim_list.getAnimContainer().offsetHeight;
-            this.anim_list.getAnimContainer().style.height = '0px';
+            this.anim_list.anim_container.style.height = getComputedStyle(this.anim_list.anim_container).height;
+            this.anim_list.anim_container.style.transition = 'height 300ms ease-in-out';
+            this.anim_list.anim_container.offsetHeight;
+            this.anim_list.anim_container.style.height = '0px';
         }
     }
 }
