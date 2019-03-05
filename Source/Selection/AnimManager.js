@@ -1,16 +1,15 @@
 class AnimManager {
-    constructor(el, view) {
+    constructor(el, view, loader) {
 
-        // var ph_names = ["walk", "run", "idle", "wallclimb", "jump",
-        //     "ladderclimb", "attack1", "attack2", "cast1",
-        //     "castcomplete", "newcast", "rapier1"]
-        //var ph_names = [];
         var viewer = view;
+        var loader_helper = loader;
+
         var anim_container = document.createElement("div");
         Object.defineProperty(this, "anim_container", {
             get : function() { return anim_container; },
             set : function(val)  { anim_container=val; }
         });
+
         var add_anim_btn = document.createElement("button");
         Object.defineProperty(this, "add_anim_btn", {
             get : function() { return add_anim_btn; },
@@ -46,18 +45,11 @@ class AnimManager {
 
         function select_anim(file_name)
         {
-            console.log(file_name)
-            viewer.loader.load( file_name, viewer.true_load);
-
-
-            var n = document.createElement("button");
-            n.className = "char_list_element";
-            var txt = file_name.replace(/^.*[\\\/]/, '').replace(".fbx", '');
-            var t = document.createTextNode(txt);
-            n.appendChild(t);
+            //console.log(file_name)
+            var n_anim = new Animation(anim_container, add_anim_btn, file_name, loader_helper);
             
-            anim_container.insertBefore(n, add_anim_btn);
-            //console.log(obj);
+            loader_helper.loader.load( file_name, loader_helper.true_load);
+            loader_helper.cur_anim = n_anim;
         }
         //var load = viewer.loader.load( 'Resources/Anims/Running.fbx', viewer.true_load);
         add_anim_btn.addEventListener("click", add_anim,  false);
@@ -65,9 +57,3 @@ class AnimManager {
     }
 
 }
-
-AnimList.prototype.getAnimContainer = function () {
-    return anim_container;
-}
-
-//window.onload = function(){ console.log("JUST LOADED ANIMATION LIST");}

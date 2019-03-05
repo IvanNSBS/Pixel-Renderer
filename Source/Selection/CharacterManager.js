@@ -1,18 +1,24 @@
 
 class Character {
-    constructor(view) {
+    constructor(view, l_helper) {
         this.char = document.createElement("div");
         this.toggle_anim = document.createElement("button");
         this.char_name = document.createElement("input");
         this.anim_manager;
-
         this.char_container = document.getElementById("char-container");
-
+        
         var viewer = view;
+        var loader = l_helper;
 
         Object.defineProperty(this, "viewer", {
             get : function() { return viewer; },
             set : function(val)  { viewer=val; }
+        });
+
+
+        Object.defineProperty(this, "loader", {
+            get : function() { return loader; },
+            set : function(val)  { loader=val; }
         });
     }
 
@@ -59,7 +65,7 @@ class Character {
         this.char.appendChild(this.char_name);
 
         char_container.appendChild(this.char);
-        this.anim_manager = new AnimList(char_container, this.viewer);
+        this.anim_manager = new AnimManager(char_container, this.viewer, this.loader);
 
 
         var func = this.toggleAnimList.bind(this);
@@ -110,17 +116,20 @@ class CharacterManager {
         this.add_char_btn = document.getElementById("add_char_btn");
 
         this.selected_button = null;
+
         var viewer = view;
 
-        function teste() {
-            var nchar = new Character(viewer);
+        var load_helper = new LoaderHelper(viewer);
+
+        function addChar() {
+            var nchar = new Character(viewer, load_helper);
             var sel = this.selectChar.bind(this, nchar);
             
             this.char_elements.push(nchar);
             nchar.initCharacter();
             nchar.char.onclick = sel;
         }
-        var self = teste.bind(this);
+        var self = addChar.bind(this);
         this.add_char_btn.addEventListener("click", self, false);
     }
     
