@@ -95,10 +95,10 @@ class Renderer
             camera.position.z += 300;
             scene = new THREE.Scene();
             //scene.background = new THREE.Color( 0xf5f5f5 );
-
             light = new THREE.DirectionalLight( 0xffffff );
             
             //scene.add( helper );
+            light.rotation.y += 20;
             scene.add( light );
 
             // model

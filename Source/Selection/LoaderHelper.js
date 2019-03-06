@@ -210,11 +210,14 @@ class LoaderHelper{
                     {
                         if(!mat_dict[oldMat.name])
                         {
-                            child.material = new THREE.MeshBasicMaterial( {  
+                            child.material = new THREE.MeshToonMaterial( {  
                                 color: oldMat.color,
                                 skinning: true,
                                 name: oldMat.name,
                                 side: THREE.DoubleSide,
+                                shininess: 0,
+                                specular: 0,
+                                reflectivity: 0,
                             } ); 
 
                             mat_dict[oldMat.name] = child.material;
@@ -229,11 +232,14 @@ class LoaderHelper{
                         {
                             if(!mat_dict[oldMat[i].name])
                             {
-                                child.material[i] = new THREE.MeshBasicMaterial( {  
+                                child.material[i] = new THREE.MeshToonMaterial( {  
                                 color: oldMat[i].color,
                                 skinning: true,
                                 name: oldMat[i].name,
                                 side: THREE.DoubleSide,
+                                shininess: 0,
+                                specular: 0,
+                                reflectivity: 0,
                                 } );
 
                                 mat_dict[oldMat[i].name] = child.material[i];
