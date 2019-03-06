@@ -6,6 +6,8 @@
 ## TODO: Overall
 - ~~Set character default view settings(still have individual anim settings)~~
 - Pixelated font 
+- Fix not being able to change material color after loading another object 
+- And add the material loader to object changing
 
 ## TODO: Rendering
 - Canvas
