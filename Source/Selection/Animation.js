@@ -9,9 +9,11 @@ class Animation
         n.appendChild(t);
         container.insertBefore(n, before);
 
+        var mat_manager = new MaterialManager();
+        
         var anim;
         var loader_helper = loader;
-        var mat_list = [];
+
         var config = {
             //Character
             loc_x: 0.0,
@@ -57,6 +59,11 @@ class Animation
         Object.defineProperty(this, "config", {
             get : function() { return config; },
             set : function(val)  { config=val; }
+        });
+
+        Object.defineProperty(this, "mat_manager", {
+            get : function() { return mat_manager; },
+            set : function(val)  { mat_manager=val; }
         });
 
         var that = this;

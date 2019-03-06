@@ -36,7 +36,7 @@ class LoaderHelper{
             viewer.cur_anim = viewer.scene.children[viewer.scene.children.length-1];
             cur_anim.anim = viewer.cur_anim;
             
-            var mat_man = new MaterialManager(cur_anim.anim);
+            cur_anim.mat_manager.init_manager();
             
             //viewer.cur_anim.visible = false;
 
@@ -175,49 +175,67 @@ class LoaderHelper{
 
         function load_init( anim, owner ) {
             viewer.mixer = new THREE.AnimationMixer( anim );
+
+            if(viewer.cur_anim)
+                viewer.scene.remove(viewer.cur_anim);
+    
+            cur_anim.anim = anim;
+            viewer.cur_anim = cur_anim.anim;
+
+            var that = this;
             anim.name = "animation_name";
+
+            var mat_dict = {};
+
             anim.traverse( function ( child ) {
                 if ( child.isMesh ) {
 
+                    //anim.mat_manager.mat_list
                     const oldMat = child.material;
+                    
                     if(oldMat.length == undefined)//only one material in the mesh
                     {
-                        child.material = new THREE.MeshBasicMaterial( {  
-                        color: oldMat.color,
-                        skinning: true,
-                        name: oldMat.name,
-                        side: THREE.DoubleSide,
-                        //id: oldMat.id,
-                        } );//materials are changed, but the animation wont play
-                            //anymore
-                        //var mat_data = new MaterialManager(child.material, )
+                        if(!mat_dict[oldMat.name])
+                        {
+                            child.material = new THREE.MeshBasicMaterial( {  
+                                color: oldMat.color,
+                                skinning: true,
+                                name: oldMat.name,
+                                side: THREE.DoubleSide,
+                            } ); 
+
+                            mat_dict[oldMat.name] = child.material;
+                            cur_anim.mat_manager.mat_list.push(child.material);
+                        }
+                        else
+                            child.material = mat_dict[oldMat.name];
                     }
                     else//multiple materials
                     {
                         for(var i = 0; i < oldMat.length; i++)
                         {
-                            //same setup 
-                            child.material[i] = new THREE.MeshBasicMaterial( {  
-                            color: oldMat[i].color,
-                            skinning: true,
-                            name: oldMat[i].name,
-                            side: THREE.DoubleSide,
-                            } );
+                            if(!mat_dict[oldMat[i].name])
+                            {
+                                child.material[i] = new THREE.MeshBasicMaterial( {  
+                                color: oldMat[i].color,
+                                skinning: true,
+                                name: oldMat[i].name,
+                                side: THREE.DoubleSide,
+                                } );
+
+                                mat_dict[oldMat[i].name] = child.material[i];
+                                cur_anim.mat_manager.mat_list.push(child.material[i]);
+                            }
+                            else
+                                child.material[i] = mat_dict[oldMat[i].name];
                         }
                     }
                 }
             } );
             
-            //anim.position.z -= 200;
-            //anim.position.y -= 250;
             var action = viewer.mixer.clipAction( anim.animations[ 0 ] );
             action.play();
-            if(viewer.cur_anim)
-                viewer.scene.remove(viewer.cur_anim);
-        
-            cur_anim.anim = anim;
-            viewer.cur_anim = cur_anim.anim;
-            //console.log(mat_man);
+
             viewer.scene.add( cur_anim.anim );
         } 
     }    
