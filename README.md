@@ -8,6 +8,9 @@
 - Pixelated font 
 - Fix not being able to change material color after loading another object 
 - And add the material loader to object changing
+- Fix changing object not correctly updating render percent
+- Add remove animation and charater option
+- Add default object options for character
 
 ## TODO: Rendering
 - Canvas
