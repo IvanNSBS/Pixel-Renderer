@@ -24,22 +24,11 @@
         - button
 
 - Object
-    - ~~Scale Object~~
-    - ~~Move object~~
-    - ~~Rotate object~~
+    - Scale All Axis
 
 - Renderer
     - Set canvas resolution 
         - x
         - y
-
-    - ~~Pixel Ratio Slider~~
-
-    - ~~Animation Timescale~~
-    
-    - ~~Frame Sampling~~
-
-- ~~Camera~~
-
 
 - Shader
