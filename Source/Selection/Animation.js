@@ -68,8 +68,11 @@ class Animation
 
         var that = this;
         n.onclick = function(){
+            if(loader_helper.cur_anim)
+                loader_helper.cur_anim.mat_manager.delete_elements();
+                
             loader_helper.cur_anim = that;
-            loader_helper.true_load(anim);            
+            loader_helper.load_loaded(that);            
             loader_helper.loadAnimConfig();
         }
     }

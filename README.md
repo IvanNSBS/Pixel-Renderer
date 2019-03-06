@@ -10,8 +10,9 @@
 - And add the material loader to object changing
 - Fix changing object not correctly updating render percent
 - Add remove animation and charater option
-- Add default object options for character
+- Add default character import options (camera, rendering, character AND materials)
 - Create a custom HTML Input text and use it for this and the character name
+- Add scene navigation with mouse
 
 ## TODO: Rendering
 - Canvas

@@ -49,22 +49,22 @@ class LoaderHelper{
             });
 
             var dx = document.getElementById("dx");
-            dx.value = viewer.cur_anim.position.x;
             var dy = document.getElementById("dy");
-            dy.value = viewer.cur_anim.position.y;
             var dz = document.getElementById("dz");
-            dz.value = viewer.cur_anim.position.z;
+            dx.value = viewer.cur_anim.position.x = cur_anim.config.loc_x;
+            dy.value = viewer.cur_anim.position.y = cur_anim.config.loc_y;
+            dz.value = viewer.cur_anim.position.z = cur_anim.config.loc_z;
 
             dx.addEventListener("input", function(){ viewer.cur_anim.position.x = cur_anim.config.loc_x = dx.value; });       
             dy.addEventListener("input", function(){ viewer.cur_anim.position.y = cur_anim.config.loc_y = dy.value; });       
             dz.addEventListener("input", function(){ viewer.cur_anim.position.z = cur_anim.config.loc_z = dz.value; });       
 
             var rx = document.getElementById("rx");
-            rx.value = viewer.cur_anim.rotation.x;
             var ry = document.getElementById("ry");
-            ry.value = viewer.cur_anim.rotation.y;
             var rz = document.getElementById("rz");
-            rz.value = viewer.cur_anim.rotation.z;
+            rx.value = viewer.cur_anim.rotation.x = cur_anim.config.rot_x;
+            ry.value = viewer.cur_anim.rotation.y = cur_anim.config.rot_y;
+            rz.value = viewer.cur_anim.rotation.z = cur_anim.config.rot_z;
 
             rx.addEventListener("input", function(){ viewer.cur_anim.rotation.x = cur_anim.config.rot_x = rx.value; });       
             ry.addEventListener("input", function(){ viewer.cur_anim.rotation.y = cur_anim.config.rot_y = ry.value; });       
@@ -72,32 +72,32 @@ class LoaderHelper{
 
             
             var sx = document.getElementById("sx");
-            sx.value = viewer.cur_anim.scale.x;
             var sy = document.getElementById("sy");
-            sy.value = viewer.cur_anim.scale.y;
             var sz = document.getElementById("sz");
-            sz.value = viewer.cur_anim.scale.z;
+            sx.value = viewer.cur_anim.scale.x = cur_anim.config.scale_x;
+            sy.value = viewer.cur_anim.scale.y = cur_anim.config.scale_y;
+            sz.value = viewer.cur_anim.scale.z = cur_anim.config.scale_z;
 
             sx.addEventListener("input", function(){ viewer.cur_anim.scale.x = cur_anim.config.scale_x = sx.value; });       
             sy.addEventListener("input", function(){ viewer.cur_anim.scale.y = cur_anim.config.scale_y = sy.value; });       
             sz.addEventListener("input", function(){ viewer.cur_anim.scale.z = cur_anim.config.scale_z = sz.value; }); 
 
             var sample = document.getElementById("f-sampling");
-            sample.value = viewer.sampling;
+            sample.value = viewer.sampling = cur_anim.config.f_sampling;
             sample.addEventListener("input", function(){ viewer.sampling = cur_anim.config.f_sampling = sample.value; }); 
             
             //needs to be evaluated on the manager load
             var p_rate = document.getElementById("p-rate");
-            p_rate.value = viewer.mixer.timeScale;
+            p_rate.value = viewer.mixer.timeScale = cur_anim.config.p_rate;
             p_rate.addEventListener("input", function(){ viewer.mixer.timeScale = cur_anim.config.p_rate = p_rate.value;})
             
             
             var pcamx = document.getElementById("pcamx");
             var pcamy = document.getElementById("pcamy");
             var pcamz = document.getElementById("pcamz");
-            pcamx.value = viewer.camera.position.x;
-            pcamy.value = viewer.camera.position.y;
-            pcamz.value = viewer.camera.position.z;
+            pcamx.value = viewer.camera.position.x = cur_anim.config.cam_x;
+            pcamy.value = viewer.camera.position.y = cur_anim.config.cam_y;
+            pcamz.value = viewer.camera.position.z = cur_anim.config.cam_z;
 
             pcamx.addEventListener("input", function(){ viewer.camera.position.x = cur_anim.config.cam_x = pcamx.value; });       
             pcamy.addEventListener("input", function(){ viewer.camera.position.y = cur_anim.config.cam_y = pcamy.value; });       
@@ -106,9 +106,9 @@ class LoaderHelper{
             var rcamx = document.getElementById("rcamx");
             var rcamy = document.getElementById("rcamy");
             var rcamz = document.getElementById("rcamz");
-            rcamx.value = viewer.camera.rotation.x;
-            rcamy.value = viewer.camera.rotation.y;
-            rcamz.value = viewer.camera.rotation.z;
+            rcamx.value = viewer.camera.rotation.x = cur_anim.config.c_rot_x;
+            rcamy.value = viewer.camera.rotation.y = cur_anim.config.c_rot_y;
+            rcamz.value = viewer.camera.rotation.z = cur_anim.config.c_rot_z;
             
             rcamx.addEventListener("input", function(){ viewer.camera.rotation.x = cur_anim.config.c_rot_x = rcamx.value; });       
             rcamy.addEventListener("input", function(){ viewer.camera.rotation.y = cur_anim.config.c_rot_y = rcamy.value; });       
@@ -116,7 +116,7 @@ class LoaderHelper{
 
 
             var f_size = document.getElementById("f-size");
-            f_size.value = viewer.frustum_size;
+            f_size.value = viewer.frustum_size = cur_anim.config.fr_size;
             f_size.addEventListener("input", function(){ 
                 viewer.frustum_size = cur_anim.config.fr_size = f_size.value; 
                 viewer.camera.left = viewer.aspect*viewer.frustum_size/(-2*viewer.ar_x_size);
@@ -127,28 +127,28 @@ class LoaderHelper{
             });
 
             var nplane = document.getElementById("nplane");
-            nplane.value = viewer.camera.near;
+            nplane.value = viewer.camera.near = parseFloat(cur_anim.config.near);
             nplane.addEventListener("input", function(){ 
                 viewer.camera.near = cur_anim.config.near = parseFloat(nplane.value); 
                 viewer.camera.updateProjectionMatrix(); 
             });
 
             var fplane = document.getElementById("fplane");
-            fplane.value = viewer.camera.far;
+            fplane.value = viewer.camera.far = parseFloat(cur_anim.config.far);
             fplane.addEventListener("input", function(){ 
                 viewer.camera.far = cur_anim.config.far = parseFloat(fplane.value); 
                 viewer.camera.updateProjectionMatrix(); 
             });
             
             var czoom = document.getElementById("camzoom");
-            czoom.value = viewer.camera.zoom;
+            czoom.value = viewer.camera.zoom = parseFloat(cur_anim.config.zoom);
             czoom.addEventListener("input", function(){ 
                 viewer.camera.zoom = cur_anim.config.zoom = parseFloat(czoom.value); 
                 viewer.camera.updateProjectionMatrix(); 
             });
 
             var ar_x = document.getElementById("ar-x");
-            ar_x.value = viewer.ar_x_size;
+            ar_x.value = viewer.ar_x_size = parseFloat(cur_anim.config.ar_x_mult);
             ar_x.addEventListener("input", function(){ 
                 viewer.ar_x_size = cur_anim.config.ar_x_mult = ar_x.value;
 
@@ -159,7 +159,7 @@ class LoaderHelper{
             });
 
             var ar_y = document.getElementById("ar-y");
-            ar_y.value = viewer.ar_y_size;
+            ar_y.value = viewer.ar_y_size = parseFloat(cur_anim.config.ar_y_mult);
             ar_y.addEventListener("input", function(){ 
                 viewer.ar_y_size = cur_anim.config.ar_y_mult = ar_y.value;
 
@@ -173,7 +173,7 @@ class LoaderHelper{
             return viewer.cur_anim;
         };
 
-        function load_init( anim, owner ) {
+        function load_init( anim ) {
             viewer.mixer = new THREE.AnimationMixer( anim );
 
             if(viewer.cur_anim)
@@ -323,10 +323,14 @@ class LoaderHelper{
     load_loaded(anim)
     {
         this.viewer.scene.remove(this.viewer.cur_anim);
-        this.viewer.mixer = new THREE.AnimationMixer( anim );
-        var action = this.viewer.mixer.clipAction( anim.animations[ 0 ] );
+        this.viewer.mixer = new THREE.AnimationMixer( anim.anim );
+        var action = this.viewer.mixer.clipAction( anim.anim.animations[ 0 ] );
         action.play();
+        
+        this.cur_anim.anim = anim.anim;
+        this.viewer.cur_anim = anim.anim;
+        anim.mat_manager.init_manager();
 
-        this.viewer.scene.add(anim);
+        this.viewer.scene.add(anim.anim);
     }
 }

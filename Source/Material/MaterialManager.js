@@ -3,10 +3,16 @@ class MaterialManager
     constructor()
     {
         var mat_list = []
+        var htmlelements = []
 
         Object.defineProperty(this, "mat_list", {
             get : function() { return mat_list; },
             set : function(val)  { mat_list=val; }
+        });
+
+        Object.defineProperty(this, "htmlelements", {
+            get : function() { return htmlelements; },
+            set : function(val)  { htmlelements=val; }
         });
     }
 
@@ -30,7 +36,6 @@ class MaterialManager
                 var m_col = document.createElement("div");
                 m_col.className = "mat-color";
                 
-
                 //TODO: Create a custom HTML Input text and use it for
                 //      this and the character name
                 var in_col = document.createElement("input");
@@ -76,8 +81,18 @@ class MaterialManager
 
                 m_el.appendChild(type);
                 container.appendChild(m_el);
+                that.htmlelements.push(m_el);
 
             }());
         }
+    }
+
+    delete_elements()
+    {
+        for(var i = 0; i < this.htmlelements.length; i++)
+        {
+            this.htmlelements[i].remove();
+        }
+        this.htmlelements = [];
     }
 }

@@ -48,6 +48,9 @@ class AnimManager {
             //console.log(file_name)
             var n_anim = new Animation(anim_container, add_anim_btn, file_name, loader_helper);
             
+            if(loader_helper.cur_anim)
+                loader_helper.cur_anim.mat_manager.delete_elements();
+
             loader_helper.cur_anim = n_anim;
             loader_helper.loader.load( file_name, loader_helper.true_load);
         }
