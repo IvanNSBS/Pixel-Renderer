@@ -73,6 +73,20 @@ class Renderer
             set : function(val)  { aspect=val; }
         });
 
+        Object.defineProperty(this, "exporting", {
+            get : function() { return exporting; },
+            set : function(val)  { exporting=val; }
+        });
+
+        Object.defineProperty(this, "ex_idx", {
+            get : function() { return ex_idx; },
+            set : function(val)  { ex_idx=val; }
+        });
+
+        Object.defineProperty(this, "action", {
+            get : function() { return action; },
+            set : function(val)  { action=val; }
+        });
 
         window.addEventListener( 'resize', onWindowResize, false );
 
@@ -80,7 +94,10 @@ class Renderer
         var clock = new THREE.Clock();
         var sampling = 30;
         var mixer;
-        
+        var exporting = false;
+        var ex_idx = 0;
+        var action;
+
         init();
         animate();
 
@@ -91,28 +108,28 @@ class Renderer
                                                     ar_y_size*frustum_size/-2, 
                                                     0.001, 1000);
             
-            //camera.position.x += 150;
+
             camera.position.z += 300;
             scene = new THREE.Scene();
-            //scene.background = new THREE.Color( 0xf5f5f5 );
             light = new THREE.DirectionalLight( 0xffffff );
             
             //scene.add( helper );
             light.rotation.y += 20;
             scene.add( light );
 
-            // model
-            
-            //old load
-
-            //loader.load( 'Resources/Anims/Running.fbx', true_load);
-
-            
-            renderer = new THREE.WebGLRenderer( { antialias: false, alpha: true } );
+            renderer = new THREE.WebGLRenderer( { antialias: false, alpha: true, preserveDrawingBuffer: true } );
             renderer.setSize( scr_x_size, scr_y_size );
-            //renderer.shadowMap.enabled = true;
+            //renderer.shadowMap.enabled = true;    
             container.appendChild( renderer.domElement );
             window.addEventListener( 'resize', onWindowResize, false );
+            
+            var save = document.getElementById("export_png");
+            save.onclick = function (){
+                exporting = true;
+                action = mixer.clipAction( cur_anim.animations[ 0 ] );
+                action.reset();
+                mixer.addEventListener('loop', function(){ exporting = false, ex_idx = 0;} );
+            }
         }
         
         
@@ -132,7 +149,24 @@ class Renderer
                 
                 var delta = sampling > 0 ? clock.getDelta() : 0;
                 if ( mixer ) 
-                        mixer.update( delta );
+                {
+                    if( exporting )
+                    {
+                        console.log("exporting...");
+                        var url = renderer.domElement.toDataURL( 'image/png', 1.0 );
+
+                        var dataurl = url.replace("data:image/png;base64,", "");
+        
+                        require("fs").writeFile("Resources/out" + ex_idx + ".png", dataurl, 'base64', function(err) {
+                            //console.log(err);
+                        });
+                        ex_idx++;
+                    }
+
+                    mixer.update( delta );
+
+                }
+                
                 
                 renderer.setPixelRatio(ratio);
                 renderer.setClearColor(0x000000, 0);
