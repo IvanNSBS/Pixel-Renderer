@@ -29,11 +29,16 @@ class MaterialManager
                 
                 var m_col = document.createElement("div");
                 m_col.className = "mat-color";
+                
 
+                //TODO: Create a custom HTML Input text and use it for
+                //      this and the character name
                 var in_col = document.createElement("input");
                 in_col.className = "col-txt";
                 in_col.setAttribute("type", "text");
                 in_col.placeholder = "#ffffff";
+                in_col.maxLength = 7;
+                in_col.pattern="#[0-9a-fA-F]+";
                 in_col.value = "#" + that.mat_list[i].color.getHexString();
                 m_col.appendChild(in_col);
 
@@ -51,6 +56,16 @@ class MaterialManager
                     that.mat_list[idx].color = new THREE.Color(sel_col.value);
 
                 }, false);
+
+                in_col.oninput = function () { 
+                    if(in_col.value[0] !== '#')
+                        in_col.value = '#' + in_col.value;
+                    
+                    if(in_col.checkValidity()){
+                        that.mat_list[idx].color = new THREE.Color(in_col.value);
+                        sel_col.value = in_col.value;
+                    }
+                }
 
                 m_el.appendChild(m_col);
 

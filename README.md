@@ -11,6 +11,7 @@
 - Fix changing object not correctly updating render percent
 - Add remove animation and charater option
 - Add default object options for character
+- Create a custom HTML Input text and use it for this and the character name
 
 ## TODO: Rendering
 - Canvas
