@@ -125,11 +125,9 @@ class Renderer
 
                 function func()
                 {
-                    console.log("Finished!");
                     exporting = false;
-                    for(var i = 1; i < urls.length; i++)
+                    for(var i = 0; i < urls.length; i++)
                     {
-                        console.log("Iterating...");
                         require("fs").writeFile("Resources/Export/out" + (i-1) + ".png", urls[i], 'base64', function(err) {
                             //console.log(err);
                         });
@@ -137,14 +135,26 @@ class Renderer
                     urls = [];
                     mixer.removeEventListener("loop", func);
                     mixer.time = 0;
+                    console.log("Finished!");
                 }
                 
                 mixer.addEventListener('loop', func );
 
+                var step = 1/sampling;
+                var duration = cur_anim.animations[0].duration;
                 var action = mixer.clipAction( cur_anim.animations[ 0 ] );
                 action.reset();
                 mixer.time = 0;
                 exporting = true;
+                
+                while(mixer.time < duration)
+                {
+                    console.log("Exporting...");
+                    var url = renderer.domElement.toDataURL( 'image/png', 1.0 );
+                    var dataurl = url.replace("data:image/png;base64,", "");
+                    urls.push(dataurl);
+                    mixer.update(step);
+                }
             }
         }
         
@@ -163,10 +173,10 @@ class Renderer
                 requestAnimationFrame(animate);
                 
                 var delta = sampling > 0 ? clock.getDelta() : 0;
-                delta = exporting ? 1/sampling : delta;
+                //delta = exporting ? 1/sampling : delta;
                 if ( mixer )
                 {
-                    if(exporting)
+                    if(false)
                     {
                         console.log("Exporting...");
                         var url = renderer.domElement.toDataURL( 'image/png', 1.0 );
@@ -174,7 +184,8 @@ class Renderer
                         urls.push(dataurl);
                     }
 
-                    mixer.update( delta );
+                    if(!exporting)
+                        mixer.update( delta );
                 } 
                 
                 renderer.setPixelRatio(ratio);
@@ -185,5 +196,6 @@ class Renderer
         }
     }
 
+    
 
 }
