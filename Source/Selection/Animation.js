@@ -17,11 +17,11 @@ class Animation
         var config = {
             //Character
             loc_x: 0.0,
-            loc_y: 0.0,
+            loc_y: -660.0,
             loc_z: 0.0,
 
             rot_x: 0.0,
-            rot_y: 0.0,
+            rot_y: 1.0,
             rot_z: 0.0,
 
             scale_x: 1.0,
@@ -31,7 +31,7 @@ class Animation
             //Rendering
             res_x: 0.0,
             res_y: 0.0,
-            res_pct: 1.0,
+            res_pct: 0.25,
 
             f_sampling: 30,
             p_rate: 1.0,

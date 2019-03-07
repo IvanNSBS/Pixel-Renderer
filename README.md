@@ -13,6 +13,7 @@
 - Create a custom HTML Input text and use it for this and the character name
 - Add scene navigation with mouse
 - Pixelated font 
+- Fix bug that makes the image exporter get the frame before reinitializing everything
 
 ## TODO: Rendering
 - Canvas

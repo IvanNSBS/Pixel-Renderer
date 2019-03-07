@@ -78,14 +78,9 @@ class Renderer
             set : function(val)  { exporting=val; }
         });
 
-        Object.defineProperty(this, "ex_idx", {
-            get : function() { return ex_idx; },
-            set : function(val)  { ex_idx=val; }
-        });
-
-        Object.defineProperty(this, "action", {
-            get : function() { return action; },
-            set : function(val)  { action=val; }
+        Object.defineProperty(this, "urls", {
+            get : function() { return urls; },
+            set : function(val)  { urls=val; }
         });
 
         window.addEventListener( 'resize', onWindowResize, false );
@@ -93,10 +88,10 @@ class Renderer
         var camera, scene, renderer, light;
         var clock = new THREE.Clock();
         var sampling = 30;
+
         var mixer;
         var exporting = false;
-        var ex_idx = 0;
-        var action;
+        var urls = [];
 
         init();
         animate();
@@ -122,13 +117,34 @@ class Renderer
             //renderer.shadowMap.enabled = true;    
             container.appendChild( renderer.domElement );
             window.addEventListener( 'resize', onWindowResize, false );
+
+        
             
             var save = document.getElementById("export_png");
             save.onclick = function (){
-                exporting = true;
-                action = mixer.clipAction( cur_anim.animations[ 0 ] );
+
+                function func()
+                {
+                    console.log("Finished!");
+                    exporting = false;
+                    for(var i = 1; i < urls.length; i++)
+                    {
+                        console.log("Iterating...");
+                        require("fs").writeFile("Resources/Export/out" + (i-1) + ".png", urls[i], 'base64', function(err) {
+                            //console.log(err);
+                        });
+                    }
+                    urls = [];
+                    mixer.removeEventListener("loop", func);
+                    mixer.time = 0;
+                }
+                
+                mixer.addEventListener('loop', func );
+
+                var action = mixer.clipAction( cur_anim.animations[ 0 ] );
                 action.reset();
-                mixer.addEventListener('loop', function(){ exporting = false, ex_idx = 0;} );
+                mixer.time = 0;
+                exporting = true;
             }
         }
         
@@ -143,37 +159,29 @@ class Renderer
         
 
         function animate() {
-
             setTimeout(function() {
                 requestAnimationFrame(animate);
                 
                 var delta = sampling > 0 ? clock.getDelta() : 0;
-                if ( mixer ) 
+                delta = exporting ? 1/sampling : delta;
+                if ( mixer )
                 {
-                    if( exporting )
+                    if(exporting)
                     {
-                        console.log("exporting...");
+                        console.log("Exporting...");
                         var url = renderer.domElement.toDataURL( 'image/png', 1.0 );
-
                         var dataurl = url.replace("data:image/png;base64,", "");
-        
-                        require("fs").writeFile("Resources/out" + ex_idx + ".png", dataurl, 'base64', function(err) {
-                            //console.log(err);
-                        });
-                        ex_idx++;
+                        urls.push(dataurl);
                     }
 
                     mixer.update( delta );
-
-                }
-                
+                } 
                 
                 renderer.setPixelRatio(ratio);
                 renderer.setClearColor(0x000000, 0);
                 renderer.render( scene, camera );
     
             }, 1000/sampling);
-            
         }
     }
 
