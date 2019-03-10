@@ -9,6 +9,7 @@ class Character {
         
         var viewer = view;
         var loader = l_helper;
+        var name = "New Character";
 
         Object.defineProperty(this, "viewer", {
             get : function() { return viewer; },
@@ -113,6 +114,7 @@ class CharacterManager {
         this.char_elements = [];
 
         this.add_char_btn = document.getElementById("add_char_btn");
+        this.save_btn = document.getElementById("save");
 
         this.selected_char = null;
 
@@ -128,7 +130,19 @@ class CharacterManager {
             nchar.initCharacter();
             nchar.char.onclick = sel;
         }
+
         var self = addChar.bind(this);
+
+        var that = this;
+        this.save_btn.onclick = function(){
+            for(var i = 0; i < that.char_elements.length; i++)
+            {
+                var json = JSON.stringify( that.char_elements[i] );
+                require("fs").writeFile( "./src/data/"+that.char_elements[i].char_name.id + ".json", json, 'utf8', function(err) {
+                    console.log(err);
+                });
+            }
+        }
         this.add_char_btn.addEventListener("click", self, false);
     }
     
