@@ -37,6 +37,7 @@ class Character {
 
 
         //Input Node
+        //TODO: OnLoseFocus (or smth like that)
         this.char_name.id = "char_" + i + "_name";
         this.char_name.setAttribute("type", "text");
         this.char_name.setAttribute("value", "New Character");
@@ -56,7 +57,6 @@ class Character {
         this.toggle_anim = document.createElement("button");
         this.toggle_anim.className = "character-expand-default";
         this.toggle_anim.id = "show_anim_" + i;
-        //this.toggle_anim.onclick = this.toggleAnimList.bind(this.toggle_anim);
 
         var exp_txt = document.createTextNode("v");
         this.toggle_anim.appendChild(exp_txt);
@@ -70,7 +70,6 @@ class Character {
 
         var func = this.toggleAnimList.bind(this);
         this.toggle_anim.addEventListener("click", func, false);
-        //console.log(this.toggle_anim);
     }
 
 
@@ -115,7 +114,7 @@ class CharacterManager {
 
         this.add_char_btn = document.getElementById("add_char_btn");
 
-        this.selected_button = null;
+        this.selected_char = null;
 
         var viewer = view;
 
@@ -135,24 +134,24 @@ class CharacterManager {
     
     selectChar(char) {
 
-        if (this.selected_button === null) {
-            this.selected_button = char;
+        if (this.selected_char === null) {
+            this.selected_char = char;
 
-            this.selected_button.char.className = "button-selected";
-            this.selected_button.char_name.className = "character-txt-selected";
-            this.selected_button.toggle_anim.className = "character-expand-selected";
+            this.selected_char.char.className = "button-selected";
+            this.selected_char.char_name.className = "character-txt-selected";
+            this.selected_char.toggle_anim.className = "character-expand-selected";
         }
-        else if( this.selected_button !== null && char !== this.selected_button)
+        else if( this.selected_char !== null && char !== this.selected_char)
         {
-            this.selected_button.char.className = "button-default";
-            this.selected_button.char_name.className = "character-txt-default";
-            this.selected_button.toggle_anim.className = "character-expand-default";
+            this.selected_char.char.className = "button-default";
+            this.selected_char.char_name.className = "character-txt-default";
+            this.selected_char.toggle_anim.className = "character-expand-default";
 
-            this.selected_button = char;
+            this.selected_char = char;
 
-            this.selected_button.char.className = "button-selected";
-            this.selected_button.char_name.className = "character-txt-selected";
-            this.selected_button.toggle_anim.className = "character-expand-selected";
+            this.selected_char.char.className = "button-selected";
+            this.selected_char.char_name.className = "character-txt-selected";
+            this.selected_char.toggle_anim.className = "character-expand-selected";
         }
     }
 }

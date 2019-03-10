@@ -21,7 +21,6 @@ class Renderer
             set : function(val)  { ratio=val; }
         });
 
-        //getter (and setter) example 2
         Object.defineProperty(this, "scr_x_size", {
             get : function() { return scr_x_size; },
             set : function(val)  { scr_x_size=val; }
