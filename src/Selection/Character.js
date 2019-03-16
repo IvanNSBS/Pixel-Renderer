@@ -31,7 +31,7 @@ function Character (view, l_helper) {
 }
 
 Character.prototype.initCharacter = function(){
-    var i = this.char_container.childNodes.length;
+    var i = this.char_container.childNodes.length - 1;
     this.char.id = "char_" + i;
     this.char.className = "button-default";
 
@@ -42,13 +42,15 @@ Character.prototype.initCharacter = function(){
     this.char_container.appendChild(char_container);
 
 
+    var that = this;
     //Input Node
-    //TODO: OnLoseFocus (or smth like that)
     this.char_name.id = "char_" + i + "_name";
     this.char_name.setAttribute("type", "text");
-    this.char_name.setAttribute("value", "New Character");
+    this.char_name.setAttribute("value", this.name);
     this.char_name.className = "character-txt-default";
     this.char_name.readOnly = true;
+    this.char_name.oninput = function () { that.name = this.value; console.log(that.name); }
+    this.char_name.addEventListener("focusout", function () {this.readOnly = true; }, false)
     this.char_name.ondblclick = function () { this.readOnly = false; }
     this.char_name.onkeypress = function (e) {
         if (!e) e = window.event;
@@ -58,6 +60,7 @@ Character.prototype.initCharacter = function(){
             return;
         }
     }
+    console.log(this.char_name);
 
     //Toggle Show Anim
     this.toggle_anim = document.createElement("button");

@@ -28,8 +28,8 @@ function CharacterManager(view) {
     save_btn.onclick = function(){
         for(var i = 0; i < that.char_elements.length; i++)
         {
-            var json = JSON.stringify( that.char_elements[i] );
-            require("fs").writeFile( "./src/data/"+that.char_elements[i].char_name.id + ".json", json, 'utf8', function(err) {
+            var json = JSON.stringify( that.char_elements );
+            require("fs").writeFile( "./src/data/"+that.char_elements[i].name + ".json", json, 'utf8', function(err) {
                 console.log(err);
             });
         }
