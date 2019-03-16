@@ -15,6 +15,7 @@
 - Add scene navigation with mouse
 - Pixelated font 
 - Fix bug that makes the image exporter get the frame before reinitializing everything
+- Check how to make a decent import
 
 ## TODO: Rendering
 - Canvas
