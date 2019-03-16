@@ -6,6 +6,7 @@
     "start": "electron ."
   },
   "devDependencies": {
-    "electron": "^4.0.5"
+    "electron": "^4.0.5",
+    "js-yaml": "^3.12.2"
   }
 }

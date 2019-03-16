@@ -16,6 +16,7 @@ class AnimManager {
             set : function(val)  { add_anim_btn=val; }
         });
         this.parent = el;
+        this.anims = [];
 
         anim_container.id = "anim_cont_";// + i;
         anim_container.className = "character_list";
@@ -43,11 +44,13 @@ class AnimManager {
             trigger.click();
         }
 
+        var that = this;
         function select_anim(file_name)
         {
             //console.log(file_name)
             var n_anim = new Animation(anim_container, add_anim_btn, file_name, loader_helper);
-            
+            that.anims.push(n_anim);
+
             if(loader_helper.cur_anim)
                 loader_helper.cur_anim.mat_manager.delete_elements();
 

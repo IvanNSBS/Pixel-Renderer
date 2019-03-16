@@ -11,16 +11,15 @@ class Animation
 
         var mat_manager = new MaterialManager();
         
-        var anim;
+        this.anim;
         var loader_helper = loader;
-
-        var config;
+        this.config;
 
         if( require('fs').existsSync("./src/data/"+name+"_config.json") )
-            config = JSON.parse(require('fs').readFileSync("./src/data/"+name+"_config.json", 'utf8'));
+            this.config = JSON.parse(require('fs').readFileSync("./src/data/"+name+"_config.json", 'utf8'));
         else
         {
-            config = {
+            this.config = {
                 //Character
                 loc_x: 0.0,
                 loc_y: -660.0,
@@ -59,15 +58,11 @@ class Animation
         }
 
 
-        Object.defineProperty(this, "anim", {
-            get : function() { return anim; },
-            set : function(val)  { anim=val; }
-        });
+        // Object.defineProperty(this, "anim", {
+        //     get : function() { return anim; },
+        //     set : function(val)  { anim=val; }
+        // });
 
-        Object.defineProperty(this, "config", {
-            get : function() { return config; },
-            set : function(val)  { config=val; }
-        });
 
         Object.defineProperty(this, "mat_manager", {
             get : function() { return mat_manager; },
@@ -84,9 +79,18 @@ class Animation
             loader_helper.loadAnimConfig();
         }
 
-        var json = JSON.stringify( config );
+        var json = JSON.stringify( this.config );
         require("fs").writeFile("./src/data/"+name+"_config.json", json, 'utf8', function(err) {
             console.log(err);
         });
+    }
+
+    get config()
+    {
+        return this._config;
+    }
+    set config(val)
+    {
+        this._config = val;
     }
 }

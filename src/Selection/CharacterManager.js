@@ -9,7 +9,8 @@ class Character {
         
         var viewer = view;
         var loader = l_helper;
-        var name = "New Character";
+        this.name = "New Character_"+this.char_container.childNodes.length;
+
 
         Object.defineProperty(this, "viewer", {
             get : function() { return viewer; },
@@ -21,6 +22,9 @@ class Character {
             get : function() { return loader; },
             set : function(val)  { loader=val; }
         });
+
+        this.initCharacter();
+
     }
 
 
@@ -111,7 +115,19 @@ class CharacterManager {
         //TODO: Fix clicking on toggle show character list changing selection
         //      to the clicked character
 
+        var f = require('fs');
+        var yaml = require('js-yaml');
         this.char_elements = [];
+        if (f.existsSync("./src/data/file.pr")) {
+            var l = yaml.load(f.readFileSync("./src/data/file.pr", 'utf8'));
+            console.log(l);
+            this.char_elements = l;
+            console.log(this.char_elements);
+            // for(var i = 0; i < this.char_elements.length; i++)
+            // {
+            //     this.char_elements[i].initCharacter();
+            // }
+        }
 
         this.add_char_btn = document.getElementById("add_char_btn");
         this.save_btn = document.getElementById("save");
@@ -127,7 +143,7 @@ class CharacterManager {
             var sel = this.selectChar.bind(this, nchar);
             
             this.char_elements.push(nchar);
-            nchar.initCharacter();
+            //nchar.initCharacter();
             nchar.char.onclick = sel;
         }
 
@@ -135,13 +151,17 @@ class CharacterManager {
 
         var that = this;
         this.save_btn.onclick = function(){
-            for(var i = 0; i < that.char_elements.length; i++)
-            {
-                var json = JSON.stringify( that.char_elements[i] );
-                require("fs").writeFile( "./src/data/"+that.char_elements[i].char_name.id + ".json", json, 'utf8', function(err) {
-                    console.log(err);
-                });
-            }
+
+            var yaml = require('js-yaml');
+            //console.log(yaml);
+            var saved = yaml.dump(that.char_elements, {skipInvalid: true});
+            //saved = JSON.stringify(that.char_elements);
+            console.log(saved);
+            require("fs").writeFile( "./src/data/file.pr", saved, 'utf8', function(err) {
+                console.log(err);
+            });
+
+
         }
         this.add_char_btn.addEventListener("click", self, false);
     }
