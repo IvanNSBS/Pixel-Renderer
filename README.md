@@ -35,3 +35,12 @@
         - y
 
 - Shader
+
+## TODO: Saving must have:
+- Character List with:
+    - Character Name
+    - List of Anims, each anims has:
+        - Scene Settings ( each animation has it's own )
+        - Animation Settings (Camera, Rendering, Character)
+    - (Not Implemented) Character Default Settings
+    - (Not Implemented) Character Default Material Initializer Settings
