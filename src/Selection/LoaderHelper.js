@@ -343,6 +343,7 @@ class LoaderHelper{
     {
         this.viewer.scene.remove(this.viewer.cur_anim);
         this.viewer.mixer = new THREE.AnimationMixer( anim.anim );
+        console.log(anim.anim.animations[ 0 ] );
         var action = this.viewer.mixer.clipAction( anim.anim.animations[ 0 ] );
         action.play();
         
