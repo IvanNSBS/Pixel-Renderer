@@ -7,6 +7,8 @@ function AnimManager(parent, view, loader) {
     var container = parent;
     var tsname = document.createTextNode("+ Add anim");
 
+    this.anim_list = []
+
     Object.defineProperty(this, "anim_container", {
         get : function() { return anim_container; },
         set : function(val)  { anim_container=val; }
@@ -64,7 +66,9 @@ AnimManager.prototype.add_anim = function()
 AnimManager.prototype.select_anim = function(file_name)
 {
     var n_anim = new Animation(this.anim_container, this.add_anim_btn, file_name, this.loader_helper);
-    
+
+    this.anim_list.push(n_anim);
+
     if(this.loader_helper.cur_anim)
         this.loader_helper.cur_anim.mat_manager.delete_elements();
 

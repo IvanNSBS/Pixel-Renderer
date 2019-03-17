@@ -60,7 +60,6 @@ Character.prototype.initCharacter = function(){
             return;
         }
     }
-    console.log(this.char_name);
 
     //Toggle Show Anim
     this.toggle_anim = document.createElement("button");

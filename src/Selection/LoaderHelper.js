@@ -33,10 +33,8 @@ function LoaderHelper(view){
     manager.onLoad = function ( ) {
         viewer.cur_anim = viewer.scene.children[viewer.scene.children.length-1];
         cur_anim.anim = viewer.cur_anim;
-        
+
         cur_anim.mat_manager.init_manager();
-        
-        //viewer.cur_anim.visible = false;
 
         var slider = document.getElementById("slider");
         var sl_label = document.getElementById("sliderlabel");
@@ -340,9 +338,30 @@ LoaderHelper.prototype.loadAnimConfig = function(){
 
 LoaderHelper.prototype.load_loaded = function(anim)
 {
+
+    // creating anim example
+    // jay = new THREE.AnimationClip.toJSON(cur_anim.anim.animations[0]);
+    // jay = JSON.stringify(jay, null, 3);
+
+    // require("fs").writeFile( "./src/data/debug2.json", jay, 'utf8', function(err) {
+    //     console.log(err);
+    // });
+
+
+    // reading from file example
+    // var file = require('fs').readFileSync("./src/data/debug2.json", 'utf8', function(err) {
+    //     console.log(err);
+    // });
+    // var j = JSON.parse( file );
+    // var clip = new THREE.AnimationClip.parse( j ); // no errors so far
+    //var action = this.viewer.mixer.clipAction( clip );  // Gives Uncaught TypeError: tracks[i].createInterpolant is not a function 
+
+
     this.viewer.scene.remove(this.viewer.cur_anim);
     this.viewer.mixer = new THREE.AnimationMixer( anim.anim );
-    var action = this.viewer.mixer.clipAction( anim.anim.animations[ 0 ] );
+    var action = this.viewer.mixer.clipAction( anim.anim.animations[ 0 ] ); // works just fine
+
+
     action.play();
     
     this.cur_anim.anim = anim.anim;
