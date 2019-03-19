@@ -9,6 +9,7 @@ function Animation(container, before, file_name, loader)
     
     this.anim;
     this.config;
+    this.anim_clip;
 
     Object.defineProperty(this, "mat_manager", {
         get : function() { return mat_manager; },

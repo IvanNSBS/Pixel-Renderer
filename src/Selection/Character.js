@@ -110,3 +110,9 @@ Character.prototype.toggleAnimList = function(){
     }
 }
 
+Character.prototype.setName = function ( name )
+{
+    this.name = name;
+    this.char_name.value = name;
+}
+

@@ -28,11 +28,24 @@ function CharacterManager(view) {
     save_btn.onclick = function(){
         for(var i = 0; i < that.char_elements.length; i++)
         {
-            var json = JSON.stringify( that.char_elements, null, 3 );
-            require("fs").writeFile( "./src/data/"+that.char_elements[i].name + ".json", json, 'utf8', function(err) {
-                console.log(err);
-            });
+            // var json = JSON.stringify( that.char_elements, null, 3 );
+            // require("fs").writeFile( "./src/data/project.pr", json, 'utf8', function(err) {
+            //     console.log(err);
+            // });
         }
+    }
+
+    var load_btn = document.getElementById("load_btn");    
+
+    load_btn.onclick = function(){
+        var char = that.addChar();
+        
+        var file = require('fs').readFileSync("./src/data/project.pr", 'utf8', function(err) {
+            console.log(err);
+        });
+        var j = JSON.parse( file );
+        console.log(j[0].name);
+        char.setName(j[0].name);
     }
 }
 
@@ -43,6 +56,8 @@ CharacterManager.prototype.addChar = function() {
     this.char_elements.push(nchar);
     nchar.initCharacter();
     nchar.char.onclick = sel;
+
+    return nchar;
 }
 
 CharacterManager.prototype.selectChar = function(char) {

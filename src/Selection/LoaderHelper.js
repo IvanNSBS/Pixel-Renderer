@@ -1,6 +1,7 @@
 function LoaderHelper(view){
     var manager = new THREE.LoadingManager();
     var loader = new THREE.FBXLoader(manager);
+    var js_loader = new THREE.ObjectLoader(manager);
     var viewer = view;
     var true_load = load_init.bind(this);
     var cur_anim;
@@ -8,6 +9,11 @@ function LoaderHelper(view){
     Object.defineProperty(this, "loader", {
         get : function() { return loader; },
         set : function(val)  { loader=val; }
+    });
+
+    Object.defineProperty(this, "js_loader", {
+        get : function() { return js_loader; },
+        set : function(val)  { js_loader=val; }
     });
 
     Object.defineProperty(this, "manager", {
@@ -33,6 +39,7 @@ function LoaderHelper(view){
     manager.onLoad = function ( ) {
         viewer.cur_anim = viewer.scene.children[viewer.scene.children.length-1];
         cur_anim.anim = viewer.cur_anim;
+        cur_anim.anim_clip = viewer.cur_anim.animations[0];
 
         cur_anim.mat_manager.init_manager();
 
@@ -365,6 +372,7 @@ LoaderHelper.prototype.load_loaded = function(anim)
     action.play();
     
     this.cur_anim.anim = anim.anim;
+    this.cur_anim.anim_clip = anim.anim.animations[0];
     this.viewer.cur_anim = anim.anim;
     anim.mat_manager.init_manager();
 
