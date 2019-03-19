@@ -26,13 +26,10 @@ function CharacterManager(view) {
 
     var that = this;
     save_btn.onclick = function(){
-        for(var i = 0; i < that.char_elements.length; i++)
-        {
-            // var json = JSON.stringify( that.char_elements, null, 3 );
-            // require("fs").writeFile( "./src/data/project.pr", json, 'utf8', function(err) {
-            //     console.log(err);
-            // });
-        }
+        var json = JSON.stringify( that.char_elements, null, 3 );
+        require("fs").writeFile( "./src/data/project.pr", json, 'utf8', function(err) {
+            console.log(err);
+        });
     }
 
     var load_btn = document.getElementById("load_btn");    
