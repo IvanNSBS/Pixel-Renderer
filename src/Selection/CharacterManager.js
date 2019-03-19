@@ -43,6 +43,24 @@ function CharacterManager(view) {
         var j = JSON.parse( file );
         console.log(j[0].name);
         char.setName(j[0].name);
+
+        //FIXME: create .pr file for object and animtion using the toJSON from the object and clip
+        //      Doing it another way(how i'm currently doing it) may cause problems
+        var jsuri = j[0].anim_manager.anim_list[0].anim;
+        jsuri = encodeURIComponent(jsuri);
+        console.log(jsuri);
+
+        var n_anim = new Animation(char.anim_manager.anim_container, 
+                                   char.anim_manager.add_anim_btn, 'file_name', char.anim_manager.loader_helper);
+
+        char.anim_manager.anim_list.push(n_anim);
+    
+        if(char.anim_manager.loader_helper.cur_anim)
+            char.anim_manager.loader_helper.cur_anim.mat_manager.delete_elements();
+    
+        char.anim_manager.loader_helper.cur_anim = n_anim;
+        char.anim_manager.loader_helper.js_loader.load( jsuri, char.anim_manager.loader_helper.true_load);
+
     }
 }
 
