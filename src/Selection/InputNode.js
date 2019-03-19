@@ -1,8 +1,7 @@
-class InputNode extends HTMLElement
+class InputNode 
 {
     constructor()
     {
-        super();
         var char_name = document.createElement("input");
         char_name.id = "char_name";
         char_name.setAttribute("type", "text");

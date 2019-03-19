@@ -15,6 +15,7 @@
 - Add scene navigation with mouse
 - Pixelated font 
 - Fix bug that makes the image exporter get the frame before reinitializing everything
+- Check how to make a decent import
 
 ## TODO: Rendering
 - Canvas
@@ -34,3 +35,12 @@
         - y
 
 - Shader
+
+## TODO: Saving must have:
+- Character List with:
+    - Character Name
+    - List of Anims, each anims has:
+        - Scene Settings ( each animation has it's own )
+        - Animation Settings (Camera, Rendering, Character)
+    - (Not Implemented) Character Default Settings
+    - (Not Implemented) Character Default Material Initializer Settings
