@@ -94,6 +94,8 @@ function CharacterManager(view) {
 
         var jay = JSON.parse(f2);
         var u = encodeURI('./src/data/obj.pr');
+        jay = j[0].anim_manager.anim_list[0].anim;
+        console.log(jay);
         //u = JSON.parse(f2);
 
         // FIXME: Must give literal file to be readed, otherwise loading wont work
