@@ -34,10 +34,6 @@ function CharacterManager(view) {
 
         var clip = new THREE.AnimationClip.toJSON(that.char_elements[0].anim_manager.anim_list[0].anim_clip);
         
-        var JSZip = require('jszip');
-        var zip = new JSZip();
-
-
         var ob = JSON.stringify( clip, null, 3 );
         require("fs").writeFile( "./src/data/obj-clip.pr", ob , 'utf8', function(err) {
             console.log(err);
@@ -48,18 +44,6 @@ function CharacterManager(view) {
             console.log(err);
         });
 
-        var fl = zip.folder("c1");
-        zip.file('obj', ob);
-        zip.file('obj-clip', ob_clip);
-
-        // JSZip can generate Buffers so you can do the following
-        zip.generateNodeStream({type:'nodebuffer',streamFiles:true})
-        .pipe(require('fs').createWriteStream('./src/data/out2.zip'))
-        .on('finish', function () {
-            // JSZip generates a readable stream with a "end" event,
-            // but is piped here in a writable stream which emits a "finish" event.
-            console.log("out.zip written.");
-        });
     }
 
     var load_btn = document.getElementById("load_btn");    
