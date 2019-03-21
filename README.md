@@ -16,6 +16,7 @@
 - Pixelated font 
 - Fix bug that makes the image exporter get the frame before reinitializing everything
 - Check how to make a decent import
+- Create .pr file for object and animtion using the toJSON from the object and clip. Doing it another way(how i'm currently doing it) may cause problems
 
 ## TODO: Rendering
 - Canvas

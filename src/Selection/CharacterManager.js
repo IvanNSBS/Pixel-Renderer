@@ -30,6 +30,19 @@ function CharacterManager(view) {
         require("fs").writeFile( "./src/data/project.pr", json, 'utf8', function(err) {
             console.log(err);
         });
+        
+
+        var clip = new THREE.AnimationClip.toJSON(that.char_elements[0].anim_manager.anim_list[0].anim_clip);
+
+        var ob = JSON.stringify( clip, null, 3 );
+        require("fs").writeFile( "./src/data/obj-clip.pr", ob , 'utf8', function(err) {
+            console.log(err);
+        });
+
+        ob = JSON.stringify( that.char_elements[0].anim_manager.anim_list[0].anim.toJSON(), null, 3 );
+        require("fs").writeFile( "./src/data/obj.pr", ob , 'utf8', function(err) {
+            console.log(err);
+        });
     }
 
     var load_btn = document.getElementById("load_btn");    
@@ -43,6 +56,28 @@ function CharacterManager(view) {
         var j = JSON.parse( file );
         console.log(j[0].name);
         char.setName(j[0].name);
+
+        //FIXME: create .pr file for object and animtion using the toJSON from the object and clip
+        //      Doing it another way(how i'm currently doing it) may cause problems
+        // var jsuri = j[0].anim_manager.anim_list[0].anim;
+        // jsuri = encodeURIComponent(file);
+        // console.log(jsuri);
+
+        var n_anim = new Animation(char.anim_manager.anim_container, 
+                                   char.anim_manager.add_anim_btn, 'file_name', char.anim_manager.loader_helper);
+
+        char.anim_manager.anim_list.push(n_anim);
+    
+        if(char.anim_manager.loader_helper.cur_anim)
+            char.anim_manager.loader_helper.cur_anim.mat_manager.delete_elements();
+
+        var f2 = require('fs').readFileSync("./src/data/project.pr", 'utf8', function(err) {
+            console.log(err);
+        });
+
+        char.anim_manager.loader_helper.cur_anim = n_anim;
+        char.anim_manager.loader_helper.js_loader.load( f2, char.anim_manager.loader_helper.true_load);
+
     }
 }
 
