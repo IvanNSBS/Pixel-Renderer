@@ -272,8 +272,8 @@ function LoaderHelper(view){
             }
         } );
         
-        var action = viewer.mixer.clipAction( anim.animations[ 0 ] );
-        action.play();
+        // var action = viewer.mixer.clipAction( anim.animations[ 0 ] );
+        // action.play();
 
         viewer.scene.add( anim );
     } 

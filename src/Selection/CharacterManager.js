@@ -33,15 +33,32 @@ function CharacterManager(view) {
         
 
         var clip = new THREE.AnimationClip.toJSON(that.char_elements[0].anim_manager.anim_list[0].anim_clip);
+        
+        var JSZip = require('jszip');
+        var zip = new JSZip();
+
 
         var ob = JSON.stringify( clip, null, 3 );
         require("fs").writeFile( "./src/data/obj-clip.pr", ob , 'utf8', function(err) {
             console.log(err);
         });
 
-        ob = JSON.stringify( that.char_elements[0].anim_manager.anim_list[0].anim.toJSON(), null, 3 );
-        require("fs").writeFile( "./src/data/obj.pr", ob , 'utf8', function(err) {
+        var ob_clip = JSON.stringify( that.char_elements[0].anim_manager.anim_list[0].anim.toJSON(), null, 3 );
+        require("fs").writeFile( "./src/data/obj.pr", ob_clip , 'utf8', function(err) {
             console.log(err);
+        });
+
+        var fl = zip.folder("c1");
+        zip.file('obj', ob);
+        zip.file('obj-clip', ob_clip);
+
+        // JSZip can generate Buffers so you can do the following
+        zip.generateNodeStream({type:'nodebuffer',streamFiles:true})
+        .pipe(require('fs').createWriteStream('./src/data/out2.zip'))
+        .on('finish', function () {
+            // JSZip generates a readable stream with a "end" event,
+            // but is piped here in a writable stream which emits a "finish" event.
+            console.log("out.zip written.");
         });
     }
 
@@ -75,13 +92,14 @@ function CharacterManager(view) {
             console.log(err);
         });
 
+        var jay = JSON.parse(f2);
         var u = encodeURI('./src/data/obj.pr');
-        // u = encodeURI(f2);
+        //u = JSON.parse(f2);
 
         // FIXME: Must give literal file to be readed, otherwise loading wont work
         char.anim_manager.loader_helper.cur_anim = n_anim;
         // char.anim_manager.loader_helper.js_loader.load( './src/data/obj.pr', char.anim_manager.loader_helper.true_load);
-        char.anim_manager.loader_helper.js_loader.load( u, char.anim_manager.loader_helper.true_load);
+        var object = char.anim_manager.loader_helper.js_loader.parse( jay, char.anim_manager.loader_helper.true_load);
 
     }
 }
