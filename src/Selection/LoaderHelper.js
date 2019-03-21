@@ -58,6 +58,7 @@ function LoaderHelper(view){
     js_manager.onLoad = function () {
         viewer.cur_anim = viewer.scene.children[viewer.scene.children.length-1];
         cur_anim.anim = viewer.cur_anim;
+        cur_anim.mat_manager.init_manager();
         console.log("Finished JS Load");
         // cur_anim.anim_clip = viewer.cur_anim.animations[0];
     }
