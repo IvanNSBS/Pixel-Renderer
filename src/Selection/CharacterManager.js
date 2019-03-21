@@ -71,12 +71,16 @@ function CharacterManager(view) {
         if(char.anim_manager.loader_helper.cur_anim)
             char.anim_manager.loader_helper.cur_anim.mat_manager.delete_elements();
 
-        var f2 = require('fs').readFileSync("./src/data/project.pr", 'utf8', function(err) {
+        var f2 = require('fs').readFileSync("./src/data/obj.pr", 'utf8', function(err) {
             console.log(err);
         });
 
+        var u = encodeURI('./src/data/obj.pr');
+
+        // FIXME: Must give literal file to be readed, otherwise loading wont work
         char.anim_manager.loader_helper.cur_anim = n_anim;
-        char.anim_manager.loader_helper.js_loader.load( f2, char.anim_manager.loader_helper.true_load);
+        // char.anim_manager.loader_helper.js_loader.load( './src/data/obj.pr', char.anim_manager.loader_helper.true_load);
+        char.anim_manager.loader_helper.js_loader.load( u, char.anim_manager.loader_helper.true_load);
 
     }
 }

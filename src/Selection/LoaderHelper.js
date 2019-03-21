@@ -1,7 +1,8 @@
 function LoaderHelper(view){
     var manager = new THREE.LoadingManager();
     var loader = new THREE.FBXLoader(manager);
-    var js_loader = new THREE.ObjectLoader(manager);
+    var js_manager = new THREE.LoadingManager();
+    var js_loader = new THREE.ObjectLoader(js_manager);
     var viewer = view;
     var true_load = load_init.bind(this);
     var cur_anim;
@@ -19,6 +20,11 @@ function LoaderHelper(view){
     Object.defineProperty(this, "manager", {
         get : function() { return manager; },
         set : function(val)  { manager=val; }
+    });
+
+    Object.defineProperty(this, "js_manager", {
+        get : function() { return js_manager; },
+        set : function(val)  { js_manager=val; }
     });
 
     Object.defineProperty(this, "cur_anim", {
@@ -43,6 +49,21 @@ function LoaderHelper(view){
 
         cur_anim.mat_manager.init_manager();
 
+        initOptions();
+        
+        console.log( 'Loading complete!');
+
+    };
+
+    js_manager.onLoad = function () {
+        viewer.cur_anim = viewer.scene.children[viewer.scene.children.length-1];
+        cur_anim.anim = viewer.cur_anim;
+        console.log("Finished JS Load");
+        // cur_anim.anim_clip = viewer.cur_anim.animations[0];
+    }
+
+    function initOptions()
+    {
         var slider = document.getElementById("slider");
         var sl_label = document.getElementById("sliderlabel");
         viewer.ratio = slider.value = cur_anim.config.res_pct; 
@@ -183,22 +204,17 @@ function LoaderHelper(view){
         });
 
         viewer.camera.updateProjectionMatrix();
-        
-        console.log( 'Loading complete!');
-
-        return viewer.cur_anim;
-    };
+    }
 
     function load_init( anim ) {
+        console.log("I'm here!");
         viewer.mixer = new THREE.AnimationMixer( anim );
-
         if(viewer.cur_anim)
             viewer.scene.remove(viewer.cur_anim);
 
         cur_anim.anim = anim;
         viewer.cur_anim = cur_anim.anim;
 
-        var that = this;
         anim.name = "animation_name";
 
         var mat_dict = {};
@@ -255,12 +271,11 @@ function LoaderHelper(view){
             }
         } );
         
-        var action = viewer.mixer.clipAction( anim.animations[ 0 ] );
-        action.play();
+        // var action = viewer.mixer.clipAction( anim.animations[ 0 ] );
+        // action.play();
 
-        viewer.scene.add( cur_anim.anim );
+        viewer.scene.add( anim );
     } 
-
 }    
 
 LoaderHelper.prototype.loadAnimConfig = function(){
