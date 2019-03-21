@@ -76,7 +76,7 @@ function CharacterManager(view) {
         });
 
         var u = encodeURI('./src/data/obj.pr');
-        u = encodeURI(f2);
+        // u = encodeURI(f2);
 
         // FIXME: Must give literal file to be readed, otherwise loading wont work
         char.anim_manager.loader_helper.cur_anim = n_anim;

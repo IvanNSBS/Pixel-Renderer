@@ -272,8 +272,8 @@ function LoaderHelper(view){
             }
         } );
         
-        // var action = viewer.mixer.clipAction( anim.animations[ 0 ] );
-        // action.play();
+        var action = viewer.mixer.clipAction( anim.animations[ 0 ] );
+        action.play();
 
         viewer.scene.add( anim );
     } 
@@ -371,13 +371,16 @@ LoaderHelper.prototype.load_loaded = function(anim)
     // });
 
 
-    // reading from file example
-    // var file = require('fs').readFileSync("./src/data/debug2.json", 'utf8', function(err) {
+    //must remove the anim from the scene and redefine the mixers
+    // this.viewer.scene.remove(this.viewer.cur_anim);
+    // this.viewer.mixer = new THREE.AnimationMixer( anim.anim );
+    // // reading from file example
+    // var file = require('fs').readFileSync("./src/data/obj-clip.pr", 'utf8', function(err) {
     //     console.log(err);
     // });
     // var j = JSON.parse( file );
     // var clip = new THREE.AnimationClip.parse( j ); // no errors so far
-    //var action = this.viewer.mixer.clipAction( clip );  // Gives Uncaught TypeError: tracks[i].createInterpolant is not a function 
+    // var action = this.viewer.mixer.clipAction( clip );  // Gives Uncaught TypeError: tracks[i].createInterpolant is not a function 
 
 
     this.viewer.scene.remove(this.viewer.cur_anim);
