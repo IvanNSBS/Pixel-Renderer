@@ -32,9 +32,10 @@ function CharacterManager(view) {
         });
         
 
-        var clip = new THREE.AnimationClip.toJSON(that.char_elements[0].anim_manager.anim_list[0].anim_clip);
-        
+        var clip =that.char_elements[0].anim_manager.anim_list[0].anim_clip;
+
         var ob = JSON.stringify( clip, null, 3 );
+        console.log(clip);
         require("fs").writeFile( "./src/data/obj-clip.pr", ob , 'utf8', function(err) {
             console.log(err);
         });
