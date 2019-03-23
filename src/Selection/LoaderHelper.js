@@ -2,7 +2,7 @@ function LoaderHelper(view){
     var manager = new THREE.LoadingManager();
     var loader = new THREE.FBXLoader(manager);
     var js_manager = new THREE.LoadingManager();
-    var js_loader = new THREE.ObjectLoader(js_manager);
+    var js_loader = new THREE.GLTFLoader(js_manager);
     var viewer = view;
     var true_load = load_init.bind(this);
     var cur_anim;
@@ -45,8 +45,8 @@ function LoaderHelper(view){
     manager.onLoad = function ( ) {
         viewer.cur_anim = viewer.scene.children[viewer.scene.children.length-1];
         cur_anim.anim = viewer.cur_anim;
-        cur_anim.anim_clip = new THREE.AnimationClip.toJSON(viewer.cur_anim.animations[0]);
-
+        console.log(cur_anim.anim);
+        //cur_anim.anim_clip = new THREE.AnimationClip.toJSON(viewer.cur_anim.animations[0]);
         cur_anim.mat_manager.init_manager();
 
         initOptions();
@@ -208,24 +208,23 @@ function LoaderHelper(view){
     }
 
     function load_init( anim ) {
-        console.log("I'm here!");
         viewer.mixer = new THREE.AnimationMixer( anim );
         if(viewer.cur_anim)
             viewer.scene.remove(viewer.cur_anim);
 
-        //teste
-        var file = require('fs').readFileSync("./src/data/project.pr", 'utf8', function(err) {
-            console.log(err);
-        });
-        var j = JSON.parse( file );
-        var jay = j[0].anim_manager.anim_list[0].anim_clip;
-        var clip = new THREE.AnimationClip.parse( jay ); // no errors so far
-        anim.animations = [];
-        anim.animations.push(clip);
-        //end teste
+        // //teste
+        // var file = require('fs').readFileSync("./src/data/project.pr", 'utf8', function(err) {
+        //     console.log(err);
+        // });
+        // var j = JSON.parse( file );
+        // var jay = j[0].anim_manager.anim_list[0].anim_clip;
+        // var clip = new THREE.AnimationClip.parse( jay ); // no errors so far
+        // anim.animations = [];
+        // anim.animations.push(clip);
+        // //end teste
 
         cur_anim.anim = anim;
-        viewer.cur_anim = cur_anim.anim;
+        viewer.cur_anim = anim;
 
         anim.name = "animation_name";
 
@@ -283,7 +282,6 @@ function LoaderHelper(view){
             }
         } );
         
-        console.log(clip);
         var action = viewer.mixer.clipAction( anim.animations[ 0 ] );
         action.play();
 
