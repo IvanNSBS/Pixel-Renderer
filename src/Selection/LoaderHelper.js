@@ -213,6 +213,17 @@ function LoaderHelper(view){
         if(viewer.cur_anim)
             viewer.scene.remove(viewer.cur_anim);
 
+        //teste
+        var file = require('fs').readFileSync("./src/data/project.pr", 'utf8', function(err) {
+            console.log(err);
+        });
+        var j = JSON.parse( file );
+        var jay = j[0].anim_manager.anim_list[0].anim_clip;
+        var clip = new THREE.AnimationClip.parse( jay ); // no errors so far
+        anim.animations = [];
+        anim.animations.push(clip);
+        //end teste
+
         cur_anim.anim = anim;
         viewer.cur_anim = cur_anim.anim;
 
@@ -272,8 +283,9 @@ function LoaderHelper(view){
             }
         } );
         
-        // var action = viewer.mixer.clipAction( anim.animations[ 0 ] );
-        // action.play();
+        console.log(clip);
+        var action = viewer.mixer.clipAction( anim.animations[ 0 ] );
+        action.play();
 
         viewer.scene.add( anim );
     } 
@@ -361,16 +373,6 @@ LoaderHelper.prototype.loadAnimConfig = function(){
 
 LoaderHelper.prototype.load_loaded = function(anim)
 {
-
-    // creating anim example
-    // jay = new THREE.AnimationClip.toJSON(cur_anim.anim.animations[0]);
-    // jay = JSON.stringify(jay, null, 3);
-
-    // require("fs").writeFile( "./src/data/debug2.json", jay, 'utf8', function(err) {
-    //     console.log(err);
-    // });
-
-
     // must remove the anim from the scene and redefine the mixers
     this.viewer.scene.remove(this.viewer.cur_anim);
     this.viewer.mixer = new THREE.AnimationMixer( anim.anim );
@@ -379,21 +381,20 @@ LoaderHelper.prototype.load_loaded = function(anim)
     //     console.log(err);
     // });
 
-    var file2 = require('fs').readFileSync("./src/data/project.pr", 'utf8', function(err) {
-        console.log(err);
-    });
+    // var file2 = require('fs').readFileSync("./src/data/project.pr", 'utf8', function(err) {
+    //     console.log(err);
+    // });
 
-    var jay = JSON.parse( file2 );
-    jay = jay[0].anim_manager.anim_list[0].anim_clip;
-    console.log(j);
-    console.log(jay);
-    var clip = new THREE.AnimationClip.parse( jay ); // no errors so far
-    var action = this.viewer.mixer.clipAction( clip );  // Gives Uncaught TypeError: tracks[i].createInterpolant is not a function 
+    // var jay = JSON.parse( file2 );
+    // jay = jay[0].anim_manager.anim_list[0].anim_clip;
+    // console.log(jay);
+    // var clip = new THREE.AnimationClip.parse( jay ); // no errors so far
+    // var action = this.viewer.mixer.clipAction( clip );  // Gives Uncaught TypeError: tracks[i].createInterpolant is not a function 
 
 
-    // this.viewer.scene.remove(this.viewer.cur_anim);
-    // this.viewer.mixer = new THREE.AnimationMixer( anim.anim );
-    // var action = this.viewer.mixer.clipAction( anim.anim.animations[ 0 ] ); // works just fine
+    this.viewer.scene.remove(this.viewer.cur_anim);
+    this.viewer.mixer = new THREE.AnimationMixer( anim.anim );
+    var action = this.viewer.mixer.clipAction( anim.anim.animations[ 0 ] ); // works just fine
 
 
     action.play();

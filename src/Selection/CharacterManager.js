@@ -56,14 +56,7 @@ function CharacterManager(view) {
             console.log(err);
         });
         var j = JSON.parse( file );
-        console.log(j[0].name);
         char.setName(j[0].name);
-
-        //FIXME: create .pr file for object and animtion using the toJSON from the object and clip
-        //      Doing it another way(how i'm currently doing it) may cause problems
-        // var jsuri = j[0].anim_manager.anim_list[0].anim;
-        // jsuri = encodeURIComponent(file);
-        // console.log(jsuri);
 
         var n_anim = new Animation(char.anim_manager.anim_container, 
                                    char.anim_manager.add_anim_btn, 'file_name', char.anim_manager.loader_helper);
@@ -73,21 +66,11 @@ function CharacterManager(view) {
         if(char.anim_manager.loader_helper.cur_anim)
             char.anim_manager.loader_helper.cur_anim.mat_manager.delete_elements();
 
-        var f2 = require('fs').readFileSync("./src/data/obj.pr", 'utf8', function(err) {
-            console.log(err);
-        });
+        var jay = j[0].anim_manager.anim_list[0].anim;
 
-        var jay = JSON.parse(f2);
-        var u = encodeURI('./src/data/obj.pr');
-        jay = j[0].anim_manager.anim_list[0].anim;
-        console.log(jay);
-        //u = JSON.parse(f2);
-
-        // FIXME: Must give literal file to be readed, otherwise loading wont work
         char.anim_manager.loader_helper.cur_anim = n_anim;
-        // char.anim_manager.loader_helper.js_loader.load( './src/data/obj.pr', char.anim_manager.loader_helper.true_load);
-        var object = char.anim_manager.loader_helper.js_loader.parse( jay, char.anim_manager.loader_helper.true_load);
 
+        var object = char.anim_manager.loader_helper.js_loader.parse( jay, char.anim_manager.loader_helper.true_load);
     }
 }
 
