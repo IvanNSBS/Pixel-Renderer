@@ -16,6 +16,11 @@ function Animation(container, before, file_name, loader)
         set : function(val)  { mat_manager=val; }
     });
 
+    Object.defineProperty(this, "name", {
+        get : function() { return name; },
+        set : function(val)  { name=val; }
+    });
+
     n.className = "char_list_element";
     n.appendChild(t);
     container.insertBefore(n, before);

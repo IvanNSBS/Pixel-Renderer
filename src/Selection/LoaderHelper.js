@@ -5,6 +5,7 @@ function LoaderHelper(view){
     var js_loader = new THREE.GLTFLoader(js_manager);
     var viewer = view;
     var true_load = load_init.bind(this);
+    var load_gltf = gltf_load.bind(this);
     var cur_anim;
 
     Object.defineProperty(this, "loader", {
@@ -35,6 +36,12 @@ function LoaderHelper(view){
     Object.defineProperty(this, "true_load", {
         get : function() { return true_load; },
         set : function(val)  { true_load=val; }
+    });
+
+    
+    Object.defineProperty(this, "load_gltf", {
+        get : function() { return load_gltf; },
+        set : function(val)  { load_gltf=val; }
     });
 
     Object.defineProperty(this, "viewer", {
@@ -212,7 +219,7 @@ function LoaderHelper(view){
         if(viewer.cur_anim)
             viewer.scene.remove(viewer.cur_anim);
 
-        // //teste
+        //teste
         // var file = require('fs').readFileSync("./src/data/project.pr", 'utf8', function(err) {
         //     console.log(err);
         // });
@@ -221,12 +228,12 @@ function LoaderHelper(view){
         // var clip = new THREE.AnimationClip.parse( jay ); // no errors so far
         // anim.animations = [];
         // anim.animations.push(clip);
-        // //end teste
+        //end teste
 
+        anim.name = cur_anim.name;
         cur_anim.anim = anim;
         viewer.cur_anim = anim;
 
-        anim.name = "animation_name";
 
         var mat_dict = {};
 
@@ -282,11 +289,17 @@ function LoaderHelper(view){
             }
         } );
         
+        //var action = viewer.mixer.clipAction( clip );
         var action = viewer.mixer.clipAction( anim.animations[ 0 ] );
         action.play();
 
         viewer.scene.add( anim );
     } 
+
+    function gltf_load( gltf ) {
+        console.log("gltf");
+    }
+
 }    
 
 LoaderHelper.prototype.loadAnimConfig = function(){
@@ -390,9 +403,17 @@ LoaderHelper.prototype.load_loaded = function(anim)
     // var action = this.viewer.mixer.clipAction( clip );  // Gives Uncaught TypeError: tracks[i].createInterpolant is not a function 
 
 
+    var file = require('fs').readFileSync("./src/data/project.pr", 'utf8', function(err) {
+        console.log(err);
+    });
+    var j = JSON.parse( file );
+    var jay = j[0].anim_manager.anim_list[0].anim_clip;
+    var clip = new THREE.AnimationClip.parse( jay ); // no errors so far
+
     this.viewer.scene.remove(this.viewer.cur_anim);
     this.viewer.mixer = new THREE.AnimationMixer( anim.anim );
-    var action = this.viewer.mixer.clipAction( anim.anim.animations[ 0 ] ); // works just fine
+    //var action = this.viewer.mixer.clipAction( anim.anim.animations[ 0 ] ); // works just fine
+    var action = this.viewer.mixer.clipAction( clip ); // works just fine
 
 
     action.play();

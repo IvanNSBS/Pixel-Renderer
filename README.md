@@ -12,7 +12,6 @@
 - Add remove animation and charater option
 - Add default character import options (camera, rendering, character AND materials)
 - Create a custom HTML Input text and use it for animation and character name
-- Add scene navigation with mouse
 - Pixelated font 
 - Fix bug that makes the image exporter get the frame before reinitializing everything
 - Check how to make a decent import

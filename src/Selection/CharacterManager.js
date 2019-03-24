@@ -32,18 +32,38 @@ function CharacterManager(view) {
         });
         
 
-        var clip =that.char_elements[0].anim_manager.anim_list[0].anim_clip;
+        // var clip =that.char_elements[0].anim_manager.anim_list[0].anim_clip;
 
-        var ob = JSON.stringify( clip, null, 3 );
-        console.log(clip);
-        require("fs").writeFile( "./src/data/obj-clip.pr", ob , 'utf8', function(err) {
-            console.log(err);
-        });
+        // var ob = JSON.stringify( clip, null, 3 );
+        // console.log(clip);
+        // require("fs").writeFile( "./src/data/obj-clip.pr", ob , 'utf8', function(err) {
+        //     console.log(err);
+        // });
 
-        var ob_clip = JSON.stringify( that.char_elements[0].anim_manager.anim_list[0].anim.toJSON(), null, 3 );
-        require("fs").writeFile( "./src/data/obj.pr", ob_clip , 'utf8', function(err) {
-            console.log(err);
-        });
+        // var ob_clip = JSON.stringify( that.char_elements[0].anim_manager.anim_list[0].anim.toJSON(), null, 3 );
+        // require("fs").writeFile( "./src/data/obj.pr", ob_clip , 'utf8', function(err) {
+        //     console.log(err);
+        // });
+
+        var exporter = new THREE.GLTFExporter();
+
+        var options = {
+            trs: false,
+            onlyVisible: true,
+            truncateDrawRange: true,
+            binary: false,
+            forceIndices: false,
+            forcePowerOfTwoTextures: false
+        };
+
+        exporter.parse( that.char_elements[0].anim_manager.anim_list[0].anim, function(gltf){
+            var stringfied = JSON.stringify(gltf, null, 2);
+
+            require("fs").writeFile( "./src/data/scene.gltf", stringfied, 'utf8', function(err) {
+                console.log(err);
+            });     
+            console.log(stringfied);
+        }, options );
 
     }
 
@@ -63,14 +83,18 @@ function CharacterManager(view) {
 
         char.anim_manager.anim_list.push(n_anim);
     
-        if(char.anim_manager.loader_helper.cur_anim)
-            char.anim_manager.loader_helper.cur_anim.mat_manager.delete_elements();
+        // if(char.anim_manager.loader_helper.cur_anim)
+        //     char.anim_manager.loader_helper.cur_anim.mat_manager.delete_elements();
 
-        var jay = j[0].anim_manager.anim_list[0].anim;
+        // var jay = j[0].anim_manager.anim_list[0].anim;
 
         char.anim_manager.loader_helper.cur_anim = n_anim;
 
-        var object = char.anim_manager.loader_helper.js_loader.parse( jay, char.anim_manager.loader_helper.true_load);
+        // var object = char.anim_manager.loader_helper.js_loader.parse( jay, char.anim_manager.loader_helper.true_load);
+
+        char.anim_manager.loader_helper.js_loader.load("./src/data/sphere.gltf", function ( gltf ) {
+            console.log(gltf);
+        });
     }
 }
 
