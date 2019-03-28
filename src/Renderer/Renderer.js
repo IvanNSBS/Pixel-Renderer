@@ -1,6 +1,6 @@
 function Renderer()
 {
-    var container = document.getElementById("renderer")
+    var container = document.getElementById("renderer");
     var scene;
     var scr_x_size = parseFloat(getComputedStyle(container).width);
     var scr_y_size = parseFloat(getComputedStyle(container).height);
@@ -12,6 +12,7 @@ function Renderer()
 
     var frustum_size = 1300;
     var cur_anim = null;
+    var selected_anim = null;
     var ratio = 1.0;
 
     Object.defineProperty(this, "ratio", {
@@ -28,6 +29,11 @@ function Renderer()
     Object.defineProperty(this, "cur_anim", {
         get : function() { return cur_anim; },
         set : function(val)  { cur_anim=val; }
+    });
+    
+    Object.defineProperty(this, "selected_anim", {
+        get : function() { return selected_anim; },
+        set : function(val)  { selected_anim=val; }
     });
 
     Object.defineProperty(this, "mixer", {
@@ -92,6 +98,12 @@ function Renderer()
 
     init();
     animate();
+
+    var del = document.getElementById("del_cur_anim");
+    del.onclick = function(){
+        if(selected_anim)
+            selected_anim.remove();
+    }
 
     function init() {
         camera = new THREE.OrthographicCamera(  ar_x_size*aspect*frustum_size/-2, 

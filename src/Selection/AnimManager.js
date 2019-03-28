@@ -34,7 +34,6 @@ function AnimManager(parent, view, loader) {
         set : function(val)  { trigger=val; }
     });
 
-
     anim_container.id = "anim_cont_";// + i;
     anim_container.className = "character_list";
 

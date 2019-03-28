@@ -21,6 +21,11 @@ function Animation(container, before, file_name, loader)
         set : function(val)  { name=val; }
     });
 
+    Object.defineProperty(this, "button", {
+        get : function() { return n; },
+        set : function(val)  { n=val; }
+    });
+
     n.className = "char_list_element";
     n.appendChild(t);
     container.insertBefore(n, before);
@@ -82,4 +87,8 @@ function Animation(container, before, file_name, loader)
     // require("fs").writeFile("./src/data/"+name+"_config.json", json, 'utf8', function(err) {
     //     console.log(err);
     // });
+}
+
+Animation.prototype.remove = function(){
+    this.button.parentNode.removeChild(this.button);
 }
