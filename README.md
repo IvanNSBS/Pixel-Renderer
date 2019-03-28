@@ -16,6 +16,7 @@
 - Fix bug that makes the image exporter get the frame before reinitializing everything
 - Check how to make a decent import
 - Create .pr file for object and animtion using the toJSON from the object and clip. Doing it another way(how i'm currently doing it) may cause problems
+- Find a way to differentiate Animation(my class) and Animation (AnimactionClip class) name
 - ~~Fix only loading objects from literal json file path, not the loaded archive into memory~~
 
 ## TODO: Rendering
