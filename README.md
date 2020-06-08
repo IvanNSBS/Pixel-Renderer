@@ -9,7 +9,7 @@
 ![](./Resources/Export/attack.gif)
 
 ## Layout:
-
+![](./Resources/Export/Pixel Renderer Window.png)
 
 ## TODO: Overall
 - ~~Set character default view settings(still have individual anim settings)~~
