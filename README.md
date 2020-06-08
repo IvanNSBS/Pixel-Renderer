@@ -1,7 +1,15 @@
 # Pixel-Renderer
 
-## Npm installation command:
+## Npm installation command(Requires Electron):
 - npm install --save-dev electron
+
+## Project has been Deprecated. Three.js had some problems making saved animations load properly
+
+## Results:
+![](./Resources/Export/attack.gif)
+
+## Layout:
+
 
 ## TODO: Overall
 - ~~Set character default view settings(still have individual anim settings)~~
@@ -18,30 +26,3 @@
 - Check how to make a decent import
 - Create .pr file for object and animtion using the toJSON from the object and clip. Doing it another way(how i'm currently doing it) may cause problems
 
-## TODO: Rendering
-- Canvas
-
-    - Play/Pause
-        - button/boolean
-
-    - Go to Next/Previous Frame
-        - button
-
-- Object
-    - Scale All Axis
-
-- Renderer
-    - Set canvas resolution 
-        - x
-        - y
-
-- Shader
-
-## TODO: Saving must have:
-- Character List with:
-    - Character Name
-    - List of Anims, each anims has:
-        - Scene Settings ( each animation has it's own )
-        - Animation Settings (Camera, Rendering, Character)
-    - (Not Implemented) Character Default Settings
-    - (Not Implemented) Character Default Material Initializer Settings
